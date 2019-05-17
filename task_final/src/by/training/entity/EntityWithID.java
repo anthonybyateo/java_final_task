@@ -4,11 +4,11 @@ abstract public class EntityWithID extends Entity{
     /**
      *
      */
-    private int id;
+    private long id;
 
     public EntityWithID() {}
 
-    public EntityWithID(int id) {
+    public EntityWithID(long id) {
         this.id = id;
     }
 
@@ -18,7 +18,7 @@ abstract public class EntityWithID extends Entity{
      */
 
 
-    public int getId() {
+    public long getId() {
         return id;
     }
 
@@ -26,7 +26,7 @@ abstract public class EntityWithID extends Entity{
      *
      * @param id
      */
-    public void setId(int id) {
+    public void setId(long id) {
         this.id = id;
     }
 
@@ -50,6 +50,6 @@ abstract public class EntityWithID extends Entity{
     @Override
     public int hashCode() {
         final int prime = 31;
-        return prime * id;
+        return (int) (prime * id);
     }
 }

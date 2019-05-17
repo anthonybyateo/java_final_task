@@ -1,20 +1,23 @@
 package by.training.entity;
 
+import java.util.Date;
+
 public class Note extends EntityWithID {
     private User user;
     private String note;
-    private String tags;
+    private Date dateNote;
 
     public Note() {
         super();
         user = new User();
+        dateNote = new Date();
     }
 
-    public Note(int id, User user, String note, String tags) {
+    public Note(int id, User user, String note, Date dateNote) {
         super(id);
         this.user = user;
         this.note = note;
-        this.tags = tags;
+        this.dateNote = dateNote;
     }
 
     public User getUser() {
@@ -33,12 +36,11 @@ public class Note extends EntityWithID {
         this.note = note;
     }
 
-    public String getTags() {
-        return tags;
+    public Date getDateNote() {
+        return dateNote;
     }
 
-    public void setTags(String tags) {
-        this.tags = tags;
+    public void setDateNote(Date dateNote) {
+        this.dateNote = dateNote;
     }
-
 }

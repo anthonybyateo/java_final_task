@@ -1,4 +1,4 @@
-package by.training.dao.pool;
+package by.training.dao;
 
 public interface SubscriptionDao {
 }

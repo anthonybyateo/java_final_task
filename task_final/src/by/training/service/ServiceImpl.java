@@ -1,4 +1,11 @@
 package by.training.service;
 
-public class ServiceImpl {
+import by.training.dao.Transaction;
+
+abstract public class ServiceImpl implements Service {
+    protected Transaction transaction = null;
+
+    public void setTransaction(Transaction transaction) {
+        this.transaction = transaction;
+    }
 }

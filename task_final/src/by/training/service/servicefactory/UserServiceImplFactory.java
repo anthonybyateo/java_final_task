@@ -1,4 +1,10 @@
 package by.training.service.servicefactory;
 
-public class UserServiceImplFactory {
+import by.training.service.UserService;
+
+public class UserServiceImplFactory extends ServiceImplFactory<UserService> {
+    @Override
+    public UserService createServiceImpl() {
+        return new UserService();
+    }
 }

@@ -1,4 +1,6 @@
 package by.training.dao;
 
-public interface TagDao {
+import by.training.entity.Tag;
+
+public interface TagDao extends Dao<Tag> {
 }

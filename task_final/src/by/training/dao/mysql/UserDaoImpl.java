@@ -12,7 +12,7 @@ import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 
-public class UserDaoIml extends BaseDaoImpl implements UserDao {
+public class UserDaoImpl extends BaseDaoImpl implements UserDao {
 
     @Override
     public User readByEmail(String email, String password) throws PersistentException {
@@ -195,7 +195,6 @@ public class UserDaoIml extends BaseDaoImpl implements UserDao {
                 statement.close();
             } catch(SQLException | NullPointerException e) {}
         }
-
     }
 
     @Override

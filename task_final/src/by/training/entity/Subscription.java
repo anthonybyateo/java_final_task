@@ -1,14 +1,14 @@
 package by.training.entity;
 
-public class Relationship extends EntityWithoutID {
+public class Subscription extends EntityWithoutID {
+    private User subscriber;
     private User user;
-    private int subscription;
 
-    public Relationship() {}
+    public Subscription() {}
 
-    public Relationship(User user, final int subscription) {
+    public Subscription(User user, final User subscriber) {
         this.user = user;
-        this.subscription = subscription;
+        this.subscriber = subscriber;
     }
 
     public User getUser() {
@@ -19,11 +19,11 @@ public class Relationship extends EntityWithoutID {
         this.user = user;
     }
 
-    public int getSubscription() {
-        return subscription;
+    public User getSubscriber() {
+        return subscriber;
     }
 
-    public void setSubscription(int subscription) {
-        this.subscription = subscription;
+    public void setSubscription(User subscriber) {
+        this.subscriber = subscriber;
     }
 }

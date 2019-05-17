@@ -1,21 +1,21 @@
 package by.training.entity;
 
-import  java.sql.Blob;
+import java.io.InputStream;
 
 import java.util.Date;
 
-public class Infouser extends EntityWithoutID {
+public class InfoUser extends EntityWithoutID {
    private User user;
    private Date birthday;
    private String name;
    private String lastname;
    private String patronymic;
-   private Blob avatar;
+   private InputStream avatar;
 
-   public Infouser() {}
+   public InfoUser() {}
 
-    public Infouser(final User user, final Date birthday, final String name, final String lastname,
-                    final String patronymic, final Blob avatar) {
+    public InfoUser(final User user, final Date birthday, final String name, final String lastname,
+                    final String patronymic, final InputStream avatar) {
         this.user = user;
         this.birthday = birthday;
         this.name = name;
@@ -64,11 +64,11 @@ public class Infouser extends EntityWithoutID {
         this.patronymic = patronymic;
     }
 
-    public Blob getAvatar() {
+    public InputStream getAvatar() {
         return avatar;
     }
 
-    public void setAvatar(Blob avatar) {
+    public void setAvatar(InputStream avatar) {
         this.avatar = avatar;
     }
 }
