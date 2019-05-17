@@ -3,7 +3,6 @@ package by.training.action;
 import by.training.entity.Role;
 import by.training.entity.User;
 import by.training.exception.PersistentException;
-import by.training.service.servicefactory.ServiceFactoryImpl;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;

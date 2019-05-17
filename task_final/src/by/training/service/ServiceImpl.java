@@ -1,11 +1,11 @@
 package by.training.service;
 
-import by.training.dao.Transaction;
+import by.training.dao.DaoImplFactory.CreatorDao;
 
 abstract public class ServiceImpl implements Service {
-    protected Transaction transaction = null;
+    protected CreatorDao creator;
 
-    public void setTransaction(Transaction transaction) {
-        this.transaction = transaction;
+    public void setCreator(CreatorDao creator) {
+        this.creator = creator;
     }
 }

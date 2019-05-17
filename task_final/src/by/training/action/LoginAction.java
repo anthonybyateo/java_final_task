@@ -14,7 +14,7 @@ import javax.servlet.http.HttpSession;
 import by.training.entity.Role;
 import by.training.entity.User;
 import by.training.exception.PersistentException;
-import by.training.service.UserService;
+import by.training.service.UserServiceImp;
 import org.apache.log4j.Logger;
 
 public class LoginAction extends Action {
@@ -46,7 +46,7 @@ public class LoginAction extends Action {
         String login = request.getParameter("login");
         String password = request.getParameter("password");
         if (login != null && password != null) {
-            UserService service = factory.getService(UserService.class);
+            UserServiceImp service = factory.getService(UserServiceImp.class);
             User user = service.findByLoginAndPassword(login, password);
             if (user != null) {
                 HttpSession session = request.getSession();

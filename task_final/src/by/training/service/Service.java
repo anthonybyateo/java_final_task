@@ -1,4 +1,3 @@
 package by.training.service;
 
-public interface Service {
-}
+public interface Service { }
