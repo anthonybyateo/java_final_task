@@ -7,6 +7,7 @@ import java.util.Set;
 import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.ConcurrentSkipListSet;
 import java.util.concurrent.LinkedBlockingQueue;
+import java.util.concurrent.locks.ReentrantLock;
 
 import org.apache.log4j.Logger;
 
@@ -20,14 +21,48 @@ final public class ConnectionPool {
 	private String password;
 	private int maxSize;
 	private int checkConnectionTimeout;
+	ReentrantLock locker = new ReentrantLock();
 
 	private BlockingQueue<PooledConnection> freeConnections = new LinkedBlockingQueue<>();
 	private Set<PooledConnection> usedConnections = new ConcurrentSkipListSet<>();
 
 	private ConnectionPool() {}
 
-	public synchronized Connection getConnection() throws PersistentException {
+	private static ConnectionPool instance = new ConnectionPool();
+
+	public static ConnectionPool getInstance() {
+		return instance;
+	}
+
+
+	public void init(String url, String user, String password, int startSize, int maxSize, int checkConnectionTimeout)
+			throws PersistentException {
+		locker.lock();
+		try {
+			destroy();
+			this.url = url;
+			this.user = user;
+			this.password = password;
+			this.maxSize = maxSize;
+			this.checkConnectionTimeout = checkConnectionTimeout;
+			for(int counter = 0; counter < startSize; counter++) {
+				freeConnections.put(createConnection());
+			}
+		} catch(SQLException | InterruptedException e) {
+			logger.fatal("It is impossible to initialize connection pool", e);
+			throw new PersistentException(e);
+		} finally {
+			locker.unlock();
+		}
+	}
+
+	private PooledConnection createConnection() throws SQLException {
+		return new PooledConnection(DriverManager.getConnection(url, user, password));
+	}
+
+	public Connection getConnection() throws PersistentException {
 		PooledConnection connection = null;
+		locker.lock();
 		while(connection == null) {
 			try {
 				if(!freeConnections.isEmpty()) {
@@ -51,10 +86,12 @@ final public class ConnectionPool {
 		}
 		usedConnections.add(connection);
 		logger.debug(String.format("Connection was received from pool. Current pool size: %d used connections; %d free connection", usedConnections.size(), freeConnections.size()));
+		locker.unlock();
 		return connection;
 	}
 
-	synchronized void freeConnection(PooledConnection connection) {
+	 public void putback(PooledConnection connection) {
+		locker.lock();
 		try {
 			if(connection.isValid(checkConnectionTimeout)) {
 				connection.clearWarnings();
@@ -68,46 +105,23 @@ final public class ConnectionPool {
 			try {
 				connection.getConnection().close();
 			} catch(SQLException e2) {}
+		} finally {
+			locker.unlock();
 		}
 	}
 
-	public synchronized void init(String driverClass, String url, String user, String password, int startSize, int maxSize, int checkConnectionTimeout) throws PersistentException {
-		try {
-			destroy();
-			Class.forName(driverClass);
-			this.url = url;
-			this.user = user;
-			this.password = password;
-			this.maxSize = maxSize;
-			this.checkConnectionTimeout = checkConnectionTimeout;
-			for(int counter = 0; counter < startSize; counter++) {
-				freeConnections.put(createConnection());
-			}
-		} catch(ClassNotFoundException | SQLException | InterruptedException e) {
-			logger.fatal("It is impossible to initialize connection pool", e);
-			throw new PersistentException(e);
-		}
-	}
-
-	private static ConnectionPool instance = new ConnectionPool();
-
-	public static ConnectionPool getInstance() {
-		return instance;
-	}
-
-	private PooledConnection createConnection() throws SQLException {
-		return new PooledConnection(DriverManager.getConnection(url, user, password));
-	}
-
-	public synchronized void destroy() {
+	public void destroy() {
+		locker.lock();
 		usedConnections.addAll(freeConnections);
 		freeConnections.clear();
-		for(PooledConnection connection : usedConnections) {
+		for (PooledConnection connection : usedConnections) {
 			try {
 				connection.getConnection().close();
-			} catch(SQLException e) {}
+			} catch (SQLException e) {
+			}
 		}
 		usedConnections.clear();
+		locker.unlock();
 	}
 
 	@Override
