@@ -3,6 +3,7 @@ package by.training.action;
 import by.training.entity.Role;
 import by.training.entity.User;
 import by.training.exception.PersistentException;
+import by.training.service.servicefactory.CreatorService;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -16,7 +17,7 @@ abstract public class Action {
     private User authorizedUser;
     private String name;
 
-    protected ServiceFactoryImpl factory;
+    protected CreatorService creator;
 
     public Set<Role> getAllowRoles() {
         return allowRoles;
@@ -38,8 +39,8 @@ abstract public class Action {
         this.name = name;
     }
 
-    public void setFactory(ServiceFactoryImpl factory) {
-        this.factory = factory;
+    public void setFactory(CreatorService creator) {
+        this.creator = creator;
     }
 
     abstract public Action.Forward exec(HttpServletRequest request, HttpServletResponse response) throws

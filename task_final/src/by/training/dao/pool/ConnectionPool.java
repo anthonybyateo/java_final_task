@@ -1,4 +1,4 @@
-package dao.pool;
+package by.training.dao.pool;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
@@ -10,7 +10,7 @@ import java.util.concurrent.LinkedBlockingQueue;
 
 import org.apache.log4j.Logger;
 
-import exception.PersistentException;
+import by.training.exception.PersistentException;
 
 final public class ConnectionPool {
 	private static Logger logger = Logger.getLogger(ConnectionPool.class);

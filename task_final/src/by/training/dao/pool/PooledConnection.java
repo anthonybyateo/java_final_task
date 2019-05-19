@@ -1,4 +1,4 @@
-package dao.pool;
+package by.training.dao.pool;
 
 import java.sql.Array;
 import java.sql.Blob;
