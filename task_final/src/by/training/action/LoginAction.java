@@ -20,22 +20,6 @@ import org.apache.log4j.Logger;
 public class LoginAction extends Action {
     private static Logger logger = Logger.getLogger(LoginAction.class);
 
-    private static Map<Role, List<MenuItem>> menu = new ConcurrentHashMap<>();
-
-    static {
-        menu.put(Role.ADMINISTRATOR, new ArrayList<>(Arrays.asList(
-                new MenuItem("/search/book/form.html", "поиск книг"),
-                new MenuItem("/search/reader/form.html", "поиск читателей")
-        )));
-        menu.put(Role.MODERATOR, new ArrayList<>(Arrays.asList(
-                new MenuItem("/reader/list.html", "читатели"),
-                new MenuItem("/user/list.html", "сотрудники")
-        )));
-        menu.put(Role.USER, new ArrayList<>(Arrays.asList(
-                new MenuItem("/author/list.html", "авторы")
-        )));
-    }
-
     @Override
     public Set<Role> getAllowRoles() {
         return null;
@@ -51,7 +35,6 @@ public class LoginAction extends Action {
             if (user != null) {
                 HttpSession session = request.getSession();
                 session.setAttribute("authorizedUser", user);
-                session.setAttribute("menu", menu.get(user.getRole()));
                 logger.info(String.format("user \"%s\" is logged in from %s (%s:%s)", login, request.getRemoteAddr(), request.getRemoteHost(), request.getRemotePort()));
                 return new Forward("/index.html");
             } else {
