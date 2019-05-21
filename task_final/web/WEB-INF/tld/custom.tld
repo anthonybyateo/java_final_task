@@ -1,6 +1,0 @@
-<jsp-config>
-    <taglib>
-        <taglib-uri>customtags</taglib-uri>
-        <taglib-location>/WEB-INF/tld/custom.tld</taglib-location>
-    </taglib>
-</jsp-config>

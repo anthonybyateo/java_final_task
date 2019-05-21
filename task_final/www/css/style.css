@@ -1,0 +1,111 @@
+body {
+  background-color: #dddbdb;
+}
+.header {
+  border-bottom: solid #000;
+  border-bottom-width: 1px;
+}
+
+.footer {
+  border-top: solid #b7b5b5;
+  border-top-width: 1px;
+  text-align: center;
+}
+
+.form-control:focus {
+  border-color: #373c44;
+  box-shadow: inset 0 1px 1px rgba(55, 60, 68, 0.075), 0 0 8px rgba(55, 60, 68, 0.6);
+}
+
+.dropdown-item:focus {
+  background: #373c44;
+}
+
+.dropdown-item:hover {
+  background: #373c44;
+  color: #fff;
+}
+
+.btn-rounded {
+  border-radius: 17px;
+  padding: -15px;
+}
+
+.account {
+  margin-left: 15px;
+}
+
+.main {
+  text-align:justify;
+  margin-top: 10px;
+}
+
+.tag {
+  text-decoration: none;
+}
+.tag:hover {
+  background: #f8f9fa;
+}
+
+a {
+  text-decoration: none;
+  color: #000;
+}
+a:hover {
+  text-decoration: none;
+  color: red;
+}
+
+.link {
+  margin-top: 7px;
+  margin-left: 7px;
+  padding-top: -15px;
+}
+
+.img-note {
+  float: left;
+  margin-right: 10px;
+  margin-bottom: 10px;
+}
+
+.like {
+  margin-left: 70px;
+}
+
+.fa-heart{
+  font-size: 18px !important;
+}
+
+.fa-comment {
+  margin-left: 8px;
+  font-size: 20px !important;
+}
+
+.btn-note {
+  float: right;
+}
+
+.info-user {
+  margin-left: 70px;
+}
+
+/*.page-link:click {
+  border-color: #373c44;
+  box-shadow: inset 0 1px 1px rgba(55, 60, 68, 0.075), 0 0 8px rgba(55, 60, 68, 0.6);
+}*/
+
+input[type="date"]:before {
+  content: attr(placeholder) !important;
+  color: #7c7c7c;
+  margin-right: 0.5em;
+}
+input[type="date"]:focus:before,
+input[type="date"]:valid:before {
+  content: "";
+}
+
+@media (max-width: 1000px) {
+  .side {
+    display: none;
+  }
+}

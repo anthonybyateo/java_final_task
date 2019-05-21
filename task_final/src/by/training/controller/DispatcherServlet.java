@@ -4,80 +4,121 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 import java.io.IOException;
+import java.util.Map;
+
+import by.training.action.Action;
+import by.training.action.ActionManager;
+import by.training.action.ActionManagerFactory;
+import by.training.dao.pool.ConnectionPool;
+import by.training.entity.User;
+import by.training.exception.PersistentException;
+import by.training.service.UserServiceImp;
+import by.training.service.servicefactory.CreatorService;
+import by.training.service.servicefactory.UserServiceImplFactory;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 public class DispatcherServlet extends HttpServlet {
+    private static Logger logger = LogManager.getLogger(DispatcherServlet.class);
+
+    private static final String DB_DRIVER = "com.mysql.jdbc.Driver";
+    public static final String DB_URL = "jdbc:mysql://localhost:3306/think?useUnicode=true&characterEncoding=UTF-8";
+    public static final String DB_USER = "root";
+    public static final String DB_PASSWORD = "";
+    public static final int DB_POOL_START_SIZE = 10;
+    public static final int DB_POOL_MAX_SIZE = 1000;
+    public static final int DB_POOL_CHECK_CONNECTION_TIMEOUT = 0;
+
+    @Override
+    public void init() {
+        try {
+            ConnectionPool.getInstance().init(DB_DRIVER, DB_URL, DB_USER, DB_PASSWORD, DB_POOL_START_SIZE, DB_POOL_MAX_SIZE, DB_POOL_CHECK_CONNECTION_TIMEOUT);
+        } catch(PersistentException e) {
+            logger.error("It is impossible to initialize application", e);
+            destroy();
+        }
+    }
+
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        processRequest(request, response);
+        process(request, response);
+
     }
 
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        processRequest(request, response);
+        process(request, response);
     }
+
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
 
+    }
 
-        request.setAttribute("parser", parser);
-
-        request.setAttribute("res", set );
-
-        String country = "RU";
-        String language = "ru";
-
-        if (request.getParameter("lang") != null) {
-
-            switch (request.getParameter("lang")) {
-                case "en":
-                    country = "GB";
-                    language = "en";
-                    break;
-                case "be":
-                    country = "BY";
-                    language = "be";
-                    break;
-                case "ru":
-                    country = "RU";
-                    language = "ru";
-                    break;
+    private void process(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
+      /*  Action action = (Action)request.getAttribute("action");
+        try {
+            HttpSession session = request.getSession(false);
+            if(session != null) {
+                @SuppressWarnings("unchecked")
+                Map<String, Object> attributes = (Map<String, Object>)session.getAttribute("redirectedData");
+                if(attributes != null) {
+                    for(String key : attributes.keySet()) {
+                        request.setAttribute(key, attributes.get(key));
+                    }
+                    session.removeAttribute("redirectedData");
+                }
             }
-        }
+            ActionManager actionManager = ActionManagerFactory.getManager(new CreatorService());
+            Action.Forward forward = actionManager.execute(action, request, response);
+            actionManager.close();
+            if(session != null && forward != null && !forward.getAttributes().isEmpty()) {
+                session.setAttribute("redirectedData", forward.getAttributes());
+            }
+            String requestedUri = request.getRequestURI();
+            if(forward != null && forward.isRedirect()) {
+                String redirectedUri = request.getContextPath() + forward.getForward();
+                logger.debug(String.format("Request for URI \"%s\" id redirected to URI \"%s\"", requestedUri, redirectedUri));
+                response.sendRedirect(redirectedUri);
+            } else {
+                String jspPage;
+                if(forward != null) {
+                    jspPage = forward.getForward();
+                } else {
+                    jspPage = action.getName() + ".jsp";
+                }
+                jspPage = "/WEB-INF/jsp" + jspPage;
+                logger.debug(String.format("Request for URI \"%s\" is forwarded to JSP \"%s\"", requestedUri, jspPage));
 
-        request.setAttribute("language", language);
+      */          request.setAttribute("signinTest", "TEST" );
+        request.getRequestDispatcher("/jsp/result.jsp").forward(request, response);
+        /*try {
+            CreatorService creatorService = new CreatorService();
+            UserServiceImp userService =  creatorService.createService(new UserServiceImplFactory());
+            User user = userService.findByIdentity(1);
+            request.setAttribute("signinTest", user );
+            request.getRequestDispatcher("/jsp/result.jsp").forward(request, response);
+        } catch (PersistentException e) {
+            e.printStackTrace();
+        }*/
 
-        Locale current = new Locale(language, country);
-        ResourceBundle rb = ResourceBundle.getBundle("text", current);
 
-        String name = rb.getString("th.name");
-        String id = rb.getString("th.id");
-        String operator = rb.getString("th.operator");
-        String payroll = rb.getString("th.payroll");
-        String internetPrice = rb.getString("th.internetPrice");
-        String mgb = rb.getString("th.mgb");
-        String callPrices = rb.getString("th.callPrices");
-        String tariffing = rb.getString("th.tariffing");
-        String minute = rb.getString("th.minute");
-        String favNumber = rb.getString("th.favNumber");
-        String connection = rb.getString("th.connection");
-        String data = rb.getString("th.data");
 
-        request.setAttribute("name", name);
-        request.setAttribute("id", id);
-        request.setAttribute("operator", operator);
-        request.setAttribute("payroll", payroll);
-        request.setAttribute("internetPrice", internetPrice);
-        request.setAttribute("mgb", mgb);
-        request.setAttribute("callPrices", callPrices);
-        request.setAttribute("tariffing", tariffing);
-        request.setAttribute("minute", minute);
-        request.setAttribute("favNumber", favNumber);
-        request.setAttribute("connection", connection);
-        request.setAttribute("data", data);
+               //getServletContext().getRequestDispatcher("jsp/result.jsp").forward(request, response);
 
-        request.getRequestDispatcher("jsp/result.jsp").forward(request, response);
+      /*      }
+        } catch(PersistentException e) {
+            logger.error("It is impossible to process request", e);
+            request.setAttribute("error", "Ошибка обработки данных");
+            getServletContext().getRequestDispatcher("/WEB-INF/jsp/error.jsp").forward(request, response);
+        }*/
+    }
+
+    public void destroy() {
+        ConnectionPool.getInstance().destroy();
     }
 }

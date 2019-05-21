@@ -5,7 +5,7 @@ import by.training.exception.PersistentException;
 
 import java.util.List;
 
-public interface UserService {
+public interface UserService extends Service {
     public List<User> findAll() throws PersistentException;
 
     public User findByIdentity(long id) throws PersistentException;

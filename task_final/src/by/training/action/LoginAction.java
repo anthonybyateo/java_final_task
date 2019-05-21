@@ -1,11 +1,6 @@
 package by.training.action;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-import java.util.Map;
 import java.util.Set;
-import java.util.concurrent.ConcurrentHashMap;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -14,11 +9,15 @@ import javax.servlet.http.HttpSession;
 import by.training.entity.Role;
 import by.training.entity.User;
 import by.training.exception.PersistentException;
-import by.training.service.UserServiceImp;
-import org.apache.log4j.Logger;
+import by.training.service.UserService;
+import by.training.service.servicefactory.CreatorService;
+import by.training.service.servicefactory.ServiceImplFactory;
+import by.training.service.servicefactory.UserServiceImplFactory;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 public class LoginAction extends Action {
-    private static Logger logger = Logger.getLogger(LoginAction.class);
+    private static Logger logger = LogManager.getLogger(LogoutAction.class);
 
     @Override
     public Set<Role> getAllowRoles() {
@@ -30,7 +29,9 @@ public class LoginAction extends Action {
         String login = request.getParameter("login");
         String password = request.getParameter("password");
         if (login != null && password != null) {
-            UserServiceImp service = factory.getService(UserServiceImp.class);
+            ServiceImplFactory factory = new UserServiceImplFactory();
+            creator = new CreatorService();
+            UserService service = creator.createService(factory);
             User user = service.findByLoginAndPassword(login, password);
             if (user != null) {
                 HttpSession session = request.getSession();

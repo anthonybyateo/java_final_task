@@ -10,8 +10,11 @@ import java.sql.SQLException;
 public class CreatorDao {
     private Connection connection;
 
-    public <T extends BaseDaoImpl> T createDao(BaseDaoImplFactory factory) throws PersistentException {
+    public CreatorDao() throws PersistentException {
         connection = ConnectionPool.getInstance().getConnection();
+    }
+
+    public <T extends BaseDaoImpl> T createDao(BaseDaoImplFactory factory) {
         BaseDaoImpl dao = factory.createDaoImpl();
         dao.setConnection(connection);
         return (T)dao;

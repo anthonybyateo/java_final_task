@@ -49,7 +49,7 @@ abstract public class Action {
     public static class Forward {
         private String forward;
         private boolean redirect;
-        private Map<String, Object> attributes = new HashMap<>();
+        private Map<String, Object> parameters = new HashMap<>();
 
         public Forward(String forward, boolean redirect) {
             this.forward = forward;
@@ -77,7 +77,7 @@ abstract public class Action {
         }
 
         public Map<String, Object> getAttributes() {
-            return attributes;
+            return parameters;
         }
     }
 }
