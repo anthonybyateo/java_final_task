@@ -37,7 +37,7 @@ public class LoginAction extends Action {
                 HttpSession session = request.getSession();
                 session.setAttribute("authorizedUser", user);
                 logger.info(String.format("user \"%s\" is logged in from %s (%s:%s)", login, request.getRemoteAddr(), request.getRemoteHost(), request.getRemotePort()));
-                return new Forward("/index.html");
+                return new Forward("/login.html");
             } else {
                 request.setAttribute("message", "Имя пользователя или пароль не опознанны");
                 logger.info(String.format("user \"%s\" unsuccessfully tried to log in from %s (%s:%s)", login, request.getRemoteAddr(), request.getRemoteHost(), request.getRemotePort()));

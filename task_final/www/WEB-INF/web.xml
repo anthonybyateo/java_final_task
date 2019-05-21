@@ -8,9 +8,9 @@
 		 metadata-complete="true">
 
 	<description>
-		First web-application HelloWorld.
+		Social network Think
 	</description>
-	<display-name>DataXML app</display-name>
+	<display-name>Think</display-name>
 
 	<request-character-encoding>UTF-8</request-character-encoding>
 
@@ -22,9 +22,38 @@
 		<servlet-name>DataName</servlet-name>
 		<servlet-class>by.training.controller.DispatcherServlet</servlet-class>
 	</servlet>
-
 	<servlet-mapping>
 		<servlet-name>DataName</servlet-name>
-		<url-pattern>/data</url-pattern>
+		<url-pattern>*.html</url-pattern>
 	</servlet-mapping>
+
+	<filter>
+		<filter-name>EncodingFilter</filter-name>
+		<filter-class>by.training.controller.fIlter.EncodingFilter</filter-class>
+	</filter>
+	<filter-mapping>
+		<filter-name>EncodingFilter</filter-name>
+		<url-pattern>*.html</url-pattern>
+	</filter-mapping>
+	<filter>
+		<filter-name>ActionFromUriFilter</filter-name>
+		<filter-class>by.training.controller.fIlter.ActionFromUriFilter</filter-class>
+	</filter>
+	<filter-mapping>
+		<filter-name>ActionFromUriFilter</filter-name>
+		<url-pattern>*.html</url-pattern>
+	</filter-mapping>
+	<filter>
+		<filter-name>SecurityFilter</filter-name>
+		<filter-class>by.training.controller.fIlter.SecurityFilter</filter-class>
+	</filter>
+	<filter-mapping>
+		<filter-name>SecurityFilter</filter-name>
+		<url-pattern>*.html</url-pattern>
+	</filter-mapping>
+
+	<error-page>
+		<error-code>404</error-code>
+		<location>/www/WEB-INF/jsp/error.jsp</location>
+	</error-page>
 </web-app>
