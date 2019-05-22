@@ -17,6 +17,6 @@ public class LogoutAction extends AuthorizedUserAction {
         User user = getAuthorizedUser();
         logger.info(String.format("user \"%s\" is logged out", user.getLogin()));
         request.getSession(false).invalidate();
-        return new Forward("/login.html");
+        return new Forward("/logout");
     }
 }

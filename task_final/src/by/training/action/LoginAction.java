@@ -17,7 +17,7 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 public class LoginAction extends Action {
-    private static Logger logger = LogManager.getLogger(LogoutAction.class);
+    private static Logger LOGGER = LogManager.getLogger(LogoutAction.class);
 
     @Override
     public Set<Role> getAllowRoles() {
@@ -36,13 +36,14 @@ public class LoginAction extends Action {
             if (user != null) {
                 HttpSession session = request.getSession();
                 session.setAttribute("authorizedUser", user);
-                logger.info(String.format("user \"%s\" is logged in from %s (%s:%s)", login, request.getRemoteAddr(), request.getRemoteHost(), request.getRemotePort()));
+                LOGGER.info(String.format("user \"%s\" is logged in from %s (%s:%s)", login, request.getRemoteAddr(), request.getRemoteHost(), request.getRemotePort()));
                 return new Forward("/login.html");
             } else {
                 request.setAttribute("message", "Имя пользователя или пароль не опознанны");
-                logger.info(String.format("user \"%s\" unsuccessfully tried to log in from %s (%s:%s)", login, request.getRemoteAddr(), request.getRemoteHost(), request.getRemotePort()));
+                LOGGER.info(String.format("user \"%s\" unsuccessfully tried to log in from %s (%s:%s)", login, request.getRemoteAddr(), request.getRemoteHost(), request.getRemotePort()));
             }
         }
+        request.setAttribute("message", "Имя пользователя или пароль не опознанны");
         return null;
     }
 }

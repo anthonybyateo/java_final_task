@@ -29,10 +29,13 @@
                 <ul class="navbar-nav mr-auto">
                     <button type="button" class="btn btn-dark btn-rounded" data-toggle="modal" data-target="#exampleModal">Записать</button>
                     <li class="nav-item link">
-                        <a href="#subscription">Подписки</a>
+                        <a href="popular_people.html">Популярные</a>
                     </li>
                     <li class="nav-item link">
-                        <a href="friends.html">Подписчики</a>
+                        <a href="subscriptions.html">Подписки</a>
+                    </li>
+                    <li class="nav-item link">
+                        <a href="subscribers.html">Подписчики</a>
                     </li>
                     <li class="nav-item dropdown link">
                         <a class="dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
@@ -206,13 +209,14 @@
         <div class="modal-dialog" role="document">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title">Вход</h5>
+                    <h5 class="modal-title">Вход ${message}</h5>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true">&times;</span>
                     </button>
                 </div>
                 <div class="modal-body">
-                    <form method="POST">
+                    <c:url value="/login.html" var="loginUrl"/>
+                    <form method="POST" action="${loginUrl}">
                         <input class="form-control mr-sm-2 btn-rounded" type="text" placeholder="Логин или email">
                         <input class="form-control mr-sm-2 btn-rounded" type="password" placeholder="Password"><br>
                         <div class="justify-content-center">

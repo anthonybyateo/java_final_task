@@ -19,6 +19,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import static by.training.action.actionenum.ActionEnum.IsActionUnauthUser;
+
 public class SecurityFilter implements Filter {
     private static final Logger LOGGER =
             LogManager.getLogger(SecurityFilter.class);
@@ -52,14 +54,14 @@ public class SecurityFilter implements Filter {
                 userName = "\"" + user.getLogin() + "\" user";
                 canExecute = canExecute || allowRoles.contains(user.getRole());
             }
-            if(canExecute) {
+            if(canExecute || IsActionUnauthUser(action.getName())) {
                 filterChain.doFilter(servletRequest, servletResponse);
             } else {
                 LOGGER.info(String.format("Trying of %s access to forbidden resource \"%s\"", userName, action.getName()));
                 if(session != null) {
                     session.setAttribute("SecurityFilterMessage", "Доступ запрещён");
                 }
-                httpResponse.sendRedirect(httpRequest.getContextPath() + "/login.html");
+                httpResponse.sendRedirect(httpRequest.getContextPath() + "?signinModal");
             }
         } else {
             LOGGER.error("It is impossible to use HTTP filter");

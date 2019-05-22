@@ -3,12 +3,17 @@ package by.training.action.actionenum;
 import by.training.action.Action;
 import by.training.action.LoginAction;
 import by.training.action.LogoutAction;
+import by.training.action.ShowPopularPeopleAction;
 
 public enum ActionEnum {
     MAIN("/", new LoginAction()),
     INDEX("/index", new LoginAction()),
     LOGININ("/login", new LoginAction()),
-    LOGOUT( "/logout", new LogoutAction());
+    SHOW_SUBSCRIPRIONS( "/subscriptions", new LogoutAction()),
+    SHOW_SUBSCRIBERS( "/subscribers", new LogoutAction()),
+    LOGOUT( "/logout", new LogoutAction()),
+    //also unauth user
+    SHOW_POPULAR_PEOPLE( "/popular_people", new ShowPopularPeopleAction());
 
     private String actionName;
     private Action action;
@@ -34,5 +39,15 @@ public enum ActionEnum {
             }
         }
         return null;
+    }
+
+    public static boolean IsActionUnauthUser(String actionName) {
+        ActionEnum[] enums = ActionEnum.values();
+        for (int i = 6; i < enums.length; i++) {
+            if (enums[i].getActionName().equals(actionName)) {
+                return true;
+            }
+        }
+        return false;
     }
 }

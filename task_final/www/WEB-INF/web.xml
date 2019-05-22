@@ -19,11 +19,11 @@
 	</welcome-file-list>
 
 	<servlet>
-		<servlet-name>DataName</servlet-name>
+		<servlet-name>Controller</servlet-name>
 		<servlet-class>by.training.controller.DispatcherServlet</servlet-class>
 	</servlet>
 	<servlet-mapping>
-		<servlet-name>DataName</servlet-name>
+		<servlet-name>Controller</servlet-name>
 		<url-pattern>*.html</url-pattern>
 	</servlet-mapping>
 
