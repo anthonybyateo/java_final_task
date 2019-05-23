@@ -1,19 +1,32 @@
 package by.training.entity;
 
+import java.io.InputStream;
+import java.util.Date;
+
 public class User extends EntityWithID {
     private String login;
     private String email;
     private String password;
+    private String name;
+    private String lastname;
     private Role role;
+    private Date birthday;
+    private InputStream avatar;
 
     public User() {}
 
-    public User(int id, String login, String email, String password, Role role) {
+    public User(long id, String login, String email, String password,
+                String name, String lastname, Role role, Date birthday,
+                InputStream avatar) {
         super(id);
         this.login = login;
         this.email = email;
         this.password = password;
+        this.name = name;
+        this.lastname = lastname;
         this.role = role;
+        this.birthday = birthday;
+        this.avatar = avatar;
     }
 
     public String getLogin() {
@@ -28,7 +41,7 @@ public class User extends EntityWithID {
         return email;
     }
 
-    public void setEmail(String login) {
+    public void setEmail(String email) {
         this.email = email;
     }
 
@@ -40,11 +53,43 @@ public class User extends EntityWithID {
         this.password = password;
     }
 
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public String getLastname() {
+        return lastname;
+    }
+
+    public void setLastname(String lastname) {
+        this.lastname = lastname;
+    }
+
     public Role getRole() {
         return role;
     }
 
     public void setRole(Role role) {
         this.role = role;
+    }
+
+    public Date getBirthday() {
+        return birthday;
+    }
+
+    public void setBirthday(Date birthday) {
+        this.birthday = birthday;
+    }
+
+    public InputStream getAvatar() {
+        return avatar;
+    }
+
+    public void setAvatar(InputStream avatar) {
+        this.avatar = avatar;
     }
 }

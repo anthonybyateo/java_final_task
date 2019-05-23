@@ -1,22 +1,29 @@
 package by.training.service;
 
 import by.training.entity.User;
-import by.training.exception.PersistentException;
 
 import java.util.List;
 
 public interface UserService extends Service {
-    public List<User> findAll() throws PersistentException;
+    List<User> findAllOrderBySub();
 
-    public User findByIdentity(long id) throws PersistentException;
+    List<User> readByLastnameAndName(String searchLastname, String searchName );
 
-    public User findByLoginAndPassword(String login, String password) throws
-            PersistentException;
+    User findById(long id);
 
-    public User findByEmailAndPassword(String email, String password) throws
-            PersistentException;
+    User findByLogin(String login);
 
-    public void save(User user) throws PersistentException;
+    User findByEmail(String email);
 
-    public void delete(long id) throws PersistentException;
+    User findByEmailAndPassword(String email, String password);
+
+    boolean changePassword(int id, String password);
+
+    boolean deleteByLogin(String login);
+
+    long save(User user);
+
+    boolean update(User user);
+
+    boolean delete(long id);
 }

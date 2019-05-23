@@ -3,214 +3,348 @@ package by.training.dao.mysql;
 import by.training.dao.UserDao;
 import by.training.entity.Role;
 import by.training.entity.User;
-import by.training.exception.PersistentException;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.sql.Statement;
+import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
 public class UserDaoImpl extends BaseDaoImpl implements UserDao {
+    private static final Logger LOGGER = LogManager.getLogger(UserDaoImpl.class);
 
     @Override
-    public User readByEmail(String email, String password) throws PersistentException {
-        String sql = "SELECT `id`, `login`, `role` FROM `users` WHERE `email` = ? AND `password` = ?";
+    public User readByEmailAndPassword(String email, String password) {
+        String sql = "SELECT `users`.id, `users`.login, `users`.role, "
+                + "`users`.password, `infousers`.birthday, `infousers`.name, "
+                + "`infousers`.lastname, `infousers`.avatar FROM `users` "
+                + "LEFT JOIN `infousers` ON `users`.id = `infousers`.user_id "
+                + "WHERE `users`.email = ? AND `users`.password = ?";
         PreparedStatement statement = null;
         ResultSet resultSet = null;
+        User user = null;
         try {
             statement = connection.prepareStatement(sql);
             statement.setString(1, email);
             statement.setString(2, password);
             resultSet = statement.executeQuery();
-            User user = null;
             if (resultSet.next()) {
                 user = new User();
-                user.setId(resultSet.getLong("id"));
                 user.setEmail(email);
+                user.setId(resultSet.getLong("id"));
                 user.setLogin(resultSet.getString("login"));
-                user.setPassword(password);
                 user.setRole(Role.getById(resultSet.getInt("role")));
+                user.setPassword(password);
+                user.setBirthday(resultSet.getDate("birthday"));
+                user.setName(resultSet.getString("name"));
+                user.setLastname(resultSet.getString("lastname"));
+                user.setAvatar(resultSet.getBinaryStream("avatar"));
             }
-            return user;
         } catch (SQLException e) {
-            throw new PersistentException(e);
+            LOGGER.error("PreparedStatement error", e);
         } finally {
             try {
-                resultSet.close();
-            } catch (SQLException | NullPointerException e) {
-            }
-            try {
                 statement.close();
-            } catch (SQLException | NullPointerException e) {
+            } catch (SQLException e) {
+                LOGGER.error("Statement close error", e);
             }
         }
+        return user;
     }
 
     @Override
-    public User readByLogin(String login, String password) throws PersistentException {
-        String sql = "SELECT `id`, `email`, `role` FROM `users` WHERE `login` = ? AND `password` = ?";
-        PreparedStatement statement = null;
+    public User readByLogin(String login) {
+        String sql = "SELECT `users`.id, `users`.email, `users`.role, "
+                + "`users`.password, `infousers`.birthday, `infousers`.name, "
+                + "`infousers`.lastname, `infousers`.avatar FROM `users` "
+                + "LEFT JOIN `infousers` ON `users`.id = `infousers`.user_id "
+                + "WHERE `users`.login = ?";
         ResultSet resultSet = null;
-        try {
-            statement = connection.prepareStatement(sql);
+        User user = null;
+        try(PreparedStatement statement = connection.prepareStatement(sql)) {
             statement.setString(1, login);
-            statement.setString(2, password);
             resultSet = statement.executeQuery();
-            User user = null;
             if (resultSet.next()) {
                 user = new User();
+                user.setLogin(login);
                 user.setId(resultSet.getLong("id"));
                 user.setEmail(resultSet.getString("email"));
-                user.setLogin(login);
-                user.setPassword(password);
                 user.setRole(Role.getById(resultSet.getInt("role")));
+                user.setPassword(resultSet.getString("password"));
+                user.setBirthday(resultSet.getDate("birthday"));
+                user.setName(resultSet.getString("name"));
+                user.setLastname(resultSet.getString("lastname"));
+                user.setAvatar(resultSet.getBinaryStream("avatar"));
             }
-            return user;
         } catch (SQLException e) {
-            throw new PersistentException(e);
-        } finally {
-            try {
-                resultSet.close();
-            } catch (SQLException | NullPointerException e) {
-            }
-            try {
-                statement.close();
-            } catch (SQLException | NullPointerException e) {
-            }
+            LOGGER.error("PreparedStatement error", e);
         }
+        return user;
     }
 
     @Override
-    public List<User> read() throws PersistentException {
-        String sql = "SELECT `id`, `login`, `email`, `password`, `role` FROM `users` ORDER BY `login`";
+    public User readByEmail(String email) {
+        String sql = "SELECT `users`.id, `users`.login, `users`.role, "
+                + "`users`.password, `infousers`.birthday, `infousers`.name, "
+                + "`infousers`.lastname, `infousers`.avatar FROM `users` "
+                + "LEFT JOIN `infousers` ON `users`.id = `infousers`.user_id "
+                + "WHERE `users`.email = ?";
+        ResultSet resultSet = null;
+        User user = null;
+        try(PreparedStatement statement = connection.prepareStatement(sql)) {
+            statement.setString(1, email);
+            resultSet = statement.executeQuery();
+            if (resultSet.next()) {
+                user = new User();
+                user.setEmail(email);
+                user.setId(resultSet.getLong("id"));
+                user.setLogin(resultSet.getString("login"));
+                user.setRole(Role.getById(resultSet.getInt("role")));
+                user.setPassword(resultSet.getString("password"));
+                user.setBirthday(resultSet.getDate("birthday"));
+                user.setName(resultSet.getString("name"));
+                user.setLastname(resultSet.getString("lastname"));
+                user.setAvatar(resultSet.getBinaryStream("avatar"));
+            }
+        } catch (SQLException e) {
+            LOGGER.error("PreparedStatement error", e);
+        }
+        return user;
+    }
+
+    @Override
+    public List<User> readAllOrderBySub() {
+        String sql = "SELECT `users`.id, `users`.login, `users`.email, `users`.role, "
+                + "`users`.password, `infousers`.birthday, `infousers`.name, "
+                + "`infousers`.lastname, `infousers`.avatar FROM `users` "
+                + "LEFT JOIN `infousers` ON `users`.id = `infousers`.user_id "
+                + "WHERE `users`.id = ANY (SELECT `user_id` FROM `subscription` "
+                + "GROUP BY `subscriber_id` ORDER BY COUNT(`subscriber_id`) DESC)";
+        List<User> users = new ArrayList<>();
         PreparedStatement statement = null;
         ResultSet resultSet = null;
         try {
             statement = connection.prepareStatement(sql);
             resultSet = statement.executeQuery();
-            List<User> users = new ArrayList<>();
-            User user = null;
-            while(resultSet.next()) {
-                user = new User();
+            while (resultSet.next()) {
+                User user = new User();
                 user.setId(resultSet.getLong("id"));
+                user.setEmail(resultSet.getString("email"));
                 user.setLogin(resultSet.getString("login"));
-                user.setLogin(resultSet.getString("email"));
-                user.setPassword(resultSet.getString("password"));
-                user.setRole(Role.getById(resultSet.getInt("role")));
+                user.setBirthday(resultSet.getDate("birthday"));
+                user.setName(resultSet.getString("name"));
+                user.setLastname(resultSet.getString("lastname"));
+                user.setAvatar(resultSet.getBinaryStream("avatar"));
                 users.add(user);
             }
-            return users;
-        } catch(SQLException e) {
-            throw new PersistentException(e);
+        } catch (SQLException e) {
+            LOGGER.error("PreparedStatement error", e);
         } finally {
             try {
-                resultSet.close();
-            } catch(SQLException | NullPointerException e) {}
-            try {
                 statement.close();
-            } catch(SQLException | NullPointerException e) {}
+            } catch (SQLException | NullPointerException e) {
+                LOGGER.error("Statement close error", e);
+            }
         }
+        return users;
     }
 
     @Override
-    public int create(User user) throws PersistentException {
-        String sql = "INSERT INTO `users` (`login`, `email`, `password`, `role`) VALUES (?, ?, ?, ?)";
+    public boolean deleteByLogin(String login) {
+        String sql = "DELETE FROM `users` WHERE login = ?";
+        try (PreparedStatement statement =
+                     connection.prepareStatement(sql)) {
+            statement.setString(1, login);
+            return statement.executeUpdate() != 0;
+        } catch (SQLException e) {
+            LOGGER.error("PreparedStatement error", e);
+        }
+        return false;
+    }
+
+    @Override
+    public boolean changePassword(int id, String password) {
+        String sql = "UPDATE `users` SET password = ? WHERE id = ?";
         PreparedStatement statement = null;
-        ResultSet resultSet = null;
         try {
-            statement = connection.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
+            statement = connection.prepareStatement(sql);
+            statement.setString(1, password);
+            statement.setInt(2, id);
+            return statement.executeUpdate() != 0;
+        } catch (SQLException e) {
+            LOGGER.error("PreparedStatement error", e);
+        } finally {
+            try {
+                statement.close();
+            } catch (SQLException e) {
+                LOGGER.error("Statement close error", e);
+            }
+        }
+        return false;
+    }
+
+    @Override
+    public List<User> readByLastnameAndName(String searchLastname, String searchName) {
+        String sql = "SELECT `users`.id, `users`.login, `users`.role, "
+                + "`users`.password, `infousers`.birthday, `infousers`.name, "
+                + "`infousers`.lastname, `infousers`.avatar FROM `users` "
+                + "LEFT JOIN `infousers` ON `users`.id = `infousers`.user_id "
+                + "WHERE `infousers`.lastname LIKE ? AND `infousers`.name "
+                + "LIKE ? ORDER BY `infousers`.lastname";
+        ResultSet resultSet = null;
+        List<User> users = new ArrayList<>();
+        User user = null;
+        try (PreparedStatement statement = connection.prepareStatement(sql)) {
+            statement.setString(1, "%" + searchLastname + "%");
+            statement.setString(2, "%" + searchName + "%");
+            resultSet = statement.executeQuery();
+            while (resultSet.next()) {
+                user = new User();
+                user.setId(resultSet.getLong("id"));
+                user.setLogin(resultSet.getString("login"));
+                user.setRole(Role.getById(resultSet.getInt("role")));
+                user.setEmail(resultSet.getString("Email"));
+                user.setPassword(resultSet.getString("password"));
+                user.setBirthday(resultSet.getDate("birthday"));
+                user.setName(resultSet.getString("name"));
+                user.setLastname(resultSet.getString("lastname"));
+                user.setAvatar(resultSet.getBinaryStream("avatar"));
+                users.add(user);
+            }
+        } catch (SQLException e) {
+            LOGGER.error("PreparedStatement error", e);
+        }
+        return users;
+    }
+
+    @Override
+    public long create(User user) {
+        String sql = "INSERT INTO `users` (`login`, `email`, `password`, `role`) VALUES (?, ?, ?, ?)";
+        ResultSet resultSet = null;
+        try(PreparedStatement statement = connection.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS)) {
             statement.setString(1, user.getLogin());
             statement.setString(2, user.getEmail());
             statement.setString(3, user.getPassword());
-            statement.setInt(4, user.getRole().getId());
+            statement.setLong(4, user.getRole().getId());
             statement.executeUpdate();
             resultSet = statement.getGeneratedKeys();
             if(resultSet.next()) {
-                return resultSet.getInt(1);
+                return resultSet.getLong(1);
             } else {
-                //logger.error("There is no autoincremented index after trying to add record into table `users`");
-                throw new PersistentException();
+                LOGGER.error("There is no autoincremented index after trying to add record into table `users`");
             }
         } catch(SQLException e) {
-            throw new PersistentException(e);
-        } finally {
-            try {
-                resultSet.close();
-            } catch(SQLException | NullPointerException e) {}
-            try {
-                statement.close();
-            } catch(SQLException | NullPointerException e) {}
+            LOGGER.error("PreparedStatement error", e);
         }
+        return 0;
     }
 
     @Override
-    public User read(long id) throws PersistentException {
-        String sql = "SELECT `login`, `email`, `password`, `role` FROM `users` WHERE `id` = ?";
+    public User read(long id) {
+        String sql = "SELECT `users`.id, `users`.email, `users`.login, `users`.role, "
+                + "`users`.password, `infousers`.birthday, `infousers`.name, "
+                + "`infousers`.lastname, `infousers`.avatar FROM `users` "
+                + "LEFT JOIN `infousers` ON `users`.id = `infousers`.user_id "
+                + "WHERE `users`.id = ?";
         PreparedStatement statement = null;
         ResultSet resultSet = null;
+        User user = null;
         try {
             statement = connection.prepareStatement(sql);
             statement.setLong(1, id);
             resultSet = statement.executeQuery();
-            User user = null;
-            if(resultSet.next()) {
+            if (resultSet.next()) {
                 user = new User();
                 user.setId(id);
-                user.setLogin(resultSet.getString("login"));
+                user.setId(resultSet.getLong("id"));
                 user.setEmail(resultSet.getString("email"));
-                user.setPassword(resultSet.getString("password"));
+                user.setLogin(resultSet.getString("login"));
                 user.setRole(Role.getById(resultSet.getInt("role")));
+                user.setPassword(resultSet.getString("password"));
+                user.setBirthday(resultSet.getDate("birthday"));
+                user.setName(resultSet.getString("name"));
+                user.setLastname(resultSet.getString("lastname"));
+                user.setAvatar(resultSet.getBinaryStream("avatar"));
             }
-            return user;
-        } catch(SQLException e) {
-            throw new PersistentException(e);
+        } catch (SQLException e) {
+            LOGGER.error("PreparedStatement error", e);
         } finally {
             try {
-                resultSet.close();
-            } catch(SQLException | NullPointerException e) {}
-            try {
                 statement.close();
-            } catch(SQLException | NullPointerException e) {}
+            } catch (SQLException | NullPointerException e) {
+                LOGGER.error("Statement close error", e);
+            }
         }
+        return user;
     }
 
     @Override
-    public void update(User user) throws PersistentException {
+    public boolean update(User user) {
         String sql = "UPDATE `users` SET `login` = ?, `email` = ?, `password` = ?, `role` = ? WHERE `id` = ?";
-        PreparedStatement statement = null;
-        try {
-            statement = connection.prepareStatement(sql);
+        try (PreparedStatement statement = connection.prepareStatement(sql)) {
             statement.setString(1, user.getLogin());
             statement.setString(2, user.getEmail());
             statement.setString(3, user.getPassword());
             statement.setInt(4, user.getRole().getId());
             statement.setLong(5, user.getId());
-            statement.executeUpdate();
-        } catch(SQLException e) {
-            throw new PersistentException(e);
-        } finally {
-            try {
-                statement.close();
-            } catch(SQLException | NullPointerException e) {}
+            return statement.executeUpdate() != 0;
+        } catch (SQLException e) {
+            LOGGER.error("PreparedStatement close error", e);
         }
+        return false;
     }
 
     @Override
-    public void delete(long id) throws PersistentException {
-        String sql = "DELETE FROM `users` WHERE `id` = ?";
-        PreparedStatement statement = null;
-        try {
-            statement = connection.prepareStatement(sql);
-            statement.setLong(1, id);
-            statement.executeUpdate();
+    public boolean updateInfouser(User user) {
+        String sql = "UPDATE `infousers` SET `birthday` = ?, `name` = ?, `lastname` = ?, `avatar` = ?"
+                + " WHERE `user_id` = ?";
+        try (PreparedStatement statement = connection.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS)) {
+            statement.setDate(1, new Date(user.getBirthday().getTime()));
+            statement.setString(2, user.getName());
+            statement.setString(3, user.getLastname());
+            statement.setBlob(4, user.getAvatar());
+            statement.setLong(5, user.getId());
+            return statement.executeUpdate() != 0;
         } catch(SQLException e) {
-            throw new PersistentException(e);
-        } finally {
-            try {
-                statement.close();
-            } catch(SQLException | NullPointerException e) {}
+            LOGGER.error("PreparedStatement close error", e);
+        }
+        return false;
+    }
+
+    @Override
+    public long createInfouser(User user) {
+        String sql = "INSERT INTO `infousers` (`user_id`, `birthday`, `name`, `lastname`, `avatar`)"
+                + " VALUES (?, ?, ?, ?, ?)";
+        ResultSet resultSet = null;
+        try (PreparedStatement statement = connection.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS)) {
+            statement.setLong(1, user.getId());
+            statement.setDate(2, new Date(user.getBirthday().getTime()));
+            statement.setString(3, user.getName());
+            statement.setString(4, user.getLastname());
+            statement.setBlob(5, user.getAvatar());
+            statement.executeUpdate();
+            resultSet = statement.getGeneratedKeys();
+            if (resultSet.next()) {
+                return resultSet.getLong(1);
+            } else {
+                LOGGER.error("There is no autoincremented index after trying to add record into table `users`");
+            }
+        } catch (SQLException e) {
+            LOGGER.error("PreparedStatement close error", e);
+
+        }
+        return 0;
+    }
+
+    @Override
+    public boolean delete(long id) {
+        String sql = "DELETE FROM `users` WHERE `id` = ?";
+        try (PreparedStatement statement = connection.prepareStatement(sql)) {
+            statement.setLong(1, id);
+            return statement.executeUpdate() != 0;
+        } catch (SQLException e) {
+            LOGGER.error("PreparedStatement error", e);
+            return false;
         }
     }
 }

@@ -4,12 +4,12 @@ import by.training.entity.Entity;
 import by.training.exception.PersistentException;
 
 public interface Dao<Type extends Entity> {
-    int create(Type entity) throws PersistentException;
+    long create(Type entity);
 
-    Type read(long id) throws PersistentException;
+    Type read(long id);
 
-    void update(Type entity) throws PersistentException;
+    boolean update(Type entity);
 
-    void delete(long id) throws PersistentException;
+    boolean delete(long id);
 
 }

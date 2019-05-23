@@ -2,9 +2,7 @@ package by.training.entity;
 
 public enum Role {
     ADMINISTRATOR("администратор"),
-    MODERATOR("модератор"),
-    USER("пользователь"),
-    UNAUTHORIZED("неавторизованный");
+    USER("пользователь");
 
     private String name;
 

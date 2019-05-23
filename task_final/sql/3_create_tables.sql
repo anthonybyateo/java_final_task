@@ -7,10 +7,9 @@ CREATE TABLE `users` (
     `password` CHAR(128) NOT NULL,
     /*
         * 0 - администратор (Role.ADMINISTRATOR)
-        * 1 - модератор (Role.MODERATOR)
-        * 2 - пользаватель (Role.USER)
+        * 1 - пользаватель (Role.USER)
     */
-    `role` TINYINT NOT NULL CHECK (`role` IN (0, 1, 2)),
+    `role` TINYINT NOT NULL CHECK (`role` IN (0, 1)),
     PRIMARY KEY (`id`)
 ) ENGINE=INNODB DEFAULT CHARACTER SET utf8;
 
@@ -19,7 +18,6 @@ CREATE TABLE `infousers` (
     `birthday` DATE NOT NULL,
     `name` VARCHAR(40) NOT NULL,
     `lastname` VARCHAR(40) NOT NULL,
-    `patronymic` VARCHAR(40) NOT NULL,
     `avatar` BLOB NOT NULL,
     FOREIGN KEY (`user_id`) REFERENCES users(id)
         ON DELETE CASCADE

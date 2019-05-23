@@ -26,21 +26,21 @@ public class LoginAction extends Action {
 
     @Override
     public Action.Forward exec(HttpServletRequest request, HttpServletResponse response) throws PersistentException {
-        String login = request.getParameter("login");
+        String email = request.getParameter("email");
         String password = request.getParameter("password");
-        if (login != null && password != null) {
+        if (email != null && password != null) {
             ServiceImplFactory factory = new UserServiceImplFactory();
             creator = new CreatorService();
             UserService service = creator.createService(factory);
-            User user = service.findByLoginAndPassword(login, password);
+            User user = service.findByEmailAndPassword(email, password);
             if (user != null) {
                 HttpSession session = request.getSession();
                 session.setAttribute("authorizedUser", user);
-                LOGGER.info(String.format("user \"%s\" is logged in from %s (%s:%s)", login, request.getRemoteAddr(), request.getRemoteHost(), request.getRemotePort()));
+                LOGGER.info(String.format("user \"%s\" is logged in from %s (%s:%s)", email, request.getRemoteAddr(), request.getRemoteHost(), request.getRemotePort()));
                 return new Forward("/login.html");
             } else {
                 request.setAttribute("message", "Имя пользователя или пароль не опознанны");
-                LOGGER.info(String.format("user \"%s\" unsuccessfully tried to log in from %s (%s:%s)", login, request.getRemoteAddr(), request.getRemoteHost(), request.getRemotePort()));
+                LOGGER.info(String.format("user \"%s\" unsuccessfully tried to log in from %s (%s:%s)", email, request.getRemoteAddr(), request.getRemoteHost(), request.getRemotePort()));
             }
         }
         request.setAttribute("message", "Имя пользователя или пароль не опознанны");

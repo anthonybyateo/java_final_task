@@ -6,9 +6,23 @@ import by.training.exception.PersistentException;
 import java.util.List;
 
 public interface UserDao extends Dao<User> {
-    User readByEmail(String email, String password) throws PersistentException;
+    User readByEmailAndPassword(String email, String password);
 
-    User readByLogin(String login, String password) throws PersistentException;
+    User readByLogin(String login);
 
-    List<User> read() throws PersistentException;
+    User readByEmail(String email);
+
+    List<User> readAllOrderBySub();
+
+    boolean deleteByLogin(String login);
+
+    boolean updateInfouser(User user);
+
+    long createInfouser(User user);
+
+    boolean changePassword(int id, String password);
+
+    List<User> readByLastnameAndName(String searchLastname, String searchName);
+
+
 }

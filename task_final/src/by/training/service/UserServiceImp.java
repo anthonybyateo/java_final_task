@@ -4,56 +4,94 @@ import java.security.MessageDigest;
 import by.training.dao.DaoImplFactory.UserDaoImplImplFactory;
 import by.training.dao.UserDao;
 import by.training.entity.User;
-import by.training.exception.PersistentException;
 
 import java.security.NoSuchAlgorithmException;
 import java.util.Formatter;
 import java.util.List;
 
-public class UserServiceImp extends ServiceImpl implements UserService{
+public class UserServiceImp extends ServiceImpl implements UserService {
     @Override
-    public List<User> findAll() throws PersistentException {
+    public List<User> findAllOrderBySub() {
         UserDao dao = creator.createDao( new UserDaoImplImplFactory());
-        return dao.read();
+        return dao.readAllOrderBySub();
     }
 
     @Override
-    public User findByIdentity(long id) throws PersistentException {
+    public List<User> readByLastnameAndName(String searchLastname, String searchName) {
+        UserDao dao = creator.createDao( new UserDaoImplImplFactory());
+        return dao.readByLastnameAndName(searchLastname, searchName);
+    }
+
+    @Override
+    public User findById(long id) {
         UserDao dao = creator.createDao( new UserDaoImplImplFactory());
         return dao.read(id);
     }
 
-    //TODO unit to method
     @Override
-    public User findByLoginAndPassword(String login, String password) throws
-            PersistentException {
+    public User findByLogin(String login) {
         UserDao dao = creator.createDao( new UserDaoImplImplFactory());
-        return dao.readByLogin(login, md5(password));
+        return dao.readByLogin(login);
     }
 
     @Override
-    public User findByEmailAndPassword(String email, String password) throws
-            PersistentException {
+    public User findByEmail(String email) {
         UserDao dao = creator.createDao( new UserDaoImplImplFactory());
-        return dao.readByLogin(email, md5(password));
+        return dao.readByEmail(email);
     }
 
     @Override
-    public void save(User user) throws PersistentException {
+    public User findByEmailAndPassword(String email, String password) {
         UserDao dao = creator.createDao( new UserDaoImplImplFactory());
-            if(user.getPassword() != null) {
+        return dao.readByEmailAndPassword(email, md5(password));
+    }
+
+    @Override
+    public boolean changePassword(int id, String password) {
+        if (password != null) {
+            UserDao dao = creator.createDao( new UserDaoImplImplFactory());
+            return dao.changePassword(id, password);
+        }
+        return false;
+    }
+
+    @Override
+    public boolean deleteByLogin(String login) {
+        UserDao dao = creator.createDao( new UserDaoImplImplFactory());
+        return dao.deleteByLogin(login);
+    }
+
+    @Override
+    public long save(User user) {
+        if (user != null) {
+            UserDao dao = creator.createDao(new UserDaoImplImplFactory());
+            if (user.getPassword() != null) {
                 user.setPassword(md5(user.getPassword()));
             } else {
                 User oldUser = dao.read(user.getId());
                 user.setPassword(oldUser.getPassword());
             }
-            dao.update(user);
+            dao.create(user);
+            return dao.createInfouser(user);
+        }
+        return 0;
     }
 
     @Override
-    public void delete(long id) throws PersistentException {
+    public boolean update(User user) {
+        if (user != null) {
+            UserDao dao = creator.createDao(new UserDaoImplImplFactory());
+            if (dao.update(user) && dao.updateInfouser(user)) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    @Override
+    public boolean delete(long id) {
         UserDao dao = creator.createDao( new UserDaoImplImplFactory());
-        dao.delete(id);
+        return dao.delete(id);
     }
 
     private String md5(String string) {
@@ -74,5 +112,4 @@ public class UserServiceImp extends ServiceImpl implements UserService{
             return null;
         }
     }
-
 }

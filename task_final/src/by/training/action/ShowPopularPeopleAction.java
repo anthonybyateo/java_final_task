@@ -21,7 +21,7 @@ public class ShowPopularPeopleAction extends Action {
         ServiceImplFactory factory = new UserServiceImplFactory();
         creator = new CreatorService();
         UserService service = creator.createService(factory);
-        List<User> users = service.findAll();
+        List<User> users = service.findAllOrderBySub();
         request.setAttribute("users", users);
         return null;
     }
