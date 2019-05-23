@@ -176,12 +176,12 @@
 <div class="footer">
     © Anthony, 2019
 
-    <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal fade" id="noteModal" tabindex="-1" role="dialog">
         <div class="modal-dialog" role="document">
             <div class="modal-content">
                 <div class="modal-header">
                     <h5 class="modal-title">Запись</h5>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <button type="button" class="close" data-dismiss="modal">
                         <span aria-hidden="true">&times;</span>
                     </button>
                 </div>
@@ -202,19 +202,20 @@
         </div>
     </div>
 
-    <div class="modal fade" id="signinModal" tabindex="-1" role="dialog" aria-labelledby="signinModal" aria-hidden="true">
+    <div class="modal fade" id="signinModal" tabindex="-1" role="dialog">
         <div class="modal-dialog" role="document">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title"">Вход ${message} </h5>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <h5 class="modal-title">Вход</h5>
+                    <button type="button" class="close" data-dismiss="modal">
                         <span aria-hidden="true">&times;</span>
                     </button>
                 </div>
+                <div class="error">${message}</div>
                 <div class="modal-body">
                     <form method="POST">
-                        <input class="form-control mr-sm-2 btn-rounded" type="text" placeholder="Логин или email">
-                        <input class="form-control mr-sm-2 btn-rounded" type="password" placeholder="Password"><br>
+                        <input class="form-control mr-sm-2 btn-rounded" type="text" name="login" minlength="3" maxlength="32" placeholder="Логин или email" required>
+                        <input class="form-control mr-sm-2 btn-rounded" type="password" name="password" minlength="6" maxlength="40" placeholder="Password" required><br>
                         <div class="justify-content-center">
                             <button class="btn btn-outline-dark btn-rounded my-2 my-sm-0" type="submit">Войти</button>
                         </div>
@@ -225,17 +226,18 @@
         </div>
     </div>
 
-    <div class="modal fade" id="signupModal" tabindex="-1" role="dialog" aria-labelledby="signupModal" aria-hidden="true">
+    <div class="modal fade" id="signupModal" tabindex="-1" role="dialog">
         <div class="modal-dialog" role="document">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title">Регистрация ${signuperror} ${message} ${users}</h5>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
+                    <h5 class="modal-title">Регистрация</h5>
+                    <button type="button" class="close" data-dismiss="modal">
+                        <span>&times;</span>
                     </button>
                 </div>
+                <div class="error">Ошибка неверные данные</div>
                 <div class="modal-body">
-                    <form method="POST">
+                    <form method="POST" name="passForm" onsubmit="return value (this)">
                         <input class="form-control mr-sm-2 btn-rounded" name="name" minlength="3" maxlength="40" type="text" placeholder="Имя" required>
                         <input class="form-control mr-sm-2 btn-rounded" name="lastname" minlength="3" maxlength="40" type="text" placeholder="Фамилия" required>
                         <input class="form-control mr-sm-2 btn-rounded" name="birthday" min="1900-01-01" max="2019-01-01" id="date" type="date" placeholder="Год рождения:" required>
@@ -245,7 +247,7 @@
                         <input class="form-control mr-sm-2 btn-rounded" name="confpassword" minlength="6" maxlength="40" type="password" placeholder="Сonfirm password" required><br>
                         <input type="hidden" name="command" value="signup">
                         <div class="justify-content-center">
-                            <button class="btn btn-outline-dark btn-rounded my-2 my-sm-0" type="submit">Зарегистрироваться</button>
+                            <button class="btn btn-outline-dark btn-rounded my-2 my-sm-0" type="submit" onclick="return value (passForm) ;">Зарегистрироваться</button>
                         </div>
                     </form>
                     <a href="" data-dismiss="modal" data-toggle="modal" data-target="#signinModal">Войти</a>
@@ -255,12 +257,70 @@
     </div>
 </div>
 <script>
-    if (document.location.href.indexOf('exampleModal') != -1) {
-        $("#exampleModal").modal('show'); }
-    if (document.location.href.indexOf('signinModal') != -1) {
+    if (document.location.href.indexOf('note') != -1) {
+        $("#noteModal").modal('show'); }
+    if (document.location.href.indexOf('signin') != -1) {
         $("#signinModal").modal('show'); }
-    if (document.location.href.indexOf('signupModal') != -1) {
+    if (document.location.href.indexOf('signup') != -1) {
         $("#signupModal").modal('show'); }
+
+    function value(passForm) {
+
+        /** This function is being used to find out the values input by the user in both the password and confirm password text boxes.
+         * The results are fed back to the user using alerts.
+         * **/
+
+        //check for lower case
+        if (!passForm.passInput.value.match(/[a-z]/)) {
+            alert("Password must contain at least one lower case letter.");
+            passForm.passInput.focus();
+            return false;
+        }
+
+        //Validating length
+        if ((passForm.passInput.value).length < 8) {
+            alert("Your password has less than 8 characters.");
+            passForm.passInput.focus();
+            return false;
+        }
+
+        //Validationg confirmation matches
+        if (passForm.confirmPassInput.value != passForm.passInput.value) {
+            alert("Your confirmation password does not match.");
+            passForm.passInput.focus();
+            return false;
+        }
+
+        //Validating confirmation input
+        if (passForm.confirmPassInput.value == "") {
+            alert("Please confirm your password.");
+            passForm.passInput.focus();
+            return false;
+        }
+
+        //check for upper ase
+        if (!passForm.passInput.value.match(/[A-Z]/)) {
+            alert("Password must contain at least one upper case letter.");
+            passForm.passInput.focus();
+            return false;
+        }
+
+        //check for number
+        if (!passForm.passInput.value.match(/\d+/g)) {
+            alert("Password must contain at least one number.");
+            passForm.passInput.focus();
+            return false;
+        }
+
+
+        //confirm passwords match and have been created
+        if ((passForm.password.value) != (passForm.confpassword.value)) {
+            alert("Your password has been created! hhhhhhhh");
+            return true;
+        }
+
+
+    };
 </script>
 </body>
 </html>
