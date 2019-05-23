@@ -1,18 +1,16 @@
 package by.training.action.actionenum;
 
-import by.training.action.Action;
-import by.training.action.LoginAction;
-import by.training.action.LogoutAction;
-import by.training.action.ShowPopularPeopleAction;
+import by.training.action.*;
 
 public enum ActionEnum {
     MAIN("/", new LoginAction()),
     INDEX("/index", new LoginAction()),
     LOGININ("/login", new LoginAction()),
     SHOW_SUBSCRIPRIONS( "/subscriptions", new LogoutAction()),
-    SHOW_SUBSCRIBERS( "/subscribers", new LogoutAction()),
+    SHOW_SUBSCRIBERS( "/subscribers", new SignupAction()),
     LOGOUT( "/logout", new LogoutAction()),
     //also unauth user
+    SIGNUP("signup", new SignupAction()),
     SHOW_POPULAR_PEOPLE( "/popular_people", new ShowPopularPeopleAction());
 
     private String actionName;

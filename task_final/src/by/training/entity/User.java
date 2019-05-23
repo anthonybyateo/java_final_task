@@ -13,7 +13,9 @@ public class User extends EntityWithID {
     private Date birthday;
     private InputStream avatar;
 
-    public User() {}
+    public User() {
+        birthday = new Date();
+    }
 
     public User(long id, String login, String email, String password,
                 String name, String lastname, Role role, Date birthday,
@@ -91,5 +93,19 @@ public class User extends EntityWithID {
 
     public void setAvatar(InputStream avatar) {
         this.avatar = avatar;
+    }
+
+    @Override
+    public String toString() {
+        return "User{" +
+                "login='" + login + '\'' +
+                ", email='" + email + '\'' +
+                ", password='" + password + '\'' +
+                ", name='" + name + '\'' +
+                ", lastname='" + lastname + '\'' +
+                ", role=" + role +
+                ", birthday=" + birthday +
+                ", avatar=" + avatar +
+                '}';
     }
 }

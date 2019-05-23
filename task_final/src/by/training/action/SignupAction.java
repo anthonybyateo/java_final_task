@@ -19,26 +19,32 @@ public class SignupAction extends Action {
         String password = request.getParameter("password");
         String login = request.getParameter("login");
         String email = request.getParameter("email");
-        ServiceImplFactory factory = new UserServiceImplFactory();
+        String name = request.getParameter("name");
+        String lastname = request.getParameter("lastname");
+        String date = request.getParameter("date");
         creator = new CreatorService();
-        UserService service = creator.createService(factory);
+        UserService service = creator.createService(new UserServiceImplFactory());
         if (service.findByLogin(login) == null) {
             if (service.findByEmail(email) == null) {
                 User user = new User();
                 user.setLogin(login);
                 user.setPassword(password);
                 user.setEmail(email);
+                user.setName(name);
+                user.setLastname(lastname);
                 user.setRole(Role.USER);
-                UserValidator validator = new UserValidator();
+                //UserValidator validator = new UserValidator();
                 if (/*validator.validate(user) &&*/ service.save(user) != 0) {
                     request.setAttribute("completeMessage",
-                            "User created successfully!");
+                            "User created successfully");
                     HttpSession session = request.getSession();
                     session.setAttribute("user", user);
                     return new Forward("/login.html");
                 } else {
                     request.setAttribute("signuperror",
                             "User save error");
+                    System.out.println("slllsl");
+                    return new Forward("/error3.html" + login);
                 }
             } else {
                 request.setAttribute("signuperror",
@@ -47,7 +53,8 @@ public class SignupAction extends Action {
         } else {
             request.setAttribute("signuperror",
                     "User with this login already exists");
+            return new Forward("/error2.html");
         }
-        return null;
+        return new Forward("/error1.html");
     }
 }

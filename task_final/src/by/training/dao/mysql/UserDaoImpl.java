@@ -114,7 +114,7 @@ public class UserDaoImpl extends BaseDaoImpl implements UserDao {
 
     @Override
     public List<User> readAllOrderBySub() {
-        String sql = "SELECT `users`.id, `users`.login, `users`.email, `users`.role, "
+        String sql = "SELECT `users`.id, `users`.login, `users`.email, "
                 + "`users`.password, `infousers`.birthday, `infousers`.name, "
                 + "`infousers`.lastname, `infousers`.avatar FROM `users` "
                 + "LEFT JOIN `infousers` ON `users`.id = `infousers`.user_id "
@@ -131,6 +131,7 @@ public class UserDaoImpl extends BaseDaoImpl implements UserDao {
                 user.setId(resultSet.getLong("id"));
                 user.setEmail(resultSet.getString("email"));
                 user.setLogin(resultSet.getString("login"));
+                user.setPassword(resultSet.getString("password"));
                 user.setBirthday(resultSet.getDate("birthday"));
                 user.setName(resultSet.getString("name"));
                 user.setLastname(resultSet.getString("lastname"));
@@ -218,28 +219,6 @@ public class UserDaoImpl extends BaseDaoImpl implements UserDao {
     }
 
     @Override
-    public long create(User user) {
-        String sql = "INSERT INTO `users` (`login`, `email`, `password`, `role`) VALUES (?, ?, ?, ?)";
-        ResultSet resultSet = null;
-        try(PreparedStatement statement = connection.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS)) {
-            statement.setString(1, user.getLogin());
-            statement.setString(2, user.getEmail());
-            statement.setString(3, user.getPassword());
-            statement.setLong(4, user.getRole().getId());
-            statement.executeUpdate();
-            resultSet = statement.getGeneratedKeys();
-            if(resultSet.next()) {
-                return resultSet.getLong(1);
-            } else {
-                LOGGER.error("There is no autoincremented index after trying to add record into table `users`");
-            }
-        } catch(SQLException e) {
-            LOGGER.error("PreparedStatement error", e);
-        }
-        return 0;
-    }
-
-    @Override
     public User read(long id) {
         String sql = "SELECT `users`.id, `users`.email, `users`.login, `users`.role, "
                 + "`users`.password, `infousers`.birthday, `infousers`.name, "
@@ -296,14 +275,13 @@ public class UserDaoImpl extends BaseDaoImpl implements UserDao {
 
     @Override
     public boolean updateInfouser(User user) {
-        String sql = "UPDATE `infousers` SET `birthday` = ?, `name` = ?, `lastname` = ?, `avatar` = ?"
+        String sql = "UPDATE `infousers` SET `birthday` = ?, `name` = ?, `lastname` = ?"
                 + " WHERE `user_id` = ?";
         try (PreparedStatement statement = connection.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS)) {
             statement.setDate(1, new Date(user.getBirthday().getTime()));
             statement.setString(2, user.getName());
             statement.setString(3, user.getLastname());
-            statement.setBlob(4, user.getAvatar());
-            statement.setLong(5, user.getId());
+            statement.setLong(4, user.getId());
             return statement.executeUpdate() != 0;
         } catch(SQLException e) {
             LOGGER.error("PreparedStatement close error", e);
@@ -312,28 +290,43 @@ public class UserDaoImpl extends BaseDaoImpl implements UserDao {
     }
 
     @Override
-    public long createInfouser(User user) {
-        String sql = "INSERT INTO `infousers` (`user_id`, `birthday`, `name`, `lastname`, `avatar`)"
-                + " VALUES (?, ?, ?, ?, ?)";
+    public long create(User user) {
+        String sql = "INSERT INTO `users` (`login`, `email`, `password`, `role`) VALUES (?, ?, ?, ?)";
         ResultSet resultSet = null;
-        try (PreparedStatement statement = connection.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS)) {
-            statement.setLong(1, user.getId());
-            statement.setDate(2, new Date(user.getBirthday().getTime()));
-            statement.setString(3, user.getName());
-            statement.setString(4, user.getLastname());
-            statement.setBlob(5, user.getAvatar());
+        try(PreparedStatement statement = connection.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS)) {
+            statement.setString(1, user.getLogin());
+            statement.setString(2, user.getEmail());
+            statement.setString(3, user.getPassword());
+            statement.setLong(4, user.getRole().getId());
             statement.executeUpdate();
             resultSet = statement.getGeneratedKeys();
-            if (resultSet.next()) {
+            if(resultSet.next()) {
                 return resultSet.getLong(1);
             } else {
                 LOGGER.error("There is no autoincremented index after trying to add record into table `users`");
             }
+        } catch(SQLException e) {
+            LOGGER.error("PreparedStatement error", e);
+        }
+        return 0;
+    }
+
+    @Override
+    public boolean createInfouser(User user) {
+        String sql = "INSERT INTO `infousers` (`user_id`, `birthday`, `name`, `lastname`)"
+                + " VALUES (?, ?, ?, ?)";
+        ResultSet resultSet = null;
+        try (PreparedStatement statement = connection.prepareStatement(sql)) {
+            statement.setLong(1, user.getId());
+            statement.setDate(2, new Date(user.getBirthday().getTime()));
+            statement.setString(3, user.getName());
+            statement.setString(4, user.getLastname());
+            return statement.executeUpdate() != 0;
         } catch (SQLException e) {
             LOGGER.error("PreparedStatement close error", e);
 
         }
-        return 0;
+        return false;
     }
 
     @Override

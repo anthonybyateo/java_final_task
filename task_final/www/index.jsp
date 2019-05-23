@@ -77,7 +77,7 @@
         <div class="row">
             <div class="col-lg-8 col-12">
                 <div class="card border-light mb-3">
-                    <div class="card-header bg-white">Популярные заметки
+                    <div class="card-header bg-white">Популярные заметки ${signuperror} ${message}
                     </div>
                     <div class="card-body text-dark">
                         <div class="note">
@@ -233,21 +233,21 @@
         <div class="modal-dialog" role="document">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title">Регистрация</h5>
+                    <h5 class="modal-title">Регистрация ${signuperror} ${message}</h5>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true">&times;</span>
                     </button>
                 </div>
                 <div class="modal-body">
                     <form method="POST">
-                        <input class="form-control mr-sm-2 btn-rounded" minlength="3" maxlength="40" type="text" placeholder="Имя" required>
-                        <input class="form-control mr-sm-2 btn-rounded" minlength="3" maxlength="40" type="text" placeholder="Фамилия" required>
-                        <input class="form-control mr-sm-2 btn-rounded" min="1900-01-01" max="2019-01-01" id="date" type="date" placeholder="Год рождения" required>
-                        <input class="form-control mr-sm-2 btn-rounded" minlength="3" maxlength="32" type="text" placeholder="Логин" required>
-                        <input class="form-control mr-sm-2 btn-rounded" type="email" placeholder="Почта" required>
-                        <input class="form-control mr-sm-2 btn-rounded" minlength="6" maxlength="40" type="password" placeholder="Password" required>
-                        <input class="form-control mr-sm-2 btn-rounded" minlength="6" maxlength="40" type="password" placeholder="Сonfirm password" required><br>
-                        <input type="text" hidden value="/signup.html">
+                        <input class="form-control mr-sm-2 btn-rounded" minlength="3" maxlength="40" type="text" name="name" placeholder="Имя" required>
+                        <input class="form-control mr-sm-2 btn-rounded" minlength="3" maxlength="40" type="text" name="lastname" placeholder="Фамилия" required>
+                        <input class="form-control mr-sm-2 btn-rounded" min="1900-01-01" max="2019-01-01" id="date" type="date" name="date"placeholder="Год рождения:" required>
+                        <input class="form-control mr-sm-2 btn-rounded" minlength="3" maxlength="32" type="text" name="login" placeholder="Логин" required>
+                        <input class="form-control mr-sm-2 btn-rounded" type="email" name="email" placeholder="Почта" required>
+                        <input class="form-control mr-sm-2 btn-rounded" minlength="6" maxlength="40" type="password" name="password" placeholder="Password" required>
+                        <input class="form-control mr-sm-2 btn-rounded" minlength="6" maxlength="40" type="password" name="confpassword" placeholder="Сonfirm password" required><br>
+                        <input type="text" hidden name="command" value="/signup.index">
                         <div class="justify-content-center">
                             <button class="btn btn-outline-dark btn-rounded my-2 my-sm-0" type="submit">Зарегистрироваться</button>
                         </div>

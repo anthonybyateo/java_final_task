@@ -67,14 +67,14 @@ public class UserServiceImp extends ServiceImpl implements UserService {
             UserDao dao = creator.createDao(new UserDaoImplImplFactory());
             if (user.getPassword() != null) {
                 user.setPassword(md5(user.getPassword()));
-            } else {
-                User oldUser = dao.read(user.getId());
-                user.setPassword(oldUser.getPassword());
             }
-            dao.create(user);
-            return dao.createInfouser(user);
+            long id = dao.create(user);
+            user.setId(id);
+            if (id != 0 && dao.createInfouser(user)) {
+                return id;
+            }
         }
-        return 0;
+       return 0;
     }
 
     @Override

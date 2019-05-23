@@ -39,13 +39,17 @@ public class ActionFromUriFilter implements Filter {
             } else {
                 actionName = uri.substring(beginAction);
             }
+            String temp = httpRequest.getParameter("command");
+            if(temp!=null && !temp.isEmpty()){
+                actionName = temp;
+            }
             Action action = findAction(actionName);
             if (action != null) {
                 action.setName(actionName);
                 httpRequest.setAttribute("action", action);
                 filterChain.doFilter(servletRequest, servletResponse);
             } else {
-                httpRequest.setAttribute("error", String.format("Запрошенный адрес %s не может быть обработан сервером", uri));
+                httpRequest.setAttribute("error", String.format("Запрошенный адрес %s не может быть обработан сервером %s , %s", uri, actionName, contextPath));
                 httpRequest.getServletContext().getRequestDispatcher("/WEB-INF/jsp/error.jsp").forward(servletRequest, servletResponse);
             }
         } else {

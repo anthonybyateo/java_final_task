@@ -18,7 +18,7 @@ public interface UserDao extends Dao<User> {
 
     boolean updateInfouser(User user);
 
-    long createInfouser(User user);
+    boolean createInfouser(User user);
 
     boolean changePassword(int id, String password);
 
