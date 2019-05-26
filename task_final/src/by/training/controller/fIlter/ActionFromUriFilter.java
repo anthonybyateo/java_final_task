@@ -39,9 +39,9 @@ public class ActionFromUriFilter implements Filter {
             } else {
                 actionName = uri.substring(beginAction);
             }
-            String temp = httpRequest.getParameter("command");
-            if(temp!=null && !temp.isEmpty()){
-                actionName = temp;
+            String command = httpRequest.getParameter("command");
+            if(command!=null && !command.isEmpty()){
+                actionName = command;
             }
             Action action = findAction(actionName);
             if (action != null) {

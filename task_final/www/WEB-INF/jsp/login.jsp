@@ -21,13 +21,16 @@
             <a class="navbar-brand" href="#">
                 <img src="img/logo.png" width="30" height="30" class="d-inline-block align-top" alt="">
             </a>
-            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarToggleExternalContent" aria-controls="navbarToggleExternalContent" aria-expanded="false" aria-label="Toggle navigation">
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarToggleExternalContent">
                 <span class="navbar-toggler-icon"></span>
             </button>
 
             <div class="collapse navbar-collapse" id="navbarSupportedContent">
                 <ul class="navbar-nav mr-auto">
-                    <button type="button" class="btn btn-dark btn-rounded" data-toggle="modal" data-target="#exampleModal">Записать</button>
+                    <button type="button" class="btn btn-dark btn-rounded" data-toggle="modal" data-target="#noteModal">Записать</button>
+                    <li class="nav-item link">
+                        <a href="popular_people.html">Популярные</a>
+                    </li>
                     <li class="nav-item link">
                         <a href="#subscription">Подписки</a>
                     </li>
@@ -35,7 +38,7 @@
                         <a href="friends.html">Подписчики</a>
                     </li>
                     <li class="nav-item dropdown link">
-                        <a class="dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        <a class="dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown">
                             Заметки
                         </a>
                         <div class="dropdown-menu" aria-labelledby="navbarDropdown">
@@ -74,7 +77,7 @@
         <div class="row">
             <div class="col-lg-8 col-12">
                 <div class="card border-light mb-3">
-                    <div class="card-header bg-white">Популярные заметки ${signuperror} ${users}
+                    <div class="card-header bg-white">Популярные заметки ${error} ${users}
                     </div>
                     <div class="card-body text-dark">
                         <div class="note">
@@ -211,7 +214,7 @@
                         <span aria-hidden="true">&times;</span>
                     </button>
                 </div>
-                <div class="error">${message}</div>
+                <div class="error">${error}</div>
                 <div class="modal-body">
                     <form method="POST">
                         <input class="form-control mr-sm-2 btn-rounded" type="text" name="login" minlength="3" maxlength="32" placeholder="Логин или email" required>
@@ -235,9 +238,9 @@
                         <span>&times;</span>
                     </button>
                 </div>
-                <div class="error">Ошибка неверные данные</div>
+                <div class="error">${error}</div>
                 <div class="modal-body">
-                    <form method="POST" name="passForm" onsubmit="return value (this)">
+                    <form method="POST" name="passForm">
                         <input class="form-control mr-sm-2 btn-rounded" name="name" minlength="3" maxlength="40" type="text" placeholder="Имя" required>
                         <input class="form-control mr-sm-2 btn-rounded" name="lastname" minlength="3" maxlength="40" type="text" placeholder="Фамилия" required>
                         <input class="form-control mr-sm-2 btn-rounded" name="birthday" min="1900-01-01" max="2019-01-01" id="date" type="date" placeholder="Год рождения:" required>
@@ -247,7 +250,7 @@
                         <input class="form-control mr-sm-2 btn-rounded" name="confpassword" minlength="6" maxlength="40" type="password" placeholder="Сonfirm password" required><br>
                         <input type="hidden" name="command" value="signup">
                         <div class="justify-content-center">
-                            <button class="btn btn-outline-dark btn-rounded my-2 my-sm-0" type="submit" onclick="return value (passForm) ;">Зарегистрироваться</button>
+                            <button class="btn btn-outline-dark btn-rounded my-2 my-sm-0" type="submit">Зарегистрироваться</button>
                         </div>
                     </form>
                     <a href="" data-dismiss="modal" data-toggle="modal" data-target="#signinModal">Войти</a>
@@ -264,11 +267,11 @@
     if (document.location.href.indexOf('signup') != -1) {
         $("#signupModal").modal('show'); }
 
-    function value(passForm) {
+/*    function value(passForm) {
 
-        /** This function is being used to find out the values input by the user in both the password and confirm password text boxes.
+        /!** This function is being used to find out the values input by the user in both the password and confirm password text boxes.
          * The results are fed back to the user using alerts.
-         * **/
+         * **!/
 
         //check for lower case
         if (!passForm.passInput.value.match(/[a-z]/)) {
@@ -320,7 +323,7 @@
         }
 
 
-    };
+    };*/
 </script>
 </body>
 </html>

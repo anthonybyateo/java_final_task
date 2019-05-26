@@ -25,6 +25,8 @@
 	<servlet-mapping>
 		<servlet-name>Controller</servlet-name>
 		<url-pattern>*.html</url-pattern>
+		<url-pattern>*.html?signup</url-pattern>
+		<url-pattern>*.html?signin</url-pattern>
 	</servlet-mapping>
 
 	<filter>

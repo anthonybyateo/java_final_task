@@ -11,6 +11,7 @@ import java.util.Map;
 import by.training.action.Action;
 import by.training.action.ActionManager;
 import by.training.action.ActionManagerFactory;
+import by.training.action.Trimming;
 import by.training.dao.pool.ConnectionPool;
 import by.training.exception.PersistentException;
 import by.training.service.servicefactory.CreatorService;
@@ -105,6 +106,13 @@ public class DispatcherServlet extends HttpServlet {
             } else {
                 String jspPage;
                 if(forward != null) {
+                   /* if(forward.getForward().contains("?")) {
+                        String sign = Trimming.TrimmSign(forward.getForward(), '?');
+                        if ("?signin".equals(sign) || "?signup".equals(sign)) {
+                            String uri = forward.getForward();
+                            getServletContext().getRequestDispatcher("/WEB-INF/jsp" + uri).forward(request, response);
+                        }
+                    }*/
                     jspPage = forward.getForward();
                 } else {
                     jspPage = action.getName() + ".jsp";

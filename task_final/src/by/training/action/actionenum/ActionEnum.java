@@ -3,15 +3,16 @@ package by.training.action.actionenum;
 import by.training.action.*;
 
 public enum ActionEnum {
-    MAIN("/", new LoginAction()),
-    INDEX("/index", new LoginAction()),
-    LOGININ("/login", new LoginAction()),
+    MAIN("/", new ShowPopularPeopleAction()),
+    INDEX("/index", new ShowPopularPeopleAction()),
     SHOW_SUBSCRIPRIONS( "/subscriptions", new LogoutAction()),
     SHOW_SUBSCRIBERS( "/subscribers", new SignupAction()),
     LOGOUT( "/logout", new LogoutAction()),
     //also unauth user
+    SHOW_POPULAR_PEOPLE( "/popular_people", new ShowPopularPeopleAction()),
     SIGNUP("signup", new SignupAction()),
-    SHOW_POPULAR_PEOPLE( "/popular_people", new ShowPopularPeopleAction());
+    LOGININ("/login", new LoginAction());
+
 
     private String actionName;
     private Action action;
@@ -41,7 +42,7 @@ public enum ActionEnum {
 
     public static boolean IsActionUnauthUser(String actionName) {
         ActionEnum[] enums = ActionEnum.values();
-        for (int i = 6; i < enums.length; i++) {
+        for (int i = 0; i < enums.length; i++) {
             if (enums[i].getActionName().equals(actionName)) {
                 return true;
             }

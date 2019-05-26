@@ -119,7 +119,7 @@ public class UserDaoImpl extends BaseDaoImpl implements UserDao {
                 + "`infousers`.lastname, `infousers`.avatar FROM `users` "
                 + "LEFT JOIN `infousers` ON `users`.id = `infousers`.user_id "
                 + "WHERE `users`.id = ANY (SELECT `user_id` FROM `subscription` "
-                + "GROUP BY `subscriber_id` ORDER BY COUNT(`subscriber_id`) DESC)";
+                + "GROUP BY `subscriber_id`, `user_id` ORDER BY COUNT(`subscriber_id`) DESC)";
         List<User> users = new ArrayList<>();
         PreparedStatement statement = null;
         ResultSet resultSet = null;

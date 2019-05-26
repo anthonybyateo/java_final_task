@@ -4,7 +4,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <title>Result</title>
+    <title>Login</title>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
@@ -21,13 +21,16 @@
             <a class="navbar-brand" href="#">
                 <img src="img/logo.png" width="30" height="30" class="d-inline-block align-top" alt="">
             </a>
-            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarToggleExternalContent" aria-controls="navbarToggleExternalContent" aria-expanded="false" aria-label="Toggle navigation">
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarToggleExternalContent">
                 <span class="navbar-toggler-icon"></span>
             </button>
 
             <div class="collapse navbar-collapse" id="navbarSupportedContent">
                 <ul class="navbar-nav mr-auto">
-                    <button type="button" class="btn btn-dark btn-rounded" data-toggle="modal" data-target="#exampleModal">Записать</button>
+                    <button type="button" class="btn btn-dark btn-rounded" data-toggle="modal" data-target="#noteModal">Записать</button>
+                    <li class="nav-item link">
+                        <a href="popular_people.html">Популярные</a>
+                    </li>
                     <li class="nav-item link">
                         <a href="#subscription">Подписки</a>
                     </li>
@@ -35,7 +38,7 @@
                         <a href="friends.html">Подписчики</a>
                     </li>
                     <li class="nav-item dropdown link">
-                        <a class="dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        <a class="dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown">
                             Заметки
                         </a>
                         <div class="dropdown-menu" aria-labelledby="navbarDropdown">
@@ -74,7 +77,7 @@
         <div class="row">
             <div class="col-lg-8 col-12">
                 <div class="card border-light mb-3">
-                    <div class="card-header bg-white">Популярные заметки ${users}
+                    <div class="card-header bg-white">Популярные заметки  ${users} ${error}
                     </div>
                     <div class="card-body text-dark">
                         <div class="note">
@@ -176,12 +179,12 @@
 <div class="footer">
     © Anthony, 2019
 
-    <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal fade" id="noteModal" tabindex="-1" role="dialog">
         <div class="modal-dialog" role="document">
             <div class="modal-content">
                 <div class="modal-header">
                     <h5 class="modal-title">Запись</h5>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <button type="button" class="close" data-dismiss="modal">
                         <span aria-hidden="true">&times;</span>
                     </button>
                 </div>
@@ -202,19 +205,20 @@
         </div>
     </div>
 
-    <div class="modal fade" id="signinModal" tabindex="-1" role="dialog" aria-labelledby="signinModal" aria-hidden="true">
+    <div class="modal fade" id="signinModal" tabindex="-1" role="dialog">
         <div class="modal-dialog" role="document">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title"">Вход</h5>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <h5 class="modal-title">Вход</h5>
+                    <button type="button" class="close" data-dismiss="modal">
                         <span aria-hidden="true">&times;</span>
                     </button>
                 </div>
+                <div class="error">${error}</div>
                 <div class="modal-body">
                     <form method="POST">
-                        <input class="form-control mr-sm-2 btn-rounded" type="text" placeholder="Логин или email">
-                        <input class="form-control mr-sm-2 btn-rounded" type="password" placeholder="Password"><br>
+                        <input class="form-control mr-sm-2 btn-rounded" type="text" name="login" minlength="3" maxlength="32" placeholder="Логин или email" required>
+                        <input class="form-control mr-sm-2 btn-rounded" type="password" name="password" minlength="6" maxlength="40" placeholder="Password" required><br>
                         <div class="justify-content-center">
                             <button class="btn btn-outline-dark btn-rounded my-2 my-sm-0" type="submit">Войти</button>
                         </div>
@@ -225,24 +229,26 @@
         </div>
     </div>
 
-    <div class="modal fade" id="signupModal" tabindex="-1" role="dialog" aria-labelledby="signupModal" aria-hidden="true">
+    <div class="modal fade" id="signupModal" tabindex="-1" role="dialog">
         <div class="modal-dialog" role="document">
             <div class="modal-content">
                 <div class="modal-header">
                     <h5 class="modal-title">Регистрация</h5>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
+                    <button type="button" class="close" data-dismiss="modal">
+                        <span>&times;</span>
                     </button>
                 </div>
+                <div class="error">${error}</div>
                 <div class="modal-body">
-                    <form method="POST">
-                        <input class="form-control mr-sm-2 btn-rounded" type="text" placeholder="Имя">
-                        <input class="form-control mr-sm-2 btn-rounded" type="text" placeholder="Фамилия">
-                        <input class="form-control mr-sm-2 btn-rounded" id="date" type="date" placeholder="Год рождения">
-                        <input class="form-control mr-sm-2 btn-rounded" type="text" placeholder="Логин">
-                        <input class="form-control mr-sm-2 btn-rounded" type="text" placeholder="Почта">
-                        <input class="form-control mr-sm-2 btn-rounded" type="password" placeholder="Password">
-                        <input class="form-control mr-sm-2 btn-rounded" type="password" placeholder="Сonfirm password"><br>
+                    <form method="POST" name="passForm">
+                        <input class="form-control mr-sm-2 btn-rounded" name="name" minlength="3" maxlength="40" type="text" placeholder="Имя" required>
+                        <input class="form-control mr-sm-2 btn-rounded" name="lastname" minlength="3" maxlength="40" type="text" placeholder="Фамилия" required>
+                        <input class="form-control mr-sm-2 btn-rounded" name="birthday" min="1900-01-01" max="2019-01-01" id="date" type="date" placeholder="Год рождения:" required>
+                        <input class="form-control mr-sm-2 btn-rounded" name="login" minlength="3" maxlength="32" type="text" placeholder="Логин" required>
+                        <input class="form-control mr-sm-2 btn-rounded" name="email" type="email" placeholder="Почта" required>
+                        <input class="form-control mr-sm-2 btn-rounded" name="password" minlength="6" maxlength="40" type="password" placeholder="Password" required>
+                        <input class="form-control mr-sm-2 btn-rounded" name="confpassword" minlength="6" maxlength="40" type="password" placeholder="Сonfirm password" required><br>
+                        <input type="hidden" name="command" value="signup">
                         <div class="justify-content-center">
                             <button class="btn btn-outline-dark btn-rounded my-2 my-sm-0" type="submit">Зарегистрироваться</button>
                         </div>
@@ -254,12 +260,70 @@
     </div>
 </div>
 <script>
-    if (document.location.href.indexOf('exampleModal') != -1) {
-        $("#exampleModal").modal('show'); }
-    if (document.location.href.indexOf('signinModal') != -1) {
+    if (document.location.href.indexOf('note') != -1) {
+        $("#noteModal").modal('show'); }
+    if (document.location.href.indexOf('signin') != -1) {
         $("#signinModal").modal('show'); }
-    if (document.location.href.indexOf('signupModal') != -1) {
+    if (document.location.href.indexOf('signup') != -1) {
         $("#signupModal").modal('show'); }
+
+    /*    function value(passForm) {
+
+            /!** This function is being used to find out the values input by the user in both the password and confirm password text boxes.
+             * The results are fed back to the user using alerts.
+             * **!/
+
+            //check for lower case
+            if (!passForm.passInput.value.match(/[a-z]/)) {
+                alert("Password must contain at least one lower case letter.");
+                passForm.passInput.focus();
+                return false;
+            }
+
+            //Validating length
+            if ((passForm.passInput.value).length < 8) {
+                alert("Your password has less than 8 characters.");
+                passForm.passInput.focus();
+                return false;
+            }
+
+            //Validationg confirmation matches
+            if (passForm.confirmPassInput.value != passForm.passInput.value) {
+                alert("Your confirmation password does not match.");
+                passForm.passInput.focus();
+                return false;
+            }
+
+            //Validating confirmation input
+            if (passForm.confirmPassInput.value == "") {
+                alert("Please confirm your password.");
+                passForm.passInput.focus();
+                return false;
+            }
+
+            //check for upper ase
+            if (!passForm.passInput.value.match(/[A-Z]/)) {
+                alert("Password must contain at least one upper case letter.");
+                passForm.passInput.focus();
+                return false;
+            }
+
+            //check for number
+            if (!passForm.passInput.value.match(/\d+/g)) {
+                alert("Password must contain at least one number.");
+                passForm.passInput.focus();
+                return false;
+            }
+
+
+            //confirm passwords match and have been created
+            if ((passForm.password.value) != (passForm.confpassword.value)) {
+                alert("Your password has been created! hhhhhhhh");
+                return true;
+            }
+
+
+        };*/
 </script>
 </body>
 </html>

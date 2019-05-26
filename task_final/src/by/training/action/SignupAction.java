@@ -36,25 +36,22 @@ public class SignupAction extends Action {
                 //UserValidator validator = new UserValidator();
                 if (/*validator.validate(user) &&*/ service.save(user) != 0) {
                     request.setAttribute("completeMessage",
-                            "User created successfully");
+                            "success");
                     HttpSession session = request.getSession();
                     session.setAttribute("user", user);
-                    return new Forward("/login.html");
+
+                    return new Forward(Trimming.TrimmUri(request, '?'));
                 } else {
-                    request.setAttribute("signuperror",
-                            "User save error");
-                    System.out.println("slllsl");
-                    return new Forward("/error3.html" + login);
+                    request.setAttribute("error",
+                            "Impossible to save, try later");
                 }
             } else {
-                request.setAttribute("signuperror",
-                        "User with this email already exists");
+                request.setAttribute("error", "Email is used");
             }
         } else {
-            request.setAttribute("signuperror",
-                    "User with this login already exists");
-            return new Forward("/error2.html");
+            request.setAttribute("error", "Login is used");
         }
-        return new Forward("/error1.html");
+        return new Forward(Trimming.TrimmUri(request, '.')
+                + ".jsp?signup", false);
     }
 }
