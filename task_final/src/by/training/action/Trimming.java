@@ -16,10 +16,4 @@ public class Trimming {
         }
         return actionName;
     }
-
-    public static String TrimmSign(String forward, char firstCh){
-        int beginAction = forward.lastIndexOf(firstCh);
-        return forward.substring(beginAction);
-    }
-
 }

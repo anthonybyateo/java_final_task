@@ -37,17 +37,17 @@ public class LoginAction extends Action {
             User user = service.findByEmailAndPassword(email, password);
             if (user != null) {
                 HttpSession session = request.getSession();
-                session.setAttribute("user", user);
+                session.setAttribute("authorizedUser", user);
                 LOGGER.info(String.format("user %s is logged in from"
                                 + " %s (%s:%s)", email, request.getRemoteAddr(),
                         request.getRemoteHost(), request.getRemotePort()));
                 return new Forward(Trimming.TrimmUri(request, '?'));
 
             } else {
-                request.setAttribute("error", "Email or password is wrong");
+                request.setAttribute("errorIn", "Email or password is wrong");
             }
         }
         return new Forward(Trimming.TrimmUri(request, '.')
-                + ".jsp ?signin");
+                + ".jsp", false);
     }
 }

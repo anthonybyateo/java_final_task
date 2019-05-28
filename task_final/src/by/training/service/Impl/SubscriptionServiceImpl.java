@@ -5,8 +5,22 @@ import by.training.dao.SubscriptionDao;
 import by.training.entity.Subscription;
 import by.training.service.SubscriptionService;
 
+import java.util.List;
+
 public class SubscriptionServiceImpl extends ServiceImpl implements
         SubscriptionService {
+    @Override
+    public List<Integer> countSubscriptionsOrderByPopular() {
+        SubscriptionDao dao = creator.createDao(new SubscriptonDaoImplFactory());
+        return dao.countSubscriptionsOrderByPopular();
+    }
+
+    @Override
+    public List<Integer> countSubscribersOrderByPopular() {
+        SubscriptionDao dao = creator.createDao(new SubscriptonDaoImplFactory());
+        return dao.countSubscribersOrderByPopular();
+    }
+
     @Override
     public int countSubscriptions(long id) {
         SubscriptionDao dao = creator.createDao(new SubscriptonDaoImplFactory());

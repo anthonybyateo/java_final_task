@@ -8,7 +8,7 @@ public class UserValidator implements Validator<User> {
     private static final int MIN_PASS = 6;
     private static final int MAX_LOGIN = 254;
     private static final String EMAIL
-            = "[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,6}";
+            = "([A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,6})";
     private static final int MAX_EMAIL = 32;
     private static final int MAX_NAME_AND_LASTNAME = 40;
 

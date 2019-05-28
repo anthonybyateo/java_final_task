@@ -31,10 +31,15 @@ public class SecurityFilter implements Filter {
     }
 
     @Override
-    public void doFilter(ServletRequest servletRequest, ServletResponse servletResponse, FilterChain filterChain) throws IOException, ServletException {
-        if(servletRequest instanceof HttpServletRequest && servletResponse instanceof HttpServletResponse) {
+    public void doFilter(ServletRequest servletRequest,
+                         ServletResponse servletResponse,
+                         FilterChain filterChain)
+            throws IOException, ServletException {
+        if(servletRequest instanceof HttpServletRequest && servletResponse
+                instanceof HttpServletResponse) {
             HttpServletRequest httpRequest = (HttpServletRequest)servletRequest;
-            HttpServletResponse httpResponse = (HttpServletResponse)servletResponse;
+            HttpServletResponse httpResponse =
+                    (HttpServletResponse)servletResponse;
             Action action = (Action)httpRequest.getAttribute("action");
             Set<Role> allowRoles = action.getAllowRoles();
             String userName = "unauthorized user";
@@ -43,7 +48,8 @@ public class SecurityFilter implements Filter {
             if(session != null) {
                 user = (User)session.getAttribute("authorizedUser");
                 action.setAuthorizedUser(user);
-                String errorMessage = (String)session.getAttribute("SecurityFilterMessage");
+                String errorMessage = (String)session
+                        .getAttribute("SecurityFilterMessage");
                 if(errorMessage != null) {
                     httpRequest.setAttribute("message", errorMessage);
                     session.removeAttribute("SecurityFilterMessage");
@@ -57,15 +63,19 @@ public class SecurityFilter implements Filter {
             if(canExecute || IsActionUnauthUser(action.getName())) {
                 filterChain.doFilter(servletRequest, servletResponse);
             } else {
-                LOGGER.info(String.format("Trying of %s access to forbidden resource \"%s\"", userName, action.getName()));
+                LOGGER.info(String.format("Trying of %s access to forbidden "
+                        + "resource \"%s\"", userName, action.getName()));
                 if(session != null) {
-                    session.setAttribute("SecurityFilterMessage", "Доступ запрещён");
+                    session.setAttribute("SecurityFilterMessage",
+                            "Доступ запрещён");
                 }
-                httpResponse.sendRedirect(httpRequest.getContextPath() + "?signinModal");
+                httpResponse.sendRedirect(httpRequest.getContextPath());
             }
         } else {
             LOGGER.error("It is impossible to use HTTP filter");
-            servletRequest.getServletContext().getRequestDispatcher("/WEB-INF/jsp/error.jsp").forward(servletRequest, servletResponse);
+            servletRequest.getServletContext()
+                    .getRequestDispatcher("/WEB-INF/jsp/error.jsp")
+                    .forward(servletRequest, servletResponse);
         }
     }
 

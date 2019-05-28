@@ -3,6 +3,10 @@
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jstl/fmt" %>
 
+<c:url var="profile" value="profile.html"/>
+<c:url var="edit" value="edit.html"/>
+<c:url var="logout" value="logout.html"/>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -54,16 +58,22 @@
                     <input class="form-control mr-sm-2 btn-rounded" type="search" placeholder="Искать пользователя" aria-label="Search">
                     <button class="btn btn-outline-dark btn-rounded my-2 my-sm-0" type="submit">Поиск</button>
                 </form>
-                <div class="dropdown">
-                    <a class="account" href="#" id="navbarDropdownAccount" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                        <img src="img/profile.jpg" width="40" height="40" class="rounded-circle">
-                    </a>
-                    <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdownAccount">
-                        <a class="dropdown-item" href="profile.html">Моя страница</a>
-                        <a class="dropdown-item" href="#">Редактировать</a>
-                        <a class="dropdown-item" href="#">Выйти</a>
+                <c:if test="${empty authorizedUser}">
+                    <button type="button" class="btn btn-dark btn-rounded ml-lg-2" data-toggle="modal" data-target="#signinModal">Вход</button>
+                    <button type="button" class="btn btn-dark btn-rounded ml-lg-2" data-toggle="modal" data-target="#signupModal">Регистрация</button>
+                </c:if>
+                <c:if test="${not empty authorizedUser}">
+                    <div class="dropdown">
+                        <a class="account" href="#" id="navbarDropdownAccount" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            <img src="img/profile.jpg" width="40" height="40" class="rounded-circle">
+                        </a>
+                            <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdownAccount">
+                                <a class="dropdown-item" href="${profile}">Моя страница</a>
+                                <a class="dropdown-item" href="${edit}">Редактировать</a>
+                                <a class="dropdown-item" href="${logout}">Выйти</a>
+                            </div>
                     </div>
-                </div>
+                </c:if>
             </div>
         </nav>
         <div class="collapse" id="navbarToggleExternalContent">
@@ -79,7 +89,7 @@
         <div class="row">
             <div class="col-lg-8 col-12">
                 <div class="card border-light mb-3">
-                    <div class="card-header bg-white">Популярные заметки  ${users}
+                    <div class="card-header bg-white">Популярные заметки <span class="error">${errorIn} ${errorUp}</span>
                     </div>
                     <div class="card-body text-dark">
                         <c:forEach var="user" items="${users}" varStatus="status">
@@ -87,9 +97,7 @@
                                 <a href="#profile"><img src="img/profile.jpg" width="60" height="60" class="rounded-circle img-note"></a>
                                 <p class="card-text"> <a href="#1"><c:out value="${user.name}"/> <c:out value="${user.lastname}"/></a> <button class="btn btn-outline-dark btn-rounded my-2 my-sm-0 btn-note" type="submit">Отписаться</button></p>
                                 <p class="info-user"><a href="">Заметки: 10</a><br>
-                                    <a href="">Подписки: ${subscription}</a><br>
-                                    <a href="">Подписчики: 10</a><br>
-                                    Лайков: 10<br></p><hr>
+                                    <a href="">Подписчики: ${subscribers[status.index]}</a></p><hr>
                             </div>
                         </c:forEach>
 
@@ -176,7 +184,7 @@
         </div>
     </div>
 
-    <div class="modal fade" id="signinModal" tabindex="-1" role="dialog">
+    <div class="modal fade ${classShowIn}" id="signinModal" tabindex="-1" role="dialog" style="${styleBlockIn}">
         <div class="modal-dialog" role="document">
             <div class="modal-content">
                 <div class="modal-header">
@@ -185,11 +193,12 @@
                         <span aria-hidden="true">&times;</span>
                     </button>
                 </div>
-                <div class="error">${error}</div>
+                <div class="error">${errorIn}</div>
                 <div class="modal-body">
                     <form method="POST">
-                        <input class="form-control mr-sm-2 btn-rounded" type="text" name="login" minlength="3" maxlength="32" placeholder="Логин или email" required>
+                        <input class="form-control mr-sm-2 btn-rounded" type="email" name="email" minlength="3" maxlength="32" placeholder="Email" required>
                         <input class="form-control mr-sm-2 btn-rounded" type="password" name="password" minlength="6" maxlength="40" placeholder="Password" required><br>
+                        <input type="hidden" name="command" value="login">
                         <div class="justify-content-center">
                             <button class="btn btn-outline-dark btn-rounded my-2 my-sm-0" type="submit">Войти</button>
                         </div>
@@ -200,7 +209,7 @@
         </div>
     </div>
 
-    <div class="modal fade" id="signupModal" tabindex="-1" role="dialog">
+    <div class="modal fade ${classShowUp}" id="signupModal" tabindex="-1" role="dialog" style="${styleBlockUp}">
         <div class="modal-dialog" role="document">
             <div class="modal-content">
                 <div class="modal-header">
@@ -209,7 +218,7 @@
                         <span>&times;</span>
                     </button>
                 </div>
-                <div class="error">${error}</div>
+                <div class="error">${errorUp}</div>
                 <div class="modal-body">
                     <form method="POST" name="passForm">
                         <input class="form-control mr-sm-2 btn-rounded" name="name" minlength="3" maxlength="40" type="text" placeholder="Имя" required>
@@ -218,7 +227,7 @@
                         <input class="form-control mr-sm-2 btn-rounded" name="login" minlength="3" maxlength="32" type="text" placeholder="Логин" required>
                         <input class="form-control mr-sm-2 btn-rounded" name="email" type="email" placeholder="Почта" required>
                         <input class="form-control mr-sm-2 btn-rounded" name="password" minlength="6" maxlength="40" type="password" placeholder="Password" required>
-                        <input class="form-control mr-sm-2 btn-rounded" name="confpassword" minlength="6" maxlength="40" type="password" placeholder="Сonfirm password" required><br>
+                        <input class="form-control mr-sm-2 btn-rounded" name="confPassword" minlength="6" maxlength="40" type="password" placeholder="Сonfirm password" required><br>
                         <input type="hidden" name="command" value="signup">
                         <div class="justify-content-center">
                             <button class="btn btn-outline-dark btn-rounded my-2 my-sm-0" type="submit">Зарегистрироваться</button>
@@ -230,6 +239,7 @@
         </div>
     </div>
 </div>
+<div class="${classBackdrop}"></div>
 <script>
     if (document.location.href.indexOf('note') != -1) {
         $("#noteModal").modal('show'); }

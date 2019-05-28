@@ -16,19 +16,24 @@ import javax.servlet.http.HttpServletResponse;
 import java.util.List;
 
 public class ShowPopularPeopleAction extends Action {
-    private static Logger LOGGER = LogManager.getLogger(LogoutAction.class);
+    private static Logger LOGGER = LogManager
+            .getLogger(ShowPopularPeopleAction.class);
 
     @Override
-    public Forward exec(HttpServletRequest request, HttpServletResponse response) throws PersistentException {
+    public Forward exec(HttpServletRequest request,
+                        HttpServletResponse response)
+            throws PersistentException {
         ServiceImplFactory factory = new UserServiceImplFactory();
         creator = new CreatorService();
         UserService userService = creator.createService(factory);
         List<User> users = userService.findAllOrderBySub();
+        request.setAttribute("users", users);
+
         factory = new SubscriptionServiceImplFactory();
         SubscriptionService subscriptionService = creator.createService(factory);
-        int subscription = subscriptionService.countSubscriptions(2);
-        request.setAttribute("users", users);
-        request.setAttribute("subscription", subscription);
+        List<Integer> subscribers = subscriptionService
+                .countSubscribersOrderByPopular();
+        request.setAttribute("subscribers", subscribers);
         return null;
     }
 }

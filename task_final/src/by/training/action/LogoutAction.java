@@ -13,10 +13,14 @@ public class LogoutAction extends AuthorizedUserAction {
     private static Logger logger = LogManager.getLogger(LogoutAction.class);
 
     @Override
-    public Forward exec(HttpServletRequest request, HttpServletResponse response) throws PersistentException {
+    public Forward exec(HttpServletRequest request, HttpServletResponse response)
+            throws PersistentException {
         User user = getAuthorizedUser();
-        logger.info(String.format("user \"%s\" is logged out", user.getLogin()));
-        request.getSession(false).invalidate();
-        return new Forward("/logout");
+        if (user != null) {
+            logger.info(String.format("user \"%s\" is logged out",
+                    user.getLogin()));
+            request.getSession(false).invalidate();
+        }
+        return new Forward("/popular_people.html");
     }
 }

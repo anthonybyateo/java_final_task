@@ -26,12 +26,14 @@ public class ActionFromUriFilter implements Filter {
     }
 
     @Override
-    public void doFilter(ServletRequest servletRequest, ServletResponse servletResponse, FilterChain filterChain) throws IOException, ServletException {
+    public void doFilter(ServletRequest servletRequest,
+                         ServletResponse servletResponse,
+                         FilterChain filterChain)
+            throws IOException, ServletException {
         if(servletRequest instanceof HttpServletRequest) {
             HttpServletRequest httpRequest = (HttpServletRequest)servletRequest;
-            String contextPath = httpRequest.getContextPath();
-            String uri = httpRequest.getRequestURI();
-            LOGGER.debug(String.format("Starting of processing of request for URI \"%s\"", uri));
+            LOGGER.debug(String.format("Starting of processing of request for "
+                    + "URI \"%s\"", httpRequest.getRequestURI()));
             String actionName = Trimming.TrimmUri(httpRequest, '.');
             String command = httpRequest.getParameter("command");
             if(command!=null && !command.isEmpty()){
@@ -43,12 +45,18 @@ public class ActionFromUriFilter implements Filter {
                 httpRequest.setAttribute("action", action);
                 filterChain.doFilter(servletRequest, servletResponse);
             } else {
-                httpRequest.setAttribute("error", String.format("Запрошенный адрес %s не может быть обработан сервером %s , %s", uri, actionName, contextPath));
-                httpRequest.getServletContext().getRequestDispatcher("/WEB-INF/jsp/error.jsp").forward(servletRequest, servletResponse);
+                httpRequest.setAttribute("error", String.format("Запрошенный"
+                        + " адрес %s не может быть обработан сервером",
+                        httpRequest.getRequestURI()));
+                httpRequest.getServletContext()
+                        .getRequestDispatcher("/WEB-INF/jsp/error.jsp")
+                        .forward(servletRequest, servletResponse);
             }
         } else {
             LOGGER.error("It is impossible to use HTTP filter");
-            servletRequest.getServletContext().getRequestDispatcher("/WEB-INF/jsp/error.jsp").forward(servletRequest, servletResponse);
+            servletRequest.getServletContext()
+                    .getRequestDispatcher("/WEB-INF/jsp/error.jsp")
+                    .forward(servletRequest, servletResponse);
         }
     }
 

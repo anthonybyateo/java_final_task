@@ -8,14 +8,52 @@ import org.apache.logging.log4j.Logger;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
 
 public class SubscriptionDaoImpl extends BaseDaoImpl implements SubscriptionDao {
     private static final Logger LOGGER = LogManager.getLogger(SubscriptionDaoImpl.class);
 
     @Override
+    public List<Integer> countSubscriptionsOrderByPopular() {
+        String sql = "SELECT COUNT(`user_id`) AS user_ids FROM "
+                + "`subscription` GROUP BY `user_id` ORDER BY "
+                + "COUNT(`subscriber_id`) DESC";
+        List<Integer> amounts = new ArrayList<>();
+        try (PreparedStatement statement = connection.prepareStatement(sql)) {
+            ResultSet resultSet = statement.executeQuery();
+            while (resultSet.next()) {
+                Integer amount = resultSet.getInt("user_ids");
+                amounts.add(amount);
+            }
+        } catch (SQLException e) {
+            LOGGER.error("countSubscriptionsOrderByPopular error", e);
+        }
+        return amounts;
+    }
+
+    @Override
+    public List<Integer> countSubscribersOrderByPopular() {
+        String sql = "SELECT COUNT(`subscriber_id`) AS user_ids FROM "
+                + "`subscription` GROUP BY `user_id` ORDER BY "
+                + "COUNT(`subscriber_id`) DESC";
+        List<Integer> amounts = new ArrayList<>();
+        try (PreparedStatement statement = connection.prepareStatement(sql)) {
+            ResultSet resultSet = statement.executeQuery();
+            while (resultSet.next()) {
+                Integer amount = resultSet.getInt("user_ids");
+                amounts.add(amount);
+            }
+        } catch (SQLException e) {
+            LOGGER.error("countSubscriptionsOrderByPopular error", e);
+        }
+        return amounts;
+    }
+
+    @Override
     public int countSubscriptions(final long id) {
-        String sql = "SELECT COUNT(user_id) AS user_ids FROM `subscription` WHERE "
-                + "subscriber_id = ?";
+        String sql = "SELECT COUNT(user_id)  FROM `subscription` "
+                + "WHERE subscriber_id = ?";
         ResultSet result = null;
         try (PreparedStatement statement = connection.prepareStatement(sql)){
             statement.setLong(1, id);

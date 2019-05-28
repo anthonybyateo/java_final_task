@@ -15,43 +15,50 @@ import javax.servlet.http.HttpSession;
 
 public class SignupAction extends Action {
     @Override
-    public Forward exec(HttpServletRequest request, HttpServletResponse response) throws PersistentException {
+    public Forward exec(HttpServletRequest request, HttpServletResponse response)
+            throws PersistentException {
         String password = request.getParameter("password");
+        String confPassword = request.getParameter("confPassword");
         String login = request.getParameter("login");
         String email = request.getParameter("email");
         String name = request.getParameter("name");
         String lastname = request.getParameter("lastname");
         String date = request.getParameter("date");
+        request.setAttribute("req", request);
         creator = new CreatorService();
         UserService service = creator.createService(new UserServiceImplFactory());
         if (service.findByLogin(login) == null) {
             if (service.findByEmail(email) == null) {
-                User user = new User();
-                user.setLogin(login);
-                user.setPassword(password);
-                user.setEmail(email);
-                user.setName(name);
-                user.setLastname(lastname);
-                user.setRole(Role.USER);
-                UserValidator validator = new UserValidator();
-                if (validator.validate(user) && service.save(user) != 0) {
-                    request.setAttribute("completeMessage",
-                            "success");
-                    HttpSession session = request.getSession();
-                    session.setAttribute("user", user);
-
-                    return new Forward(Trimming.TrimmUri(request, '?'));
+                if (password != null && password.equals(confPassword)) {
+                    User user = new User();
+                    user.setLogin(login);
+                    user.setPassword(password);
+                    user.setEmail(email);
+                    user.setName(name);
+                    user.setLastname(lastname);
+                    user.setRole(Role.USER);
+                    UserValidator validator = new UserValidator();
+                    if (validator.validate(user) && service.save(user) != 0) {
+                        HttpSession session = request.getSession();
+                        session.setAttribute("authorizedUser", user);
+                        request.setAttribute("test",
+                                "authorizedUser");
+                        return new Forward(Trimming.TrimmUri(request, '?'));
+                    } else {
+                        request.setAttribute("errorUp",
+                                "Impossible to save, try later");
+                    }
                 } else {
-                    request.setAttribute("error",
-                            "Impossible to save, try later");
+                    request.setAttribute("errorUp",
+                            "Repeat password is wrong");
                 }
             } else {
-                request.setAttribute("error", "Email is used");
+                request.setAttribute("errorUp", "Email is used");
             }
         } else {
-            request.setAttribute("error", "Login is used");
+            request.setAttribute("errorUp", "Login is used");
         }
         return new Forward(Trimming.TrimmUri(request, '.')
-                + ".jsp?signup", false);
+                + ".jsp", false);
     }
 }

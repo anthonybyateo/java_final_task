@@ -11,7 +11,7 @@ public enum ActionEnum {
     //also unauth user
     SHOW_POPULAR_PEOPLE( "/popular_people", new ShowPopularPeopleAction()),
     SIGNUP("signup", new SignupAction()),
-    LOGININ("/login", new LoginAction());
+    LOGININ("login", new LoginAction());
 
 
     private String actionName;
