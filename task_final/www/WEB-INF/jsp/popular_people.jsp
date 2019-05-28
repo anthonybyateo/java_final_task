@@ -87,7 +87,7 @@
                                 <a href="#profile"><img src="img/profile.jpg" width="60" height="60" class="rounded-circle img-note"></a>
                                 <p class="card-text"> <a href="#1"><c:out value="${user.name}"/> <c:out value="${user.lastname}"/></a> <button class="btn btn-outline-dark btn-rounded my-2 my-sm-0 btn-note" type="submit">Отписаться</button></p>
                                 <p class="info-user"><a href="">Заметки: 10</a><br>
-                                    <a href="">Подписки: 10</a><br>
+                                    <a href="">Подписки: ${subscription}</a><br>
                                     <a href="">Подписчики: 10</a><br>
                                     Лайков: 10<br></p><hr>
                             </div>

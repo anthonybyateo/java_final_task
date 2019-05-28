@@ -47,6 +47,7 @@ public class LoginAction extends Action {
                 request.setAttribute("error", "Email or password is wrong");
             }
         }
-        return null;
+        return new Forward(Trimming.TrimmUri(request, '.')
+                + ".jsp ?signin");
     }
 }

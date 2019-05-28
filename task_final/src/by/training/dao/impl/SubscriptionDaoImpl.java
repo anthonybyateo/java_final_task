@@ -14,7 +14,7 @@ public class SubscriptionDaoImpl extends BaseDaoImpl implements SubscriptionDao 
 
     @Override
     public int countSubscriptions(final long id) {
-        String sql = "SELECT COUNT(user_id) AS user_ids FROM `users` WHERE "
+        String sql = "SELECT COUNT(user_id) AS user_ids FROM `subscription` WHERE "
                 + "subscriber_id = ?";
         ResultSet result = null;
         try (PreparedStatement statement = connection.prepareStatement(sql)){
@@ -32,7 +32,7 @@ public class SubscriptionDaoImpl extends BaseDaoImpl implements SubscriptionDao 
     @Override
     public int countSubscribers(final long id) {
         String sql = "SELECT COUNT(subscriber_id) AS subscriber_ids "
-                + "FROM `users` WHERE user_id = ?";
+                + "FROM `subscription` WHERE user_id = ?";
         ResultSet result = null;
         try (PreparedStatement statement = connection.prepareStatement(sql)){
             statement.setLong(1, id);

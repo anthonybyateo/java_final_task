@@ -23,8 +23,8 @@ import static by.training.action.actionenum.ActionEnum.findAction;
 public class DispatcherServlet extends HttpServlet {
     private static Logger LOGGER = LogManager.getLogger(DispatcherServlet.class);
 
-    private static final String DB_DRIVER = "com.impl.jdbc.Driver";
-    public static final String DB_URL = "jdbc:impl://localhost:3306/think?useUnicode=true&characterEncoding=UTF-8";
+    private static final String DB_DRIVER = "com.mysql.jdbc.Driver";
+    public static final String DB_URL = "jdbc:mysql://localhost:3306/think?useUnicode=true&characterEncoding=UTF-8";
     public static final String DB_USER = "root";
     public static final String DB_PASSWORD = "";
     public static final int DB_POOL_START_SIZE = 10;

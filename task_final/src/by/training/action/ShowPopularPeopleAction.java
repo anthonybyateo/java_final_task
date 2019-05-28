@@ -2,9 +2,11 @@ package by.training.action;
 
 import by.training.entity.User;
 import by.training.exception.PersistentException;
+import by.training.service.SubscriptionService;
 import by.training.service.UserService;
 import by.training.service.servicefactory.CreatorService;
 import by.training.service.servicefactory.ServiceImplFactory;
+import by.training.service.servicefactory.SubscriptionServiceImplFactory;
 import by.training.service.servicefactory.UserServiceImplFactory;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -20,9 +22,13 @@ public class ShowPopularPeopleAction extends Action {
     public Forward exec(HttpServletRequest request, HttpServletResponse response) throws PersistentException {
         ServiceImplFactory factory = new UserServiceImplFactory();
         creator = new CreatorService();
-        UserService service = creator.createService(factory);
-        List<User> users = service.findAllOrderBySub();
+        UserService userService = creator.createService(factory);
+        List<User> users = userService.findAllOrderBySub();
+        factory = new SubscriptionServiceImplFactory();
+        SubscriptionService subscriptionService = creator.createService(factory);
+        int subscription = subscriptionService.countSubscriptions(2);
         request.setAttribute("users", users);
+        request.setAttribute("subscription", subscription);
         return null;
     }
 }
