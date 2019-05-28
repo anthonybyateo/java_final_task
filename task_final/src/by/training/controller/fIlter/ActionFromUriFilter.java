@@ -1,6 +1,7 @@
 package by.training.controller.fIlter;
 
 import by.training.action.Action;
+import by.training.action.Trimming;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -31,14 +32,7 @@ public class ActionFromUriFilter implements Filter {
             String contextPath = httpRequest.getContextPath();
             String uri = httpRequest.getRequestURI();
             LOGGER.debug(String.format("Starting of processing of request for URI \"%s\"", uri));
-            int beginAction = contextPath.length();
-            int endAction = uri.lastIndexOf('.');
-            String actionName;
-            if(endAction >= 0) {
-                actionName = uri.substring(beginAction, endAction);
-            } else {
-                actionName = uri.substring(beginAction);
-            }
+            String actionName = Trimming.TrimmUri(httpRequest, '.');
             String command = httpRequest.getParameter("command");
             if(command!=null && !command.isEmpty()){
                 actionName = command;

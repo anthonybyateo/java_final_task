@@ -1,55 +1,56 @@
-package by.training.service;
+package by.training.service.Impl;
 
 import java.security.MessageDigest;
-import by.training.dao.DaoImplFactory.UserDaoImplImplFactory;
+import by.training.dao.DaoImplFactory.UserDaoImplFactory;
 import by.training.dao.UserDao;
 import by.training.entity.User;
+import by.training.service.UserService;
 
 import java.security.NoSuchAlgorithmException;
 import java.util.Formatter;
 import java.util.List;
 
-public class UserServiceImp extends ServiceImpl implements UserService {
+public class UserServiceImpl extends ServiceImpl implements UserService {
     @Override
     public List<User> findAllOrderBySub() {
-        UserDao dao = creator.createDao( new UserDaoImplImplFactory());
+        UserDao dao = creator.createDao(new UserDaoImplFactory());
         return dao.readAllOrderBySub();
     }
 
     @Override
     public List<User> readByLastnameAndName(String searchLastname, String searchName) {
-        UserDao dao = creator.createDao( new UserDaoImplImplFactory());
+        UserDao dao = creator.createDao(new UserDaoImplFactory());
         return dao.readByLastnameAndName(searchLastname, searchName);
     }
 
     @Override
     public User findById(long id) {
-        UserDao dao = creator.createDao( new UserDaoImplImplFactory());
+        UserDao dao = creator.createDao(new UserDaoImplFactory());
         return dao.read(id);
     }
 
     @Override
     public User findByLogin(String login) {
-        UserDao dao = creator.createDao( new UserDaoImplImplFactory());
+        UserDao dao = creator.createDao(new UserDaoImplFactory());
         return dao.readByLogin(login);
     }
 
     @Override
     public User findByEmail(String email) {
-        UserDao dao = creator.createDao( new UserDaoImplImplFactory());
+        UserDao dao = creator.createDao( new UserDaoImplFactory());
         return dao.readByEmail(email);
     }
 
     @Override
     public User findByEmailAndPassword(String email, String password) {
-        UserDao dao = creator.createDao( new UserDaoImplImplFactory());
+        UserDao dao = creator.createDao( new UserDaoImplFactory());
         return dao.readByEmailAndPassword(email, md5(password));
     }
 
     @Override
     public boolean changePassword(int id, String password) {
         if (password != null) {
-            UserDao dao = creator.createDao( new UserDaoImplImplFactory());
+            UserDao dao = creator.createDao( new UserDaoImplFactory());
             return dao.changePassword(id, password);
         }
         return false;
@@ -57,14 +58,14 @@ public class UserServiceImp extends ServiceImpl implements UserService {
 
     @Override
     public boolean deleteByLogin(String login) {
-        UserDao dao = creator.createDao( new UserDaoImplImplFactory());
+        UserDao dao = creator.createDao( new UserDaoImplFactory());
         return dao.deleteByLogin(login);
     }
 
     @Override
     public long save(User user) {
         if (user != null) {
-            UserDao dao = creator.createDao(new UserDaoImplImplFactory());
+            UserDao dao = creator.createDao(new UserDaoImplFactory());
             if (user.getPassword() != null) {
                 user.setPassword(md5(user.getPassword()));
             }
@@ -80,7 +81,7 @@ public class UserServiceImp extends ServiceImpl implements UserService {
     @Override
     public boolean update(User user) {
         if (user != null) {
-            UserDao dao = creator.createDao(new UserDaoImplImplFactory());
+            UserDao dao = creator.createDao(new UserDaoImplFactory());
             if (dao.update(user) && dao.updateInfouser(user)) {
                 return true;
             }
@@ -90,7 +91,7 @@ public class UserServiceImp extends ServiceImpl implements UserService {
 
     @Override
     public boolean delete(long id) {
-        UserDao dao = creator.createDao( new UserDaoImplImplFactory());
+        UserDao dao = creator.createDao( new UserDaoImplFactory());
         return dao.delete(id);
     }
 

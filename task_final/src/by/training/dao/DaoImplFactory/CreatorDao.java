@@ -1,6 +1,6 @@
 package by.training.dao.DaoImplFactory;
 
-import by.training.dao.mysql.BaseDaoImpl;
+import by.training.dao.impl.BaseDaoImpl;
 import by.training.dao.pool.ConnectionPool;
 import by.training.exception.PersistentException;
 

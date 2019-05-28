@@ -1,4 +1,9 @@
 package by.training.dao;
 
-public interface SubscriptionDao {
+import by.training.entity.Subscription;
+
+public interface SubscriptionDao extends Dao<Subscription>{
+    int countSubscriptions(long id);
+
+    int countSubscribers(long id);
 }

@@ -1,4 +1,4 @@
-package by.training.dao.mysql;
+package by.training.dao.impl;
 
 import by.training.dao.UserDao;
 import by.training.entity.Role;

@@ -47,6 +47,6 @@ public class LoginAction extends Action {
                 request.setAttribute("error", "Email or password is wrong");
             }
         }
-        return new Forward("login.html");
+        return null;
     }
 }

@@ -23,8 +23,8 @@ import static by.training.action.actionenum.ActionEnum.findAction;
 public class DispatcherServlet extends HttpServlet {
     private static Logger LOGGER = LogManager.getLogger(DispatcherServlet.class);
 
-    private static final String DB_DRIVER = "com.mysql.jdbc.Driver";
-    public static final String DB_URL = "jdbc:mysql://localhost:3306/think?useUnicode=true&characterEncoding=UTF-8";
+    private static final String DB_DRIVER = "com.impl.jdbc.Driver";
+    public static final String DB_URL = "jdbc:impl://localhost:3306/think?useUnicode=true&characterEncoding=UTF-8";
     public static final String DB_USER = "root";
     public static final String DB_PASSWORD = "";
     public static final int DB_POOL_START_SIZE = 10;
@@ -44,25 +44,6 @@ public class DispatcherServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-/*        String contextPath = request.getContextPath();
-        String uri = request.getRequestURI();
-        LOGGER.debug(String.format("Starting of processing of request for URI \"%s\"", uri));
-        int beginAction = contextPath.length();
-        int endAction = uri.lastIndexOf('.');
-        String actionName;
-        if(endAction >= 0) {
-            actionName = uri.substring(beginAction, endAction);
-        } else {
-            actionName = uri.substring(beginAction);
-        }
-        Action action = findAction(actionName);
-        String str = "str";
-        if (action == null) {
-            str = "null";
-        }
-        action.setName(actionName);
-        request.setAttribute("test", action.getName() );
-        request.getRequestDispatcher("/WEB-INF/jsp/result.jsp").forward(request, response);*/
         process(request, response);
 
     }
@@ -106,13 +87,6 @@ public class DispatcherServlet extends HttpServlet {
             } else {
                 String jspPage;
                 if(forward != null) {
-                   /* if(forward.getForward().contains("?")) {
-                        String sign = Trimming.TrimmSign(forward.getForward(), '?');
-                        if ("?signin".equals(sign) || "?signup".equals(sign)) {
-                            String uri = forward.getForward();
-                            getServletContext().getRequestDispatcher("/WEB-INF/jsp" + uri).forward(request, response);
-                        }
-                    }*/
                     jspPage = forward.getForward();
                 } else {
                     jspPage = action.getName() + ".jsp";

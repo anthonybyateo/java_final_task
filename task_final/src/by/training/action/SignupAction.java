@@ -33,8 +33,8 @@ public class SignupAction extends Action {
                 user.setName(name);
                 user.setLastname(lastname);
                 user.setRole(Role.USER);
-                //UserValidator validator = new UserValidator();
-                if (/*validator.validate(user) &&*/ service.save(user) != 0) {
+                UserValidator validator = new UserValidator();
+                if (validator.validate(user) && service.save(user) != 0) {
                     request.setAttribute("completeMessage",
                             "success");
                     HttpSession session = request.getSession();

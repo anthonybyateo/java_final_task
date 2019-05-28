@@ -1,5 +1,7 @@
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jstl/fmt" %>
 
 <!DOCTYPE html>
 <html lang="en">
@@ -77,50 +79,19 @@
         <div class="row">
             <div class="col-lg-8 col-12">
                 <div class="card border-light mb-3">
-                    <div class="card-header bg-white">Популярные заметки  ${users} ${error}
+                    <div class="card-header bg-white">Популярные заметки  ${users}
                     </div>
                     <div class="card-body text-dark">
-                        <div class="note">
-                            <a href="#profile"><img src="img/profile.jpg" width="60" height="60" class="rounded-circle img-note"></a>
-                            <p class="card-text"> <a href="#1">Джимм Керри</a> <span class="text-muted">· 4 мин</span></p>
-                            <p class="info-user">Some quick example text to build on the card title and make up the bulk of the card's content. Lorem ipsum dolor sit amet, consectetur adipisicing elit. Omnis et corporis fugit totam est delectus quam possimus nostrum numquam natus porro illum iusto labore eaque, aut sunt repudiandae aspernatur ab blanditiis. Beatae ullam asperiores fugiat est non placeat totam aliquid sequi doloribus impedit itaque similique enim sunt nulla animi veniam quos laudantium, dolores, expedita accusamus quisquam harum eaque. Qui quaerat tenetur odio quis quibusdam! Expedita aspernatur pariatur vero sunt, laudantium nobis, sint tempore culpa voluptatibus inventore et sed, laboriosam debitis provident consequatur impedit necessitatibus labore consequuntur! Enim officia non expedita nesciunt consequatur omnis velit maxime magnam, dolores magni ipsa dolorem?</p>
-                            <div>
-                                <a class="like" href="#like"><i class="fa fa-heart"></i></a>
-                                <a class="comment" href="#comment"><i class="fa fa-comment"></i></a>
-                            </div><hr>
-                        </div>
-                        <div class="note">
-                            <img src="img/profile.jpg" width="60" height="60" class="rounded-circle img-note">
-                            <p class="card-text"> <a href="#1">Джимм Керри</a> <span class="text-muted">· 4 мин</span><br>Some quick example text to build on the card title and make up the bulk of the card's content.</p>
-                            <div>
-                                <a class="like" href="#like"><i class="fas fa-heart"></i>like</a>
-                                <a class="comment" href="#comment"><i class="fas fa-heart"></i>comment</a>
-                            </div><hr>
-                        </div>
-                        <div class="note">
-                            <img src="img/profile.jpg" width="60" height="60" class="rounded-circle img-note">
-                            <p class="card-text"> <a href="#1">Джимм Керри</a> <span class="text-muted">· 4 мин</span><br>Some quick example text to build on the card title and make up the bulk of the card's content.</p>
-                            <div>
-                                <a class="like" href="#like"><i class="fas fa-heart"></i>like</a>
-                                <a class="comment" href="#comment"><i class="fas fa-heart"></i>comment</a>
-                            </div><hr>
-                        </div>
-                        <div class="note">
-                            <img src="img/profile.jpg" width="60" height="60" class="rounded-circle img-note">
-                            <p class="card-text"> <a href="#1">Джимм Керри</a> <span class="text-muted">· 4 мин</span><br>Some quick example text to build on the card title and make up the bulk of the card's content.</p>
-                            <div>
-                                <a class="like" href="#like"><i class="fas fa-heart"></i>like</a>
-                                <a class="comment" href="#comment"><i class="fas fa-heart"></i>comment</a>
-                            </div><hr>
-                        </div>
-                        <div class="note">
-                            <img src="img/profile.jpg" width="60" height="60" class="rounded-circle img-note">
-                            <p class="card-text"> <a href="#1">Джимм Керри</a> <span class="text-muted">· 4 мин</span><br>Some quick example text to build on the card title and make up the bulk of the card's content.</p>
-                            <div>
-                                <a class="like" href="#like"><i class="fas fa-heart"></i>like</a>
-                                <a class="comment" href="#comment"><i class="fas fa-heart"></i>comment</a>
-                            </div><hr>
-                        </div>
+                        <c:forEach var="user" items="${users}" varStatus="status">
+                            <div class="note">
+                                <a href="#profile"><img src="img/profile.jpg" width="60" height="60" class="rounded-circle img-note"></a>
+                                <p class="card-text"> <a href="#1"><c:out value="${user.name}"/> <c:out value="${user.lastname}"/></a> <button class="btn btn-outline-dark btn-rounded my-2 my-sm-0 btn-note" type="submit">Отписаться</button></p>
+                                <p class="info-user"><a href="">Заметки: 10</a><br>
+                                    <a href="">Подписки: 10</a><br>
+                                    <a href="">Подписчики: 10</a><br>
+                                    Лайков: 10<br></p><hr>
+                            </div>
+                        </c:forEach>
 
                         <nav class="">
                             <ul class="pagination justify-content-center">

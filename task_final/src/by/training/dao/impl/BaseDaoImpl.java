@@ -1,4 +1,4 @@
-package by.training.dao.mysql;
+package by.training.dao.impl;
 
 import java.sql.Connection;
 

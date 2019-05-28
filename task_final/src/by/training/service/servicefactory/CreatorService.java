@@ -3,7 +3,7 @@ package by.training.service.servicefactory;
 import by.training.dao.DaoImplFactory.CreatorDao;
 import by.training.exception.PersistentException;
 import by.training.service.Service;
-import by.training.service.ServiceImpl;
+import by.training.service.Impl.ServiceImpl;
 
 public class CreatorService {
     private CreatorDao creatorDao;
