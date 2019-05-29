@@ -23,23 +23,9 @@
         <div class="row">
             <div class="col-lg-8 col-12">
                 <div class="card border-light mb-3">
-                    <div class="card-header bg-white">Люди 1${name}1 1${lastname}1 ${searchUsers}<span class="error">${errorIn} ${errorUp}</span>
+                    <div class="card-header bg-white">Люди<span class="error">${errorIn} ${errorUp}</span>
                     </div>
                     <div class="card-body text-dark">
-                        <c:if test="${empty searchUsers}">
-                            <c:forEach var="user" items="${users}" varStatus="status">
-                                <div class="note">
-                                    <a href="#profile"><img src="img/profile.jpg" width="60" height="60" class="rounded-circle img-note"></a>
-                                    <p class="card-text"> <a href="#1"><c:out value="${user.name}"/> <c:out value="${user.lastname}"/></a><br>
-                                        <span class="text-muted">@<c:out value="${user.login}"/></span>
-                                        <button class="btn btn-outline-dark btn-rounded my-2 my-sm-0 btn-note" type="submit">Подписаться</button></p>
-                                    <p class="info-user">
-                                        <a href="">Заметки: 10</a><br>
-                                        <a href="">Подписчики: ${subscribers[status.index]}</a>
-                                    </p><hr>
-                                </div>
-                            </c:forEach>
-                        </c:if>
                         <c:if test="${not empty searchUsers}">
                             <c:forEach var="user" items="${searchUsers}" varStatus="status">
                                 <div class="note">
@@ -47,7 +33,7 @@
                                     <p class="card-text"> <a href="#1"><c:out value="${user.name}"/> <c:out value="${user.lastname}"/></a><br>
                                         <span class="text-muted">@<c:out value="${user.login}"/></span>
                                         <button class="btn btn-outline-dark btn-rounded my-2 my-sm-0 btn-note" type="submit">Подписаться</button></p>
-                                    <<hr>
+                                    <hr>
                                 </div>
                             </c:forEach>
                         </c:if>

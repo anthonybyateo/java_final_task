@@ -187,19 +187,25 @@ public class UserDaoImpl extends BaseDaoImpl implements UserDao {
     }
 
     @Override
-    public List<User> readByLastnameAndName(String searchLastname, String searchName) {
-        String sql = "SELECT `users`.id, `users`.login, `users`.role, "
-                + "`users`.password, `infousers`.birthday, `infousers`.name, "
-                + "`infousers`.lastname, `infousers`.avatar FROM `users` "
-                + "LEFT JOIN `infousers` ON `users`.id = `infousers`.user_id "
-                + "WHERE `infousers`.lastname LIKE ? AND `infousers`.name "
-                + "LIKE ? ORDER BY `infousers`.lastname";
+    public List<User> readByLastnameAndName(String searchLastname,
+                                            String searchName) {
+        String sql = "SELECT `users`.id, `users`.login, `users`.email, "
+                + "`users`.role, `users`.password, `infousers`.birthday, "
+                + "`infousers`.name, `infousers`.lastname, `infousers`.avatar "
+                + "FROM `users` LEFT JOIN `infousers` ON `users`.id "
+                + "= `infousers`.user_id WHERE `infousers`.lastname LIKE ? OR "
+                + "`infousers`.lastname LIKE ? OR `infousers`.name LIKE ? OR "
+                + "`infousers`.name LIKE ? OR `users`.login LIKE ? ORDER BY "
+                + "`infousers`.lastname ASC";
         ResultSet resultSet = null;
         List<User> users = new ArrayList<>();
         User user = null;
         try (PreparedStatement statement = connection.prepareStatement(sql)) {
             statement.setString(1, "%" + searchLastname + "%");
-            statement.setString(2, "%" + searchName + "%");
+            statement.setString(2, "%" + searchLastname + "%");
+            statement.setString(3, "%" + searchName + "%");
+            statement.setString(4, "%" + searchName + "%");
+            statement.setString(5, "%" + searchLastname + "%");
             resultSet = statement.executeQuery();
             while (resultSet.next()) {
                 user = new User();

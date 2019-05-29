@@ -13,17 +13,24 @@ import java.util.List;
 
 public class findUserAction extends Action {
     @Override
-    public Forward exec(HttpServletRequest request, HttpServletResponse response) throws PersistentException {
-        String search = request.getParameter("search");
-        String lastname = search.split(" ")[0];
-        String name = search.split(" ")[1];
+    public Forward exec(HttpServletRequest request, HttpServletResponse response)
+            throws PersistentException {
+        String[] search = request.getParameter("search").split("\\s");
+        String lastname = "";
+        String name = "";
+        if (search.length >= 2) {
+            lastname = search[0];
+            name = search[1];
+        }
+        if (search.length == 1) {
+            lastname = search[0];
+            name = search[0];
+        }
         ServiceImplFactory factory = new UserServiceImplFactory();
         creator = new CreatorService();
         UserService userService = creator.createService(factory);
         List<User> users = userService.readByLastnameAndName(lastname, name);
         request.setAttribute("searchUsers", users);
-        request.setAttribute("name", name);
-        request.setAttribute("lastname", lastname);
-        return new Forward("/people.jsp", false);
+        return new Forward("/people.jsp",false);
     }
 }

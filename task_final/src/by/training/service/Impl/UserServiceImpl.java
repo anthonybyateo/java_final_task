@@ -18,9 +18,9 @@ public class UserServiceImpl extends ServiceImpl implements UserService {
     }
 
     @Override
-    public List<User> readByLastnameAndName(String searchLastname, String searchName) {
+    public List<User> readByLastnameAndName(String lastname, String name) {
         UserDao dao = creator.createDao(new UserDaoImplFactory());
-        return dao.readByLastnameAndName(searchLastname, searchName);
+        return dao.readByLastnameAndName(lastname, name);
     }
 
     @Override
