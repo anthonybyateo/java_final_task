@@ -35,9 +35,9 @@ public class ActionFromUriFilter implements Filter {
             LOGGER.debug(String.format("Starting of processing of request for "
                     + "URI \"%s\"", httpRequest.getRequestURI()));
             String actionName = Trimming.TrimmUri(httpRequest, '.');
-            String command = httpRequest.getParameter("command");
-            if(command!=null && !command.isEmpty()){
-                actionName = command;
+            String actionPost = httpRequest.getParameter("actionPost");
+            if(actionPost!=null && !actionPost.isEmpty()){
+                actionName = actionPost;
             }
             Action action = findAction(actionName);
             if (action != null) {

@@ -1,6 +1,10 @@
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 
+<c:url var="profile" value="profile.html"/>
+<c:url var="edit" value="edit.html"/>
+<c:url var="logout" value="logout.html"/>
+
 <div class="header sticky-top">
     <div class="pos-f-t">
         <nav class="navbar navbar-expand-lg navbar-light bg-white">
@@ -38,8 +42,9 @@
                         </div>
                     </li>
                 </ul>
-                <form class="form-inline my-2 my-lg-0">
-                    <input class="form-control mr-sm-2 btn-rounded" type="search" placeholder="Искать пользователя" aria-label="Search">
+                <form class="form-inline my-2 my-lg-0" method="POST">
+                    <input class="form-control mr-sm-2 btn-rounded" name="search" type="search" placeholder="Искать пользователя">
+                    <input type="hidden" name="actionPost" value="findUser">
                     <button class="btn btn-outline-dark btn-rounded my-2 my-sm-0" type="submit">Поиск</button>
                 </form>
                 <c:if test="${empty authorizedUser}">

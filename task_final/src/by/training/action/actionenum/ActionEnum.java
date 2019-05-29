@@ -3,14 +3,16 @@ package by.training.action.actionenum;
 import by.training.action.*;
 
 public enum ActionEnum {
-    MAIN("/", new ShowPopularPeopleAction()),
-    INDEX("/index", new ShowPopularPeopleAction()),
+    MAIN("/", new PopularPeopleAction()),
+    INDEX("/index", new PopularPeopleAction()),
     SHOW_SUBSCRIPRIONS( "/subscriptions", new LogoutAction()),
     SHOW_SUBSCRIBERS( "/subscribers", new SignupAction()),
     LOGOUT( "/logout", new LogoutAction()),
     //also unauth user
-    SHOW_POPULAR_PEOPLE( "/popular_people", new ShowPopularPeopleAction()),
+    SHOW_POPULAR_PEOPLE( "/popular_people", new PopularPeopleAction()),
+    PEOPLE( "/people", new PeopleAction()),
     SIGNUP("signup", new SignupAction()),
+    FINDUSER("findUser", new findUserAction()),
     LOGININ("login", new LoginAction());
 
 

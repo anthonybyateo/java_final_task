@@ -15,9 +15,9 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.util.List;
 
-public class ShowPopularPeopleAction extends Action {
+public class PopularPeopleAction extends Action {
     private static Logger LOGGER = LogManager
-            .getLogger(ShowPopularPeopleAction.class);
+            .getLogger(PopularPeopleAction.class);
 
     @Override
     public Forward exec(HttpServletRequest request,

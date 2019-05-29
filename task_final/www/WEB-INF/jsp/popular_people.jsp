@@ -3,10 +3,6 @@
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jstl/fmt" %>
 
-<c:url var="profile" value="profile.html"/>
-<c:url var="edit" value="edit.html"/>
-<c:url var="logout" value="logout.html"/>
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -35,15 +31,14 @@
                                 <a href="#profile"><img src="img/profile.jpg" width="60" height="60" class="rounded-circle img-note"></a>
                                 <p class="card-text"> <a href="#1"><c:out value="${user.name}"/> <c:out value="${user.lastname}"/></a><br>
                                     <span class="text-muted">@<c:out value="${user.login}"/></span>
-                                    <button class="btn btn-outline-dark btn-rounded my-2 my-sm-0 btn-note" type="submit">Отписаться</button></p>
+                                    <button class="btn btn-outline-dark btn-rounded my-2 my-sm-0 btn-note" type="submit">Подписаться</button></p>
                                 <p class="info-user">
                                     <a href="">Заметки: 10</a><br>
                                     <a href="">Подписчики: ${subscribers[status.index]}</a>
                                 </p><hr>
                             </div>
                         </c:forEach>
-
-                        <nav class="">
+                            <nav class="">
                             <ul class="pagination justify-content-center">
                                 <li class="page-item"><a class="page-link text-dark" href="#">Prev</a></li>
                                 <li class="page-item"><a class="page-link text-dark" href="#">1</a></li>
