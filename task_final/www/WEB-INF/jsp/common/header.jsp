@@ -58,7 +58,7 @@
                             <img src="img/profile.jpg" width="40" height="40" class="rounded-circle">
                         </a>
                         <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdownAccount">
-                            <a class="dropdown-item" href="${profile}">Моя страница</a>
+                            <a class="dropdown-item" href="${profile}?id=${authorizedUser.id}">Моя страница</a>
                             <a class="dropdown-item" href="${edit}">Редактировать</a>
                             <a class="dropdown-item" href="${logout}">Выйти</a>
                         </div>

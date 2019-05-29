@@ -132,8 +132,6 @@ input[type="date"]:valid:before {
   content: "";
 }
 
-@media (max-width: 1000px) {
-  .side {
-    display: none;
-  }
+.form>input {
+  margin-bottom: 8px !important;
 }

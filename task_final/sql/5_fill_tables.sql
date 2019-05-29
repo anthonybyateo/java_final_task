@@ -1,10 +1,10 @@
 USE `think`;
 
 INSERT INTO `users`
-( `id`, `login`, `email`, 		`password`, 										`role`)
+(  `login`, `email`, 		`password`, 										`role`)
 VALUES
-( 2, 	"user", "user@user.com", "21232F297A57A5A743894A0E4A801FC3", /* MD5 хэш пароля*/ 1 ),
-( 3, 	"user2","user2@user.com","EE11CBB19052E40B07AAC0CA060C23EE", /* MD5 хэш пароля*/ 2 );
+( 	"user", "user@user.com", "21232F297A57A5A743894A0E4A801FC3", /* MD5 хэш пароля*/ 1 ),
+(   "user2","user2@user.com","EE11CBB19052E40B07AAC0CA060C23EE", /* MD5 хэш пароля*/ 2 );
 
 INSERT INTO `infousers`
 (`user_id`, `birthday`,  `name`, `lastname`, `patronymic`, `avatar`)

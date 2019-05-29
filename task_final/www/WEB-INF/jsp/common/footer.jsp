@@ -12,7 +12,7 @@
                     </button>
                 </div>
                 <div class="modal-body">
-                    <form>
+                    <form class="form">
                         <input class="form-control mr-sm-2 btn-rounded" type="text" placeholder="Тег" maxlength="25">
                         <input class="form-control mr-sm-2 btn-rounded" type="text" placeholder="Тег" maxlength="25">
                         <input class="form-control mr-sm-2 btn-rounded" type="text" placeholder="Тег" maxlength="25">
@@ -39,7 +39,7 @@
                 </div>
                 <div class="error">${errorIn}</div>
                 <div class="modal-body">
-                    <form method="POST">
+                    <form class="form" method="POST">
                         <input class="form-control mr-sm-2 btn-rounded" type="email" name="email" minlength="3" maxlength="32" placeholder="Email" required>
                         <input class="form-control mr-sm-2 btn-rounded" type="password" name="password" minlength="6" maxlength="40" placeholder="Password" required><br>
                         <input type="hidden" name="actionPost" value="/login">
@@ -64,7 +64,7 @@
                 </div>
                 <div class="error">${errorUp}</div>
                 <div class="modal-body">
-                    <form method="POST" name="passForm">
+                    <form class="form" method="POST" name="passForm">
                         <input class="form-control mr-sm-2 btn-rounded" name="name" minlength="3" maxlength="40" type="text" placeholder="Имя" required>
                         <input class="form-control mr-sm-2 btn-rounded" name="lastname" minlength="3" maxlength="40" type="text" placeholder="Фамилия" required>
                         <input class="form-control mr-sm-2 btn-rounded" name="birthday" min="1900-01-01" max="2019-01-01" id="date" type="date" placeholder="Год рождения:" required>

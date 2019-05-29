@@ -6,12 +6,12 @@ public enum ActionEnum {
     MAIN("/", new PopularPeopleAction()),
     INDEX("/index", new PopularPeopleAction()),
     PROFILE("/profile", new ProfileAction()),
+    EDIT("/edit", new EditAction()),
     SHOW_SUBSCRIPRIONS( "/subscriptions", new LogoutAction()),
     SHOW_SUBSCRIBERS( "/subscribers", new SignupAction()),
     LOGOUT( "/logout", new LogoutAction()),
     //also unauth user
     POPULAR_PEOPLE( "/popular_people", new PopularPeopleAction()),
-    PEOPLE( "/people", new PeopleAction()),
     SIGNUP("/signup", new SignupAction()),
     FIND_USER("/findUser", new FindUserAction()),
     LOGININ("/login", new LoginAction());

@@ -43,7 +43,7 @@ public class SignupAction extends Action {
                         session.setAttribute("authorizedUser", user);
                         request.setAttribute("test",
                                 "authorizedUser");
-                        return new Forward(Trimming.TrimmUri(request, '?'));
+                        return new Forward(Trimming.TrimmUri(request, ' '));
                     } else {
                         request.setAttribute("errorUp",
                                 "Impossible to save, try later");
