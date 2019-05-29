@@ -5,15 +5,16 @@ import by.training.action.*;
 public enum ActionEnum {
     MAIN("/", new PopularPeopleAction()),
     INDEX("/index", new PopularPeopleAction()),
+    PROFILE("/profile", new ProfileAction()),
     SHOW_SUBSCRIPRIONS( "/subscriptions", new LogoutAction()),
     SHOW_SUBSCRIBERS( "/subscribers", new SignupAction()),
     LOGOUT( "/logout", new LogoutAction()),
     //also unauth user
-    SHOW_POPULAR_PEOPLE( "/popular_people", new PopularPeopleAction()),
+    POPULAR_PEOPLE( "/popular_people", new PopularPeopleAction()),
     PEOPLE( "/people", new PeopleAction()),
-    SIGNUP("signup", new SignupAction()),
-    FINDUSER("findUser", new findUserAction()),
-    LOGININ("login", new LoginAction());
+    SIGNUP("/signup", new SignupAction()),
+    FIND_USER("/findUser", new FindUserAction()),
+    LOGININ("/login", new LoginAction());
 
 
     private String actionName;

@@ -46,8 +46,8 @@ public class ActionFromUriFilter implements Filter {
                 filterChain.doFilter(servletRequest, servletResponse);
             } else {
                 httpRequest.setAttribute("error", String.format("Запрошенный"
-                        + " адрес %s не может быть обработан сервером",
-                        httpRequest.getRequestURI()));
+                        + " адрес %s не может быть обработан сервером %s",
+                        httpRequest.getRequestURI(), actionName));
                 httpRequest.getServletContext()
                         .getRequestDispatcher("/WEB-INF/jsp/error.jsp")
                         .forward(servletRequest, servletResponse);

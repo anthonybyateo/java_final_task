@@ -1,6 +1,28 @@
+::selection {
+  background-color: #575D66;
+  color: #fff;
+}
+
+::-webkit-scrollbar-track {
+  background-color: #373c44;
+  box-shadow: 0px 0px 3px #000 inset;
+}
+
+::-webkit-scrollbar-thumb {
+  -webkit-border-radius: 5px;
+  border-radius: 5px;
+  background-color: #fff;
+  box-shadow: 0px 0px 3px #000 inset;
+}
+
+::-webkit-scrollbar {
+  width: 11px;
+}
+
 body {
   background-color: #dddbdb;
 }
+
 .header {
   border-bottom: solid #000;
   border-bottom-width: 1px;

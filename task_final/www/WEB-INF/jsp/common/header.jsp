@@ -1,6 +1,7 @@
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 
+<c:url var="popularPeople" value="popular_people.html"/>
 <c:url var="profile" value="profile.html"/>
 <c:url var="edit" value="edit.html"/>
 <c:url var="logout" value="logout.html"/>
@@ -8,7 +9,7 @@
 <div class="header sticky-top">
     <div class="pos-f-t">
         <nav class="navbar navbar-expand-lg navbar-light bg-white">
-            <a class="navbar-brand" href="#">
+            <a class="navbar-brand" href="/webThink/">
                 <img src="img/logo.png" width="30" height="30" class="d-inline-block align-top" alt="">
             </a>
             <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarToggleExternalContent">
@@ -19,7 +20,7 @@
                 <ul class="navbar-nav mr-auto">
                     <button type="button" class="btn btn-dark btn-rounded" data-toggle="modal" data-target="#noteModal">Записать</button>
                     <li class="nav-item link">
-                        <a href="popular_people.html">Популярные</a>
+                        <a href="${popularPeople}">Популярные</a>
                     </li>
                     <c:if test="${not empty authorizedUser}">
                         <li class="nav-item link">
@@ -44,7 +45,7 @@
                 </ul>
                 <form class="form-inline my-2 my-lg-0" method="POST">
                     <input class="form-control mr-sm-2 btn-rounded" name="search" type="search" placeholder="Искать пользователя">
-                    <input type="hidden" name="actionPost" value="findUser">
+                    <input type="hidden" name="actionPost" value="/findUser">
                     <button class="btn btn-outline-dark btn-rounded my-2 my-sm-0" type="submit">Поиск</button>
                 </form>
                 <c:if test="${empty authorizedUser}">

@@ -3,6 +3,8 @@
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jstl/fmt" %>
 
+<c:url var="profile" value="profile.html"/>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -29,8 +31,8 @@
                         <c:if test="${not empty searchUsers}">
                             <c:forEach var="user" items="${searchUsers}" varStatus="status">
                                 <div class="note">
-                                    <a href="#profile"><img src="img/profile.jpg" width="60" height="60" class="rounded-circle img-note"></a>
-                                    <p class="card-text"> <a href="#1"><c:out value="${user.name}"/> <c:out value="${user.lastname}"/></a><br>
+                                    <a href="${profile}?id=${user.id}"><img src="img/profile.jpg" width="60" height="60" class="rounded-circle img-note"></a>
+                                    <p class="card-text"> <a href="${profile}?id=${user.id}"><c:out value="${user.name}"/> <c:out value="${user.lastname}"/></a><br>
                                         <span class="text-muted">@<c:out value="${user.login}"/></span>
                                         <button class="btn btn-outline-dark btn-rounded my-2 my-sm-0 btn-note" type="submit">Подписаться</button></p>
                                     <hr>

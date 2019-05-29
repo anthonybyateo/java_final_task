@@ -21,6 +21,17 @@
         <div class="row">
             <div class="col-lg-8 col-12">
                 <div class="card border-light mb-3">
+                    <div class="card-header bg-white">
+                        <img src="img/profile.jpg" width="170" height="170" class="rounded-circle img-note">
+                        <p><span>Джимм Керри</span><br>
+                            Логин: DJimmi <br>
+                            Почта: anthony.by.ateo@gmail.com<br>
+                            Регистрация: 24.04.2019<br>
+                            Заметки: 10<br>
+                            Подписки: 10<br>
+                            Подписчики: 10<br>
+                            Лайков: 10</p>
+                    </div>
                     <div class="card-header bg-white">Популярные заметки <span class="error">${errorIn} ${errorUp}</span>
                     </div>
                     <div class="card-body text-dark">

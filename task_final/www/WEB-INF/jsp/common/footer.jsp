@@ -42,7 +42,7 @@
                     <form method="POST">
                         <input class="form-control mr-sm-2 btn-rounded" type="email" name="email" minlength="3" maxlength="32" placeholder="Email" required>
                         <input class="form-control mr-sm-2 btn-rounded" type="password" name="password" minlength="6" maxlength="40" placeholder="Password" required><br>
-                        <input type="hidden" name="actionPost" value="login">
+                        <input type="hidden" name="actionPost" value="/login">
                         <div class="justify-content-center">
                             <button class="btn btn-outline-dark btn-rounded my-2 my-sm-0" type="submit">Войти</button>
                         </div>
@@ -72,7 +72,7 @@
                         <input class="form-control mr-sm-2 btn-rounded" name="email" type="email" placeholder="Почта" required>
                         <input class="form-control mr-sm-2 btn-rounded" name="password" minlength="6" maxlength="40" type="password" placeholder="Password" required>
                         <input class="form-control mr-sm-2 btn-rounded" name="confPassword" minlength="6" maxlength="40" type="password" placeholder="Сonfirm password" required><br>
-                        <input type="hidden" name="actionPost" value="signup">
+                        <input type="hidden" name="actionPost" value="/signup">
                         <div class="justify-content-center">
                             <button class="btn btn-outline-dark btn-rounded my-2 my-sm-0" type="submit">Зарегистрироваться</button>
                         </div>
