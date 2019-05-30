@@ -17,7 +17,7 @@ public interface UserService extends Service {
 
     User findByEmailAndPassword(String email, String password);
 
-    boolean changePassword(int id, String password);
+    boolean changePassword(long id, String password);
 
     boolean deleteByLogin(String login);
 

@@ -5,7 +5,6 @@ import by.training.entity.User;
 import by.training.exception.PersistentException;
 import by.training.service.UserService;
 import by.training.service.servicefactory.CreatorService;
-import by.training.service.servicefactory.ServiceImplFactory;
 import by.training.service.servicefactory.UserServiceImplFactory;
 import by.training.validator.UserValidator;
 
@@ -48,7 +47,9 @@ public class SignupAction extends Action {
                     user.setBirthday(birthday);
                     user.setRole(Role.USER);
                     UserValidator validator = new UserValidator();
-                    if (validator.validate(user) && service.save(user) != 0) {
+                    long id = service.save(user);
+                    if (validator.validate(user) && id != 0) {
+                        user.setId(id);
                         HttpSession session = request.getSession();
                         session.setAttribute("authorizedUser", user);
                         request.setAttribute("test",

@@ -20,7 +20,7 @@ public interface UserDao extends Dao<User> {
 
     boolean createInfouser(User user);
 
-    boolean changePassword(int id, String password);
+    boolean changePassword(long id, String password);
 
     List<User> readByLastnameAndName(String searchLastname, String searchName);
 

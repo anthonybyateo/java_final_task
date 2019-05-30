@@ -166,13 +166,13 @@ public class UserDaoImpl extends BaseDaoImpl implements UserDao {
     }
 
     @Override
-    public boolean changePassword(int id, String password) {
+    public boolean changePassword(long id, String password) {
         String sql = "UPDATE `users` SET password = ? WHERE id = ?";
         PreparedStatement statement = null;
         try {
             statement = connection.prepareStatement(sql);
             statement.setString(1, password);
-            statement.setInt(2, id);
+            statement.setLong(2, id);
             return statement.executeUpdate() != 0;
         } catch (SQLException e) {
             LOGGER.error("PreparedStatement error", e);

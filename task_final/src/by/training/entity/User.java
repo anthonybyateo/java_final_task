@@ -98,6 +98,7 @@ public class User extends EntityWithID {
     @Override
     public String toString() {
         return "User{" +
+                "id='" + getId() + '\'' +
                 "login='" + login + '\'' +
                 ", email='" + email + '\'' +
                 ", password='" + password + '\'' +

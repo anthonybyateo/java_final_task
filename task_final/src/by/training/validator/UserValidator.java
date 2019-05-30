@@ -26,4 +26,9 @@ public class UserValidator implements Validator<User> {
                 && user.getPassword() != null && user.getPassword().length()
                 >= MIN_PASS;
     }
+
+    public boolean validateChangePassword(final String newPassword,
+                                          final String ConfNewPassword) {
+        return newPassword != null && newPassword.equals(ConfNewPassword);
+    }
 }

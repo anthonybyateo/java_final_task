@@ -48,10 +48,10 @@ public class UserServiceImpl extends ServiceImpl implements UserService {
     }
 
     @Override
-    public boolean changePassword(int id, String password) {
+    public boolean changePassword(long id, String password) {
         if (password != null) {
             UserDao dao = creator.createDao( new UserDaoImplFactory());
-            return dao.changePassword(id, password);
+            return dao.changePassword(id, md5(password));
         }
         return false;
     }

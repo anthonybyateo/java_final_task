@@ -49,8 +49,8 @@
                         <form class="form" method="POST" name="passForm">
                             <input class="form-control mr-sm-2 btn-rounded" name="password" minlength="6" maxlength="40" type="password" placeholder="Old password" required>
                             <input class="form-control mr-sm-2 btn-rounded" name="newPassword" minlength="6" maxlength="40" type="password" placeholder="New password" required>
-                            <input class="form-control mr-sm-2 btn-rounded" name=changePassword"confNewPassword" minlength="6" maxlength="40" type="password" placeholder="Сonfirm new password" required><br>
-                            <input type="hidden" name="actionPost" value="/">
+                            <input class="form-control mr-sm-2 btn-rounded" name="confNewPassword" minlength="6" maxlength="40" type="password" placeholder="Сonfirm new password" required><br>
+                            <input type="hidden" name="actionPost" value="/changePassword">
                             <button class="btn btn-dark btn-rounded" type="submit">Edit</button>
                         </form>
                     </div>
