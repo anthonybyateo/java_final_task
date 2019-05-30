@@ -13,6 +13,8 @@ import by.training.validator.Validator;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
+import java.awt.*;
 import java.io.IOException;
 
 public class ChangePhotoAction extends UserAction {
@@ -28,8 +30,10 @@ public class ChangePhotoAction extends UserAction {
             UserService service = creator
                     .createService(new UserServiceImplFactory());
             if (service.changePhoto(image.getFilePath(), user.getId())) {
-                request.setAttribute("errorEdit",
-                        "Successfully changing");
+                user.setAvatar(image.getFilePath());
+                HttpSession session = request.getSession();
+                session.setAttribute("authorizedUser", user);
+                return new Forward("/edit.html");
             } else {
                 request.setAttribute("errorEdit",
                         "Impossiple to save");

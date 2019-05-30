@@ -24,13 +24,19 @@ public class ProfileAction extends Action {
             request.setAttribute("error", "Id is wrong");
             return new Forward("/error.jsp", false);
         }
+        creator = new CreatorService();
         ServiceImplFactory factory = new SubscriptionServiceImplFactory();
         SubscriptionService subscriptionService = creator.createService(factory);
-        creator = new CreatorService();
         int subscriber = subscriptionService.countSubscribers(id);
         int subscription = subscriptionService.countSubscriptions(id);
         request.setAttribute("subscriber", subscriber);
         request.setAttribute("subscription", subscription);
+
+        factory = new UserServiceImplFactory();
+        UserService userService = creator.createService(factory);
+        User user = userService.findById(id);
+        request.setAttribute("user", user);
+
         creator.close();
         return null;
     }

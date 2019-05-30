@@ -9,7 +9,7 @@
 <div class="header sticky-top">
     <div class="pos-f-t">
         <nav class="navbar navbar-expand-lg navbar-light bg-white">
-            <a class="navbar-brand" href="/webThink/">
+            <a class="navbar-brand" href="${pageContext.request.contextPath}/popular_people.html">
                 <img src="img/logo.png" width="30" height="30" class="d-inline-block align-top" alt="">
             </a>
             <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarToggleExternalContent">
@@ -55,7 +55,7 @@
                 <c:if test="${not empty authorizedUser}">
                     <div class="dropdown">
                         <a class="account" href="#" id="navbarDropdownAccount" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                            <img src="img/profile.jpg" width="40" height="40" class="rounded-circle">
+                            <img src="${pageContext.request.contextPath}/${authorizedUser.avatar}" width="40" height="40" class="rounded-circle">
                         </a>
                         <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdownAccount">
                             <a class="dropdown-item" href="${profile}?id=${authorizedUser.id}">Моя страница</a>

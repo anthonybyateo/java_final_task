@@ -22,9 +22,9 @@
             <div class="col-lg-8 col-12">
                 <div class="card border-light mb-3">
                     <div class="card-header bg-white">
-                        <img src="img/profile.jpg" width="170" height="170" class="rounded-circle img-note">
-                        <p><span>${authorizedUser.name} ${authorizedUser.lastname}</span><br>
-                            <span class="text-muted">@${authorizedUser.login}</span><br><br>
+                        <img src="${pageContext.request.contextPath}/${user.avatar}" width="170" height="170" class="rounded-circle img-note">
+                        <p><span>${user.name} ${user.lastname}</span><br>
+                            <span class="text-muted">@${user.login}</span><br><br>
                             Заметки: 10<br>
                             Подписки: ${subscription}<br>
                             Подписчики: ${subscriber}<br>

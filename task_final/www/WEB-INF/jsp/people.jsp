@@ -31,7 +31,7 @@
                         <c:if test="${not empty searchUsers}">
                             <c:forEach var="user" items="${searchUsers}" varStatus="status">
                                 <div class="note">
-                                    <a href="${profile}?id=${user.id}"><img src="img/profile.jpg" width="60" height="60" class="rounded-circle img-note"></a>
+                                    <a href="${profile}?id=${user.id}"><img src="${pageContext.request.contextPath}/<c:out value='${user.avatar}'/>" width="60" height="60" class="rounded-circle img-note"></a>
                                     <p class="card-text"> <a href="${profile}?id=${user.id}"><c:out value="${user.name}"/> <c:out value="${user.lastname}"/></a><br>
                                         <span class="text-muted">@<c:out value="${user.login}"/></span>
                                         <button class="btn btn-outline-dark btn-rounded my-2 my-sm-0 btn-note" type="submit">Подписаться</button></p>
