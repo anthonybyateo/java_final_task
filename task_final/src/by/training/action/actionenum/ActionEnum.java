@@ -6,9 +6,6 @@ import by.training.action.user.ChangePhotoAction;
 import by.training.action.user.EditUserAction;
 
 public enum ActionEnum {
-    MAIN("/", new PopularPeopleAction()),
-    INDEX("/index", new PopularPeopleAction()),
-    PROFILE("/profile", new ProfileAction()),
     EDIT("/edit", new EditUserAction()),
     CHANGE_PASSWORD("/changePassword", new ChangePasswordAction()),
     CHANGE_PHOTO("/changePhoto", new ChangePhotoAction()),
@@ -16,6 +13,7 @@ public enum ActionEnum {
     SHOW_SUBSCRIBERS( "/subscribers", new SignupAction()),
     LOGOUT( "/logout", new LogoutAction()),
     //also unauth user
+    PROFILE("/profile", new ProfileAction()),
     POPULAR_PEOPLE( "/popular_people", new PopularPeopleAction()),
     SIGNUP("/signup", new SignupAction()),
     FIND_USER("/findUser", new FindUserAction()),
@@ -50,7 +48,7 @@ public enum ActionEnum {
 
     public static boolean IsActionUnauthUser(String actionName) {
         ActionEnum[] enums = ActionEnum.values();
-        for (int i = 0; i < enums.length; i++) {
+        for (int i = 5; i < enums.length; i++) {
             if (enums[i].getActionName().equals(actionName)) {
                 return true;
             }

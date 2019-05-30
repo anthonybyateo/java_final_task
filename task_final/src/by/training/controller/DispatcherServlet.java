@@ -62,17 +62,6 @@ public class DispatcherServlet extends HttpServlet {
     private void process(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
         Action action = (Action)request.getAttribute("action");
         try {
-            HttpSession session = request.getSession(false);
-            if(session != null) {
-                @SuppressWarnings("unchecked")
-                Map<String, Object> attributes = (Map<String, Object>)session.getAttribute("redirectedData");
-                if(attributes != null) {
-                    for(String key : attributes.keySet()) {
-                        request.setAttribute(key, attributes.get(key));
-                    }
-                    session.removeAttribute("redirectedData");
-                }
-            }
             ActionManager actionManager = ActionManagerFactory.getManager(new CreatorService());
             Action.Forward forward = null;
             try {
@@ -81,9 +70,6 @@ public class DispatcherServlet extends HttpServlet {
                 e.printStackTrace();
             }
             actionManager.close();
-            if(session != null && forward != null && !forward.getAttributes().isEmpty()) {
-                session.setAttribute("redirectedData", forward.getAttributes());
-            }
             String requestedUri = request.getRequestURI();
             if(forward != null && forward.isRedirect()) {
                 String redirectedUri = request.getContextPath() + forward.getForward();
