@@ -3,7 +3,7 @@ package by.training.validator;
 import by.training.entity.Entity;
 import by.training.entity.User;
 
-public class UserValidator implements Validator<User> {
+public class UserValidator {
     private static final int MIN_NAME = 3;
     private static final int MIN_PASS = 6;
     private static final int MAX_LOGIN = 254;
@@ -12,7 +12,6 @@ public class UserValidator implements Validator<User> {
     private static final int MAX_EMAIL = 32;
     private static final int MAX_NAME_AND_LASTNAME = 40;
 
-    @Override
     public boolean validate(final User user) {
         return user.getLogin() != null && user.getLogin().length() >= MIN_NAME
                 && user.getLogin().length() <= MAX_LOGIN

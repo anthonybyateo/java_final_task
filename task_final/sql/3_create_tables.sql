@@ -18,7 +18,7 @@ CREATE TABLE `infousers` (
     `birthday` DATE NOT NULL,
     `name` VARCHAR(40) NOT NULL,
     `lastname` VARCHAR(40) NOT NULL,
-    `avatar` BLOB NOT NULL,
+    `avatar` VARCHAR(255) NOT NULL,
     FOREIGN KEY (`user_id`) REFERENCES users(id)
         ON DELETE CASCADE
         ON UPDATE CASCADE

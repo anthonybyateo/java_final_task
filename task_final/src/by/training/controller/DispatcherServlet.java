@@ -1,6 +1,7 @@
 package by.training.controller;
 
 import javax.servlet.ServletException;
+import javax.servlet.annotation.MultipartConfig;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -11,15 +12,14 @@ import java.util.Map;
 import by.training.action.Action;
 import by.training.action.ActionManager;
 import by.training.action.ActionManagerFactory;
-import by.training.action.Trimming;
 import by.training.dao.pool.ConnectionPool;
+import by.training.exception.IncorrectFormDataException;
 import by.training.exception.PersistentException;
 import by.training.service.servicefactory.CreatorService;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-import static by.training.action.actionenum.ActionEnum.findAction;
-
+@MultipartConfig
 public class DispatcherServlet extends HttpServlet {
     private static Logger LOGGER = LogManager.getLogger(DispatcherServlet.class);
 
@@ -74,7 +74,12 @@ public class DispatcherServlet extends HttpServlet {
                 }
             }
             ActionManager actionManager = ActionManagerFactory.getManager(new CreatorService());
-            Action.Forward forward = actionManager.execute(action, request, response);
+            Action.Forward forward = null;
+            try {
+                forward = actionManager.execute(action, request, response);
+            } catch (IncorrectFormDataException e) {
+                e.printStackTrace();
+            }
             actionManager.close();
             if(session != null && forward != null && !forward.getAttributes().isEmpty()) {
                 session.setAttribute("redirectedData", forward.getAttributes());

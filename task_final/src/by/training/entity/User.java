@@ -11,7 +11,7 @@ public class User extends EntityWithID {
     private String lastname;
     private Role role;
     private Date birthday;
-    private InputStream avatar;
+    private String avatar;
 
     public User() {
         birthday = new Date();
@@ -19,7 +19,7 @@ public class User extends EntityWithID {
 
     public User(long id, String login, String email, String password,
                 String name, String lastname, Role role, Date birthday,
-                InputStream avatar) {
+                String avatar) {
         super(id);
         this.login = login;
         this.email = email;
@@ -87,11 +87,11 @@ public class User extends EntityWithID {
         this.birthday = birthday;
     }
 
-    public InputStream getAvatar() {
+    public String getAvatar() {
         return avatar;
     }
 
-    public void setAvatar(InputStream avatar) {
+    public void setAvatar(String avatar) {
         this.avatar = avatar;
     }
 

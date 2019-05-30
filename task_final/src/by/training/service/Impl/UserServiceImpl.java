@@ -1,5 +1,6 @@
 package by.training.service.Impl;
 
+import java.io.InputStream;
 import java.security.MessageDigest;
 import by.training.dao.DaoImplFactory.UserDaoImplFactory;
 import by.training.dao.UserDao;
@@ -94,6 +95,12 @@ public class UserServiceImpl extends ServiceImpl implements UserService {
     public boolean delete(long id) {
         UserDao dao = creator.createDao( new UserDaoImplFactory());
         return dao.delete(id);
+    }
+
+    @Override
+    public boolean changePhoto(String filePath, final long id) {
+        UserDao dao = creator.createDao( new UserDaoImplFactory());
+        return dao.changePhoto(filePath, id);
     }
 
     private String md5(String string) {

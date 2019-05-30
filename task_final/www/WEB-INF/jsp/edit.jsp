@@ -22,14 +22,15 @@
             <div class="col-lg-8 col-12">
                 <div class="card border-light mb-3">
                     <div class="card-header bg-white">
-                        <img src="img/profile.jpg" width="170" height="170" class="rounded-circle img-note">
+                        <img src="${pageContext.request.contextPath}/${authorizedUser.avatar}" width="170" height="170" class="rounded-circle img-note">
                         <p><span>${authorizedUser.name} ${authorizedUser.lastname}</span><br>
                             <span class="text-muted">@${authorizedUser.login}</span>
-                        <form class="form" method="POST" enctype="multipart/form-data">
-                            <input type="hidden" name="actionPost" value="/changePhoto">
-                            <button class="btn btn-dark btn-rounded" type="submit">Change photo</button>
-                        </form>
                         </p>
+                        <form method="POST" enctype="multipart/form-data">
+                            <input type="hidden" name="actionPost" value="/changePhoto">
+                            <input name="file" accept="image/jpeg,image/png" type="file" required><br>
+                            <button class="btn btn-outline-dark" type="submit">Change photo</button>
+                        </form>
                     </div>
                     <div class="card-header bg-white">Редактор аккаунта<span class="error">${errorEdit} ${euser}</span>
                     </div>

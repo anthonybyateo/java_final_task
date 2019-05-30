@@ -6,6 +6,7 @@ import by.training.entity.User;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
+import java.io.InputStream;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
@@ -38,7 +39,7 @@ public class UserDaoImpl extends BaseDaoImpl implements UserDao {
                 user.setBirthday(resultSet.getDate("birthday"));
                 user.setName(resultSet.getString("name"));
                 user.setLastname(resultSet.getString("lastname"));
-                user.setAvatar(resultSet.getBinaryStream("avatar"));
+                user.setAvatar(resultSet.getString("avatar"));
             }
         } catch (SQLException e) {
             LOGGER.error("PreparedStatement error", e);
@@ -74,7 +75,7 @@ public class UserDaoImpl extends BaseDaoImpl implements UserDao {
                 user.setBirthday(resultSet.getDate("birthday"));
                 user.setName(resultSet.getString("name"));
                 user.setLastname(resultSet.getString("lastname"));
-                user.setAvatar(resultSet.getBinaryStream("avatar"));
+                user.setAvatar(resultSet.getString("avatar"));
             }
         } catch (SQLException e) {
             LOGGER.error("PreparedStatement error", e);
@@ -104,7 +105,7 @@ public class UserDaoImpl extends BaseDaoImpl implements UserDao {
                 user.setBirthday(resultSet.getDate("birthday"));
                 user.setName(resultSet.getString("name"));
                 user.setLastname(resultSet.getString("lastname"));
-                user.setAvatar(resultSet.getBinaryStream("avatar"));
+                user.setAvatar(resultSet.getString("avatar"));
             }
         } catch (SQLException e) {
             LOGGER.error("PreparedStatement error", e);
@@ -137,7 +138,7 @@ public class UserDaoImpl extends BaseDaoImpl implements UserDao {
                 user.setBirthday(resultSet.getDate("birthday"));
                 user.setName(resultSet.getString("name"));
                 user.setLastname(resultSet.getString("lastname"));
-                user.setAvatar(resultSet.getBinaryStream("avatar"));
+                user.setAvatar(resultSet.getString("avatar"));
                 users.add(user);
             }
         } catch (SQLException e) {
@@ -217,13 +218,26 @@ public class UserDaoImpl extends BaseDaoImpl implements UserDao {
                 user.setBirthday(resultSet.getDate("birthday"));
                 user.setName(resultSet.getString("name"));
                 user.setLastname(resultSet.getString("lastname"));
-                user.setAvatar(resultSet.getBinaryStream("avatar"));
+                user.setAvatar(resultSet.getString("avatar"));
                 users.add(user);
             }
         } catch (SQLException e) {
             LOGGER.error("PreparedStatement error", e);
         }
         return users;
+    }
+
+    @Override
+    public boolean changePhoto(String filepath, long id) {
+        String sql = "UPDATE `infousers` SET avatar = ? WHERE user_id = ?";
+        try (PreparedStatement statement = connection.prepareStatement(sql)){
+            statement.setString(1, filepath);
+            statement.setLong(2, id);
+            return statement.executeUpdate() != 0;
+        } catch (SQLException e) {
+            LOGGER.error("changePhoto error", e);
+        }
+        return false;
     }
 
     @Override
@@ -251,7 +265,7 @@ public class UserDaoImpl extends BaseDaoImpl implements UserDao {
                 user.setBirthday(resultSet.getDate("birthday"));
                 user.setName(resultSet.getString("name"));
                 user.setLastname(resultSet.getString("lastname"));
-                user.setAvatar(resultSet.getBinaryStream("avatar"));
+                user.setAvatar(resultSet.getString("avatar"));
             }
         } catch (SQLException e) {
             LOGGER.error("PreparedStatement error", e);

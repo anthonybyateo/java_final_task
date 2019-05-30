@@ -1,7 +1,6 @@
 package by.training.dao;
 
 import by.training.entity.User;
-import by.training.exception.PersistentException;
 
 import java.util.List;
 
@@ -23,6 +22,8 @@ public interface UserDao extends Dao<User> {
     boolean changePassword(long id, String password);
 
     List<User> readByLastnameAndName(String searchLastname, String searchName);
+
+    boolean changePhoto(String filePath, long id);
 
 
 }

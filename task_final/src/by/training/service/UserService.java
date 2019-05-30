@@ -2,6 +2,7 @@ package by.training.service;
 
 import by.training.entity.User;
 
+import java.io.InputStream;
 import java.util.List;
 
 public interface UserService extends Service {
@@ -26,4 +27,6 @@ public interface UserService extends Service {
     boolean update(User user);
 
     boolean delete(long id);
+
+    boolean changePhoto(String filePath, long id);
 }

@@ -2,11 +2,14 @@ package by.training.action;
 
 import by.training.entity.Role;
 import by.training.entity.User;
+import by.training.exception.IncorrectFormDataException;
 import by.training.exception.PersistentException;
 import by.training.service.servicefactory.CreatorService;
 
+import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
@@ -44,7 +47,7 @@ abstract public class Action {
     }
 
     abstract public Action.Forward exec(HttpServletRequest request, HttpServletResponse response) throws
-            PersistentException;
+            PersistentException, ServletException, IOException, IncorrectFormDataException;
 
     public static class Forward {
         private String forward;

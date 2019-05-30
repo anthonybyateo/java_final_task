@@ -2,6 +2,7 @@ package by.training.action.actionenum;
 
 import by.training.action.*;
 import by.training.action.user.ChangePasswordAction;
+import by.training.action.user.ChangePhotoAction;
 import by.training.action.user.EditUserAction;
 
 public enum ActionEnum {
@@ -10,6 +11,7 @@ public enum ActionEnum {
     PROFILE("/profile", new ProfileAction()),
     EDIT("/edit", new EditUserAction()),
     CHANGE_PASSWORD("/changePassword", new ChangePasswordAction()),
+    CHANGE_PHOTO("/changePhoto", new ChangePhotoAction()),
     SHOW_SUBSCRIPRIONS( "/subscriptions", new LogoutAction()),
     SHOW_SUBSCRIBERS( "/subscribers", new SignupAction()),
     LOGOUT( "/logout", new LogoutAction()),
