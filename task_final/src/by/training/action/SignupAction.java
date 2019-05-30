@@ -12,6 +12,9 @@ import by.training.validator.UserValidator;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
 public class SignupAction extends Action {
     @Override
@@ -23,8 +26,7 @@ public class SignupAction extends Action {
         String email = request.getParameter("email");
         String name = request.getParameter("name");
         String lastname = request.getParameter("lastname");
-        String date = request.getParameter("date");
-        request.setAttribute("req", request);
+        String date = request.getParameter("birthday");
         creator = new CreatorService();
         UserService service = creator.createService(new UserServiceImplFactory());
         if (service.findByLogin(login) == null) {
@@ -36,6 +38,14 @@ public class SignupAction extends Action {
                     user.setEmail(email);
                     user.setName(name);
                     user.setLastname(lastname);
+                    Date birthday = null;
+                    try {
+                        birthday = new SimpleDateFormat("yyyy-MM-dd")
+                                        .parse(date);
+                    } catch (ParseException e) {
+                        birthday = new Date();
+                    }
+                    user.setBirthday(birthday);
                     user.setRole(Role.USER);
                     UserValidator validator = new UserValidator();
                     if (validator.validate(user) && service.save(user) != 0) {

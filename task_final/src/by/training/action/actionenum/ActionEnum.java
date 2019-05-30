@@ -1,12 +1,13 @@
 package by.training.action.actionenum;
 
 import by.training.action.*;
+import by.training.action.user.EditUserAction;
 
 public enum ActionEnum {
     MAIN("/", new PopularPeopleAction()),
     INDEX("/index", new PopularPeopleAction()),
     PROFILE("/profile", new ProfileAction()),
-    EDIT("/edit", new EditAction()),
+    EDIT("/edit", new EditUserAction()),
     SHOW_SUBSCRIPRIONS( "/subscriptions", new LogoutAction()),
     SHOW_SUBSCRIBERS( "/subscribers", new SignupAction()),
     LOGOUT( "/logout", new LogoutAction()),

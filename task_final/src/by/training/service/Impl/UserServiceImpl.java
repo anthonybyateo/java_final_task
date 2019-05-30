@@ -74,6 +74,7 @@ public class UserServiceImpl extends ServiceImpl implements UserService {
             if (id != 0 && dao.createInfouser(user)) {
                 return id;
             }
+            dao.delete(id);
         }
        return 0;
     }
