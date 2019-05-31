@@ -56,7 +56,7 @@
                             <fmt:message key="nav.language"/>
                         </a>
                         <div class="dropdown-menu">
-                            <a class="dropdown-item" href="?language=en_US">en</a>
+                            <a class="dropdown-item" href="${pageContext.request.contextPath}/language=en_US">en</a>
                             <a class="dropdown-item" href="?language=ru_RU">ru</a>
                             <a class="dropdown-item" href="?language=de_DE">de</a>
                         </div>
@@ -64,7 +64,7 @@
 
                 </ul>
                 <form class="form-inline my-2 my-lg-0" method="POST">
-                    <input class="form-control mr-sm-2 btn-rounded" name="search" type="search" placeholder="<fmt:message key='nav.searchUser'/>">
+                    <input class="form-control mr-sm-2 btn-rounded" name="search" type="search" placeholder="<fmt:message key="nav.language"/>">
                     <input type="hidden" name="actionPost" value="/findUser">
                     <button class="btn btn-outline-dark btn-rounded my-2 my-sm-0" type="submit"><fmt:message key="nav.search"/></button>
                 </form>
@@ -78,9 +78,9 @@
                             <img src="${pageContext.request.contextPath}/${authorizedUser.avatar}" width="40" height="40" class="rounded-circle">
                         </a>
                         <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdownAccount">
-                            <a class="dropdown-item" href="${profile}?id=${authorizedUser.id}">Моя страница</a>
-                            <a class="dropdown-item" href="${edit}">Редактировать</a>
-                            <a class="dropdown-item" href="${logout}">Выйти</a>
+                            <a class="dropdown-item" href="${profile}?id=${authorizedUser.id}"><fmt:message key="nav.page"/>а</a>
+                            <a class="dropdown-item" href="${edit}"><fmt:message key="nav.edit"/></a>
+                            <a class="dropdown-item" href="${logout}"><fmt:message key="nav.logout"/></a>
                         </div>
                     </div>
                 </c:if>
