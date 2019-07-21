@@ -4,6 +4,7 @@ import by.training.action.*;
 import by.training.action.user.ChangePasswordAction;
 import by.training.action.user.ChangePhotoAction;
 import by.training.action.user.EditUserAction;
+import by.training.action.user.SubscribeAction;
 
 public enum ActionEnum {
     EDIT("/edit", new EditUserAction()),
@@ -11,6 +12,7 @@ public enum ActionEnum {
     CHANGE_PHOTO("/changePhoto", new ChangePhotoAction()),
     SHOW_SUBSCRIPRIONS( "/subscriptions", new LogoutAction()),
     SHOW_SUBSCRIBERS( "/subscribers", new SignupAction()),
+    SUBSCRIBE( "/subscribe", new SubscribeAction()),
     LOGOUT( "/logout", new LogoutAction()),
     //also unauth user
     PROFILE("/profile", new ProfileAction()),

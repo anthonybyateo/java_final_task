@@ -1,9 +1,8 @@
 package by.training.dao;
 
-import by.training.entity.Entity;
-import by.training.exception.PersistentException;
+import java.io.Serializable;
 
-public interface Dao<Type extends Entity> {
+public interface Dao<Type extends Serializable> {
     long create(Type entity);
 
     Type read(long id);

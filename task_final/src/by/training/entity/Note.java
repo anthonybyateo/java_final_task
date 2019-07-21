@@ -13,13 +13,6 @@ public class Note extends EntityWithID {
         dateNote = new Date();
     }
 
-    public Note(int id, User user, String note, Date dateNote) {
-        super(id);
-        this.user = user;
-        this.note = note;
-        this.dateNote = dateNote;
-    }
-
     public User getUser() {
         return user;
     }
@@ -42,5 +35,24 @@ public class Note extends EntityWithID {
 
     public void setDateNote(Date dateNote) {
         this.dateNote = dateNote;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) {return false;}
+        if (obj == null || getClass() != obj.getClass()) {return false;}
+        Note note = (Note) obj;
+        return getId() == note.getId();
+    }
+
+    @Override
+    public int hashCode() {
+        return (int)getId();
+    }
+
+    @Override
+    public String toString() {
+        return "Note{" + "id='" + getId() + ", user='" + user.toString() +  ", note='" + note
+                + ", dateNote='" + dateNote.toString() + '}';
     }
 }

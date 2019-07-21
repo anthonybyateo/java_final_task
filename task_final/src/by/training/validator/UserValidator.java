@@ -1,6 +1,5 @@
 package by.training.validator;
 
-import by.training.entity.Entity;
 import by.training.entity.User;
 
 public class UserValidator {

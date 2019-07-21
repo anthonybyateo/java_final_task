@@ -37,6 +37,7 @@ public class EditUserAction extends UserAction {
             if (service.update(user)) {
                 request.setAttribute("errorEdit",
                         "Successfully saving");
+                return new Forward("/edit.html");
             } else {
                 request.setAttribute("errorEdit",
                         "Impossiple to save");

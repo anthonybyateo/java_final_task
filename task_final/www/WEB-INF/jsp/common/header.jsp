@@ -1,7 +1,6 @@
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
-<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 
 <c:url var="popularPeople" value="popular_people.html"/>
 <c:url var="profile" value="profile.html"/>
@@ -56,7 +55,7 @@
                             <fmt:message key="nav.language"/>
                         </a>
                         <div class="dropdown-menu">
-                            <a class="dropdown-item" href="${pageContext.request.contextPath}/language=en_US">en</a>
+                            <a class="dropdown-item" href="?language=en_US">en</a>
                             <a class="dropdown-item" href="?language=ru_RU">ru</a>
                             <a class="dropdown-item" href="?language=de_DE">de</a>
                         </div>

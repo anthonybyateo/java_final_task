@@ -35,6 +35,7 @@
 		<filter-name>EncodingFilter</filter-name>
 		<url-pattern>*.html</url-pattern>
 	</filter-mapping>
+
 	<filter>
 		<filter-name>ActionFromUriFilter</filter-name>
 		<filter-class>by.training.controller.fIlter.ActionFromUriFilter</filter-class>
@@ -43,6 +44,7 @@
 		<filter-name>ActionFromUriFilter</filter-name>
 		<url-pattern>*.html</url-pattern>
 	</filter-mapping>
+
 	<filter>
 		<filter-name>SecurityFilter</filter-name>
 		<filter-class>by.training.controller.fIlter.SecurityFilter</filter-class>

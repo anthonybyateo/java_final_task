@@ -24,6 +24,4 @@ public interface UserDao extends Dao<User> {
     List<User> readByLastnameAndName(String searchLastname, String searchName);
 
     boolean changePhoto(String filePath, long id);
-
-
 }

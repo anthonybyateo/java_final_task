@@ -15,14 +15,6 @@ public class Comment extends EntityWithID {
         dateComment = new Date();
     }
 
-    public Comment(int id, User user, Note note, String comment, Date dateComment) {
-        super(id);
-        this.user = user;
-        this.note = note;
-        this.comment = comment;
-        this.dateComment = dateComment;
-    }
-
     public User getUser() {
         return user;
     }
@@ -53,5 +45,25 @@ public class Comment extends EntityWithID {
 
     public void setDateComment(Date dateComment) {
         this.dateComment = dateComment;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) {return false;}
+        if (obj == null || getClass() != obj.getClass()) {return false;}
+        Comment comment = (Comment) obj;
+        return getId() == comment.getId();
+    }
+
+    @Override
+    public int hashCode() {
+        return (int) getId();
+    }
+
+    @Override
+    public String toString() {
+        return "Comment{" + "user=" + user.toString() +  ", note=" + note
+                + ", comment=" + comment + ", dateNote="
+                + dateComment.toString() + "}";
     }
 }

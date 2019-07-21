@@ -1,6 +1,6 @@
 package by.training.entity;
 
-public class NoteTag extends EntityWithoutID {
+public class NoteTag implements Entity {
     private Tag tag;
     private Note note;
 

@@ -22,7 +22,7 @@
         <div class="row">
             <div class="col-lg-8 col-12">
                 <div class="card border-light mb-3">
-                    <div class="card-header bg-white">Популярные заметки <span class="error">${errorIn} ${errorUp}</span>
+                    <div class="card-header bg-white">Популярные заметки <span id="auth-info"></span>${test} <span class="error">${errorIn} ${errorUp}</span>
                     </div>
                     <div class="card-body text-dark">
                         <c:forEach var="user" items="${users}" varStatus="status">
@@ -30,7 +30,15 @@
                                 <a href="#profile"><img src="${pageContext.request.contextPath}/<c:out value='${user.avatar}'/>" width="60" height="60" class="rounded-circle img-note"></a>
                                 <p class="card-text"> <a href="#1"><c:out value="${user.name}"/> <c:out value="${user.lastname}"/></a><br>
                                     <span class="text-muted">@<c:out value="${user.login}"/></span>
-                                    <button class="btn btn-outline-dark btn-rounded my-2 my-sm-0 btn-note" type="submit">Подписаться</button></p>
+                                    <c:if test = "${not empty friend}">
+                                        <button id="unsubscribe${user.id}" class="btn btn-outline-danger btn-rounded my-2 my-sm-0 btn-note unsub" style="display: block" type="submit">Отписаться</button>
+                                        <button id="subscribe${user.id}" class="btn btn-outline-dark btn-rounded my-2 my-sm-0 btn-note sub" style="display: none" type="submit">Подписаться</button>
+                                    </c:if>
+                                    <c:if test = "${empty friend}">
+                                        <button id="unsubscribe${user.id}" class="btn btn-outline-danger btn-rounded my-2 my-sm-0 btn-note unsub" style="display: none" type="submit">Отписаться</button>
+                                        <button id="subscribe${user.id}" class="btn btn-outline-dark btn-rounded my-2 my-sm-0 btn-note sub" style="display: block" type="submit">Подписаться</button>
+                                    </c:if>
+                                </p>
                                 <p class="info-user">
                                     <a href="">Заметки: 10</a><br>
                                     <a href="">Подписчики: ${subscribers[status.index]}</a>
@@ -56,64 +64,39 @@
 </div>
 <jsp:include page="common/footer.jsp" />
 <script>
+    $(document).ready(function(){
+        $(".sub").click(function(){
+            var data = {"actionPost":"/subscribe"};
+            //data = {"login":$("#login").val(), "password":$("#password").val()};
+            //
+            var id = $(this).attr('id');
+            var num = "7";
+            $.ajax
+            ({
+                type: "POST",//Метод передачи
+                dataType: 'text',
+                data: data,//Передаваемые данные в JSON - формате
+                url: '',//Название сервлета pageContext.request.contextPath/edit.html
+                success:function(data)//Если запрос удачен
+                {
+                    //alert(data);
+                    //$("#auth-info").css({"background-color":serverData.backgroundColor, "height": "50px", "color":"white"});
+                    foo = 7;
+                    $("#auth-info").html(data + "//" + id);
+                    $("#" + id).css({"display": "none"});
+                    $("#un" + id).css({"display": "block"});
+                    //alert(id);
+                },
+                error: function(e)//Если запрос не удачен
+                {
+                    alert("error" + e);
+                    //$("#auth-info").css({"background-color":"#CC6666", "height": "50px", "color":"white"});
+                    //$("#auth-info").html("Запрос не удался!");
+                }
+            });
+        });
+    });
 
-    /*    function value(passForm) {
-
-            /!** This function is being used to find out the values input by the user in both the password and confirm password text boxes.
-             * The results are fed back to the user using alerts.
-             * **!/
-
-            //check for lower case
-            if (!passForm.passInput.value.match(/[a-z]/)) {
-                alert("Password must contain at least one lower case letter.");
-                passForm.passInput.focus();
-                return false;
-            }
-
-            //Validating length
-            if ((passForm.passInput.value).length < 8) {
-                alert("Your password has less than 8 characters.");
-                passForm.passInput.focus();
-                return false;
-            }
-
-            //Validationg confirmation matches
-            if (passForm.confirmPassInput.value != passForm.passInput.value) {
-                alert("Your confirmation password does not match.");
-                passForm.passInput.focus();
-                return false;
-            }
-
-            //Validating confirmation input
-            if (passForm.confirmPassInput.value == "") {
-                alert("Please confirm your password.");
-                passForm.passInput.focus();
-                return false;
-            }
-
-            //check for upper ase
-            if (!passForm.passInput.value.match(/[A-Z]/)) {
-                alert("Password must contain at least one upper case letter.");
-                passForm.passInput.focus();
-                return false;
-            }
-
-            //check for number
-            if (!passForm.passInput.value.match(/\d+/g)) {
-                alert("Password must contain at least one number.");
-                passForm.passInput.focus();
-                return false;
-            }
-
-
-            //confirm passwords match and have been created
-            if ((passForm.password.value) != (passForm.confpassword.value)) {
-                alert("Your password has been created! hhhhhhhh");
-                return true;
-            }
-
-
-        };*/
 </script>
 </body>
 </html>

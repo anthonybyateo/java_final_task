@@ -1,6 +1,8 @@
 package by.training.entity;
 
-abstract public class EntityWithID extends Entity{
+import java.io.Serializable;
+
+abstract public class EntityWithID implements Serializable {
     /**
      *
      */

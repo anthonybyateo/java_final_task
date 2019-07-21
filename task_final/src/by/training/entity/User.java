@@ -1,6 +1,5 @@
 package by.training.entity;
 
-import java.io.InputStream;
 import java.util.Date;
 
 public class User extends EntityWithID {
@@ -96,17 +95,23 @@ public class User extends EntityWithID {
     }
 
     @Override
+    public boolean equals(Object obj) {
+        if (this == obj) {return false;}
+        if (obj == null || getClass() != obj.getClass()) {return false;}
+        User user = (User) obj;
+        return getId() == user.getId();
+    }
+
+    @Override
+    public int hashCode() {
+        return (int) getId();
+    }
+
+    @Override
     public String toString() {
-        return "User{" +
-                "id='" + getId() + '\'' +
-                "login='" + login + '\'' +
-                ", email='" + email + '\'' +
-                ", password='" + password + '\'' +
-                ", name='" + name + '\'' +
-                ", lastname='" + lastname + '\'' +
-                ", role=" + role +
-                ", birthday=" + birthday +
-                ", avatar=" + avatar +
-                '}';
+        return "User{" + "id='" + getId() + ", login='" + login + ", email='" + email
+                + ", password='" + password + ", name='" + name
+                + ", lastname='" + lastname + ", role=" + role
+                + ", birthday=" + birthday + ", avatar=" + avatar + '}';
     }
 }

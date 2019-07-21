@@ -7,6 +7,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
+import java.io.PrintWriter;
 import java.util.Map;
 
 import by.training.action.Action;
@@ -18,6 +19,7 @@ import by.training.exception.PersistentException;
 import by.training.service.servicefactory.CreatorService;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.json.JSONObject;
 
 @MultipartConfig
 public class DispatcherServlet extends HttpServlet {
@@ -51,7 +53,46 @@ public class DispatcherServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        process(request, response);
+        //process(request, response);
+        Action action = (Action)request.getAttribute("action");
+        if(!"XMLHttpRequest".equals(request.getHeader("X-Requested-With"))) {
+            try {
+                ActionManager actionManager = ActionManagerFactory.getManager(new CreatorService());
+                Action.Forward forward = null;
+                try {
+                    forward = actionManager.execute(action, request, response);
+                } catch (IncorrectFormDataException e) {
+                    e.printStackTrace();
+                }
+                actionManager.close();
+                String requestedUri = request.getRequestURI();
+                if(forward != null) {
+                    String redirectedUri = request.getContextPath() + forward.getForward();
+                    LOGGER.debug(String.format("Request for URI \"%s\" id redirected to URI \"%s\"", requestedUri, redirectedUri));
+                    response.sendRedirect(redirectedUri);
+                }
+            } catch(PersistentException e) {
+                LOGGER.error("It is impossible to process request", e);
+                request.setAttribute("error", "Ошибка обработки данных");
+                getServletContext().getRequestDispatcher("/WEB-INF/jsp/error.jsp").forward(request, response);
+            }
+
+        } else {
+            try {
+                ActionManager actionManager = ActionManagerFactory.getManager(new CreatorService());
+                Action.Forward forward = null;
+                try {
+                    forward = actionManager.execute(action, request, response);
+                } catch (IncorrectFormDataException e) {
+                    e.printStackTrace();
+                }
+                actionManager.close();
+            } catch(PersistentException e) {
+                LOGGER.error("It is impossible to process request", e);
+                request.setAttribute("error", "Ошибка обработки данных");
+                getServletContext().getRequestDispatcher("/WEB-INF/jsp/error.jsp").forward(request, response);
+            }
+        }
     }
 
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
@@ -61,6 +102,7 @@ public class DispatcherServlet extends HttpServlet {
 
     private void process(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
         Action action = (Action)request.getAttribute("action");
+        if(!"XMLHttpRequest".equals(request.getHeader("X-Requested-With"))) {
         try {
             ActionManager actionManager = ActionManagerFactory.getManager(new CreatorService());
             Action.Forward forward = null;
@@ -90,6 +132,23 @@ public class DispatcherServlet extends HttpServlet {
             LOGGER.error("It is impossible to process request", e);
             request.setAttribute("error", "Ошибка обработки данных");
             getServletContext().getRequestDispatcher("/WEB-INF/jsp/error.jsp").forward(request, response);
+        }
+
+        } else {
+            try {
+                ActionManager actionManager = ActionManagerFactory.getManager(new CreatorService());
+                Action.Forward forward = null;
+                try {
+                    forward = actionManager.execute(action, request, response);
+                } catch (IncorrectFormDataException e) {
+                    e.printStackTrace();
+                }
+                actionManager.close();
+                         } catch(PersistentException e) {
+                LOGGER.error("It is impossible to process request", e);
+                request.setAttribute("error", "Ошибка обработки данных");
+                getServletContext().getRequestDispatcher("/WEB-INF/jsp/error.jsp").forward(request, response);
+            }
         }
     }
 

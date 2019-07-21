@@ -19,4 +19,22 @@ public class Tag extends EntityWithID {
     public void setTag(String tag) {
         this.tag = tag;
     }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) {return false;}
+        if (obj == null || getClass() != obj.getClass()) {return false;}
+        Tag tag = (Tag) obj;
+        return getId() == tag.getId();
+    }
+
+    @Override
+    public int hashCode() {
+        return (int)getId();
+    }
+
+    @Override
+    public String toString() {
+        return "Tag{" + "id='" + getId() + ", tag='" + tag + '}';
+    }
 }
